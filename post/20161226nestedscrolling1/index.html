@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>NestedScrolling机制-概述 - al4fun&#39;s notes</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="al4fun" /><meta name="description" content="如今，NestedScrolling机制(可以称为嵌套滚动或嵌套滑动)在各种app中的应用已经十分广泛了，下图是“饿了么”中的一个例子： 当向" /><meta name="keywords" content="android, web, flutter" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.0 with theme even" />
+
+
+<link rel="canonical" href="https://al4fun.gitee.io/post/20161226nestedscrolling1/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.cb68f97bc9cece255d217346d970e3c62623408634e500c330a62fadabbbe77c.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="NestedScrolling机制-概述" />
+<meta property="og:description" content="如今，NestedScrolling机制(可以称为嵌套滚动或嵌套滑动)在各种app中的应用已经十分广泛了，下图是“饿了么”中的一个例子： 当向" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://al4fun.gitee.io/post/20161226nestedscrolling1/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2016-12-26T20:28:44+00:00" />
+<meta property="article:modified_time" content="2016-12-26T20:28:44+00:00" />
+
+<meta itemprop="name" content="NestedScrolling机制-概述">
+<meta itemprop="description" content="如今，NestedScrolling机制(可以称为嵌套滚动或嵌套滑动)在各种app中的应用已经十分广泛了，下图是“饿了么”中的一个例子： 当向"><meta itemprop="datePublished" content="2016-12-26T20:28:44+00:00" />
+<meta itemprop="dateModified" content="2016-12-26T20:28:44+00:00" />
+<meta itemprop="wordCount" content="3682">
+<meta itemprop="keywords" content="NestedScrolling," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="NestedScrolling机制-概述"/>
+<meta name="twitter:description" content="如今，NestedScrolling机制(可以称为嵌套滚动或嵌套滑动)在各种app中的应用已经十分广泛了，下图是“饿了么”中的一个例子： 当向"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">al4fun&#39;s notes</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">al4fun&#39;s notes</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">NestedScrolling机制-概述</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2016-12-26 </span>
+        <div class="post-category">
+            <a href="/categories/android/"> Android </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述">1 概述</a></li>
+    <li><a href="#2-接口和类">2 接口和类</a>
+      <ul>
+        <li><a href="#21-nestedscrollingchild接口">2.1 NestedScrollingChild接口</a>
+          <ul>
+            <li><a href="#1-接口概述">1 接口概述</a></li>
+            <li><a href="#2-接口实现">2 接口实现</a></li>
+          </ul>
+        </li>
+        <li><a href="#22-nestedscrollingparent接口">2.2 NestedScrollingParent接口</a>
+          <ul>
+            <li><a href="#1-接口概述-1">1 接口概述</a></li>
+            <li><a href="#2-接口实现-1">2 接口实现</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#3-流程">3 流程</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>如今，NestedScrolling机制(可以称为嵌套滚动或嵌套滑动)在各种app中的应用已经十分广泛了，下图是“饿了么”中的一个例子：</p>
+<p><img src="1.gif" alt=""></p>
+<p>当向上滚动列表时，列表的父view(整个白色部分)会跟着一起向上滑动，当顶部的banner收缩到只剩标题栏时，则列表的父view保持固定，而列表继续滚动；当向下滚动列表时，则是相反的过程。</p>
+<p>这种效果其实也可以通过CoordinatorLayout结合Behavior来实现，但阅读源码就会发现，CoordinatorLayout本身是一个NestedScrollingParent，此外，要实现这种效果还要求可滚动的列表是一个NestedScrollingChild，也就是说，通过CoordinatorLayout结合Behavior来实现这种效果，其内部原理也是NestedScrolling。</p>
+<h1 id="1-概述">1 概述</h1>
+<p>NestedScrolling机制能够让父view和子view在滚动时进行配合，其基本流程如下：</p>
+<ol>
+<li>当子view开始滚动之前，可以通知父view，让其先于自己进行滚动;</li>
+<li>子view自己进行滚动</li>
+<li>子view滚动之后，还可以通知父view继续滚动</li>
+</ol>
+<p>要实现这样的交互，父View需要实现NestedScrollingParent接口，而子View需要实现NestedScrollingChild接口。</p>
+<p><strong>在这套交互机制中，child是动作的发起者，parent只是接受回调并作出响应</strong>。</p>
+<p>另外：<strong>父view和子view并不需要是直接的父子关系</strong>，即如果“parent1包含parent2，parent2包含child”，则parent1和child仍能通过nestedScrolling机制进行交互。</p>
+<h1 id="2-接口和类">2 接口和类</h1>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">//主要接口
+</span><span class="c1"></span><span class="n">NestedScrollingChild</span>
+<span class="n">NestedScrollingParent</span>
+
+<span class="c1">//帮助类
+</span><span class="c1"></span><span class="n">NestedScrollingChildHelper</span>
+<span class="n">NestedScrollingParentHelper</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>上面已经说过，要使用NestedScrolling机制，父View需要实现NestedScrollingParent接口，而子View需要实现NestedScrollingChild接口。</p>
+<p>而NestedScrollingChildHelper和NestedScrollingParentHelper是两个帮助类，当我们在实现NestedScrollingChild和NestedScrollingParent接口时，使用这两个帮助类可以简化我们的工作。</p>
+<p>以上接口和类都在support-v4包中提供。另外，一些较新的系统view都已经实现了NestedScrollingChild或NestedScrollingParent接口，也就是说他们直接支持NestedScrolling，例如：</p>
+<ul>
+<li>NestedScrollView 已实现 NestedScrollingParent和NestedScrollingChild</li>
+<li>RecyclerView 已实现 NestedScrollingChild</li>
+<li>CoordinatorLayout 已实现 NestedScrollingParent</li>
+<li>等等</li>
+</ul>
+<h2 id="21-nestedscrollingchild接口">2.1 NestedScrollingChild接口</h2>
+<h3 id="1-接口概述">1 接口概述</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">//开始、停止嵌套滚动
+</span><span class="c1"></span><span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">startNestedScroll</span><span class="o">(</span><span class="kt">int</span> <span class="n">axes</span><span class="o">);</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">stopNestedScroll</span><span class="o">();</span>
+
+<span class="c1">//触摸滚动相关
+</span><span class="c1"></span><span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">dispatchNestedPreScroll</span><span class="o">(</span><span class="kt">int</span> <span class="n">dx</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dy</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">consumed</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">offsetInWindow</span><span class="o">);</span>
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">dispatchNestedScroll</span><span class="o">(</span><span class="kt">int</span> <span class="n">dxConsumed</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dyConsumed</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dxUnconsumed</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dyUnconsumed</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">offsetInWindow</span><span class="o">);</span>
+
+<span class="c1">//惯性滚动相关
+</span><span class="c1"></span><span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">dispatchNestedPreFling</span><span class="o">(</span><span class="kt">float</span> <span class="n">velocityX</span><span class="o">,</span> <span class="kt">float</span> <span class="n">velocityY</span><span class="o">);</span>
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">dispatchNestedFling</span><span class="o">(</span><span class="kt">float</span> <span class="n">velocityX</span><span class="o">,</span> <span class="kt">float</span> <span class="n">velocityY</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">consumed</span><span class="o">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>1.<code>public boolean startNestedScroll(int axes);</code></p>
+<p>开启嵌套滚动流程(实际上是进行了一些嵌套滚动前的准备工作)。</p>
+<p>当找到了能够配合当前子view进行嵌套滚动的父view时，返回值为true（Returns：true if a cooperative parent was found and nested scrolling has been enabled for the current gesture）。</p>
+<p>2.<code>public boolean dispatchNestedPreScroll(int dx, int dy, int[] consumed, int[] offsetInWindow);</code></p>
+<p>在子view自己进行滚动之前调用此方法，询问父view是否要在子view之前进行滚动。</p>
+<p>此方法的前两个参数用于告诉父View此次要滚动的距离；而第三第四个参数用于子view获取父view消费掉的距离和子view在此过程中位置的偏移量。</p>
+<p>第一第二个参数为输入参数，即常规的函数参数，调用函数的时候我们需要为其传递确切的值。而第三第四个参数为输出参数，调用函数时我们只需要传递容器（在这里就是两个数组），在调用结束后，我们就可以从容器中获取函数输出的值。
+如果parent消费了一部分或全部距离，则此方法返回true。</p>
+<p>3.<code>public boolean dispatchNestedScroll(int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int[] offsetInWindow);</code></p>
+<p>在子view自己进行滚动之后调用此方法，询问父view是否还要进行余下(unconsumed)的滚动。</p>
+<p>前四个参数为输入参数，用于告诉父view已经消费和尚未消费的距离，最后一个参数为输出参数，用于子view获取父view位置的偏移量。</p>
+<p>返回值：(翻译出来可能有歧义，直接放原文)true if the event was dispatched, false if it could not be dispatched.</p>
+<p>4.最后，stopNestedScroll()方法与startNestedScroll(int axes)对应，用于结束嵌套滚动流程；而惯性滚动相关的两个方法与触摸滚动相关的两个方法类似，这里不再赘述。</p>
+<h3 id="2-接口实现">2 接口实现</h3>
+<p>上面只是讲了接口中的主要方法和调用时机，那么这些方法具体该如何实现呢？这时候就要用到上面提到的帮助类了。具体操作很简单：首先实例化一个帮助类对象，然后在要实现的接口方法中调用帮助类对象中的同名方法即可——帮助类对象已经帮我们完成了一切。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setNestedScrollingEnabled</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">enabled</span><span class="o">)</span> <span class="o">{</span>
+   <span class="n">mScrollingChildHelper</span><span class="o">.</span><span class="na">setNestedScrollingEnabled</span><span class="o">(</span><span class="n">enabled</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isNestedScrollingEnabled</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">mScrollingChildHelper</span><span class="o">.</span><span class="na">isNestedScrollingEnabled</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">startNestedScroll</span><span class="o">(</span><span class="kt">int</span> <span class="n">axes</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">mScrollingChildHelper</span><span class="o">.</span><span class="na">startNestedScroll</span><span class="o">(</span><span class="n">axes</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">stopNestedScroll</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">mScrollingChildHelper</span><span class="o">.</span><span class="na">stopNestedScroll</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasNestedScrollingParent</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">mScrollingChildHelper</span><span class="o">.</span><span class="na">hasNestedScrollingParent</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">dispatchNestedScroll</span><span class="o">(</span><span class="kt">int</span> <span class="n">dxConsumed</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dyConsumed</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dxUnconsumed</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dyUnconsumed</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">offsetInWindow</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">mScrollingChildHelper</span><span class="o">.</span><span class="na">dispatchNestedScroll</span><span class="o">(</span><span class="n">dxConsumed</span><span class="o">,</span> <span class="n">dyConsumed</span><span class="o">,</span> <span class="n">dxUnconsumed</span><span class="o">,</span> <span class="n">dyUnconsumed</span><span class="o">,</span> <span class="n">offsetInWindow</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">dispatchNestedPreScroll</span><span class="o">(</span><span class="kt">int</span> <span class="n">dx</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dy</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">consumed</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">offsetInWindow</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">mScrollingChildHelper</span><span class="o">.</span><span class="na">dispatchNestedPreScroll</span><span class="o">(</span><span class="n">dx</span><span class="o">,</span> <span class="n">dy</span><span class="o">,</span> <span class="n">consumed</span><span class="o">,</span> <span class="n">offsetInWindow</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">dispatchNestedFling</span><span class="o">(</span><span class="kt">float</span> <span class="n">velocityX</span><span class="o">,</span> <span class="kt">float</span> <span class="n">velocityY</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">consumed</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">mScrollingChildHelper</span><span class="o">.</span><span class="na">dispatchNestedFling</span><span class="o">(</span><span class="n">velocityX</span><span class="o">,</span> <span class="n">velocityY</span><span class="o">,</span> <span class="n">consumed</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">dispatchNestedPreFling</span><span class="o">(</span><span class="kt">float</span> <span class="n">velocityX</span><span class="o">,</span> <span class="kt">float</span> <span class="n">velocityY</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">mScrollingChildHelper</span><span class="o">.</span><span class="na">dispatchNestedPreFling</span><span class="o">(</span><span class="n">velocityX</span><span class="o">,</span> <span class="n">velocityY</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="22-nestedscrollingparent接口">2.2 NestedScrollingParent接口</h2>
+<h3 id="1-接口概述-1">1 接口概述</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">//当开启、停止嵌套滚动时被调用
+</span><span class="c1"></span><span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">onStartNestedScroll</span><span class="o">(</span><span class="n">View</span> <span class="n">child</span><span class="o">,</span> <span class="n">View</span> <span class="n">target</span><span class="o">,</span> <span class="kt">int</span> <span class="n">nestedScrollAxes</span><span class="o">);</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onNestedScrollAccepted</span><span class="o">(</span><span class="n">View</span> <span class="n">child</span><span class="o">,</span> <span class="n">View</span> <span class="n">target</span><span class="o">,</span> <span class="kt">int</span> <span class="n">nestedScrollAxes</span><span class="o">);</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onStopNestedScroll</span><span class="o">(</span><span class="n">View</span> <span class="n">target</span><span class="o">);</span>
+
+<span class="c1">//当触摸嵌套滚动时被调用
+</span><span class="c1"></span><span class="kd">public</span> <span class="kt">void</span> <span class="nf">onNestedPreScroll</span><span class="o">(</span><span class="n">View</span> <span class="n">target</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dx</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dy</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">consumed</span><span class="o">);</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onNestedScroll</span><span class="o">(</span><span class="n">View</span> <span class="n">target</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dxConsumed</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dyConsumed</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dxUnconsumed</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dyUnconsumed</span><span class="o">);</span>
+
+<span class="c1">//当惯性嵌套滚动时被调用
+</span><span class="c1"></span><span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">onNestedPreFling</span><span class="o">(</span><span class="n">View</span> <span class="n">target</span><span class="o">,</span> <span class="kt">float</span> <span class="n">velocityX</span><span class="o">,</span> <span class="kt">float</span> <span class="n">velocityY</span><span class="o">);</span>
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">onNestedFling</span><span class="o">(</span><span class="n">View</span> <span class="n">target</span><span class="o">,</span> <span class="kt">float</span> <span class="n">velocityX</span><span class="o">,</span> <span class="kt">float</span> <span class="n">velocityY</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">consumed</span><span class="o">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>从命名可以看出，这几个都是回调方法。当调用NestedScrollingChild中的方法时，NestedScrollingParent中与之相对应的方法就会被回调。方法之间的具体对应关系如下：</p>
+<table>
+<thead>
+<tr>
+<th>子(发起者)</th>
+<th>父(被回调)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>startNestedScroll</td>
+<td>onStartNestedScroll、onNestedScrollAccepted</td>
+</tr>
+<tr>
+<td>dispatchNestedPreScroll</td>
+<td>onNestedPreScroll</td>
+</tr>
+<tr>
+<td>dispatchNestedScroll</td>
+<td>onNestedScroll</td>
+</tr>
+<tr>
+<td>stopNestedScroll</td>
+<td>onStopNestedScroll</td>
+</tr>
+<tr>
+<td>&hellip;</td>
+<td>&hellip;</td>
+</tr>
+</tbody>
+</table>
+<p>1.<code>public boolean onStartNestedScroll(View child, View target, int nestedScrollAxes);</code></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>target:</td>
+<td>发起嵌套滚动的子View，此子view必须实现NestedScrollingChild接口。上面提到过，此子view并不需要是当前view的直接子view</td>
+</tr>
+<tr>
+<td>child:</td>
+<td>当前view的包含target的直接子view</td>
+</tr>
+<tr>
+<td>nestedScrollAxes:</td>
+<td>嵌套滚动的方向，可能是SCROLL_AXIS_HORIZONTAL 或 SCROLL_AXIS_VERTICAL 或 二者都有</td>
+</tr>
+</tbody>
+</table>
+<p>当调用target的startNestedScroll(int axes)时，此方法就会被调用。在此方法中我们要做的就是根据target和nestedScrollAxes决定此view是否要与target配合进行嵌套滚动，并返回true(要与target配合进行嵌套滚动)或false(不与target配合进行嵌套滚动)。</p>
+<p>2.<code>onNestedPreScroll()、onNestedScroll()、onNestedPreFling()、onNestedFling()</code></p>
+<p>这几个方法分别对应NestedScrollingChild中的dispatchNestedPreScroll()、dispatchNestedScroll()、dispatchNestedPreFling()和dispatchNestedFling()。</p>
+<p>它们的参数也是基本对应的，以onNestedPreScroll()为例，参数dx、dy、consumed实际就是dispatchNestedPreScroll()中的dx、dy、consumed。</p>
+<h3 id="2-接口实现-1">2 接口实现</h3>
+<p>onNestedScrollAccepted、onStopNestedScroll的实现同样是调用帮助类中的同名方法即可：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onNestedScrollAccepted</span><span class="o">(</span><span class="n">View</span> <span class="n">child</span><span class="o">,</span> <span class="n">View</span> <span class="n">target</span><span class="o">,</span> <span class="kt">int</span> <span class="n">nestedScrollAxes</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">mParentHelper</span><span class="o">.</span><span class="na">onNestedScrollAccepted</span><span class="o">(</span><span class="n">child</span><span class="o">,</span> <span class="n">target</span><span class="o">,</span> <span class="n">nestedScrollAxes</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onStopNestedScroll</span><span class="o">(</span><span class="n">View</span> <span class="n">target</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">mParentHelper</span><span class="o">.</span><span class="na">onStopNestedScroll</span><span class="o">(</span><span class="n">target</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>而另外几个方法的实现则由你的业务逻辑而定(详见下一节中的代码示例)。</p>
+<h1 id="3-流程">3 流程</h1>
+<p>经过以上的介绍，我们可以大致将嵌套滚动的流程概括如下(以触摸滚动为例，惯性滚动(fling)的流程与此类似)：</p>
+<ol>
+<li>调用child的<code>startNestedScroll()</code>来发起嵌套滚动流程(实质是寻找能够配合child进行嵌套滚动的parent)。parent的<code>onStartNestedScroll()</code>会被回调，如果此方法返回true，则<code>onNestedScrollAccepted()</code>也会被回调。</li>
+<li>child每次滚动前，可以先询问parent是否要滚动，即调用<code>dispatchNestedPreScroll()</code>，这会回调到parent的<code>onNestedPreScroll()</code>，parent可以在这个回调中先于child滚动。</li>
+<li><code>disdispatchNestedPreScroll()</code>之后，child可以进行自己的滚动操作。</li>
+<li>child滚动以后，可以调用<code>dispatchNestedScroll()</code>，会回调到parent的<code>onNestedScroll()</code>，在这里parent可以进行后于child的滚动。</li>
+<li>滚动结束，调用child的<code>stopNestedScroll()</code>。</li>
+</ol>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/nestedscrolling/">NestedScrolling</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/20161226nestedscrolling2/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">NestedScrolling机制-实例1</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:al4fun@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://github.com/al4fun" class="iconfont icon-github" title="github"></a>
+  <a href="https://al4fun.gitee.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2016 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>al4fun</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

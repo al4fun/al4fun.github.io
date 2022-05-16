@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>axios on al4fun&#39;s notes</title>
+    <link>https://al4fun.gitee.io/tags/axios/</link>
+    <description>Recent content in axios on al4fun&#39;s notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 13 Jul 2021 17:54:00 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/tags/axios/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>axios源码阅读</title>
+      <link>https://al4fun.gitee.io/post/20210713axios/</link>
+      <pubDate>Tue, 13 Jul 2021 17:54:00 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20210713axios/</guid>
+      <description>代码版本：0.21.1 打包 axios源码使用webpack进行打包，webpack.config.js文件内容如下： 1 2 3 4 5 6 7 8 9 10 11 12</description>
+    </item>
+    
+  </channel>
+</rss>

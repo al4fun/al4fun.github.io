@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>GlobalKey on al4fun&#39;s notes</title>
+    <link>https://al4fun.gitee.io/tags/globalkey/</link>
+    <description>Recent content in GlobalKey on al4fun&#39;s notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 14 Jul 2019 08:45:01 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/tags/globalkey/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Flutter中的Key和GlobalKey</title>
+      <link>https://al4fun.gitee.io/post/20190714key/</link>
+      <pubDate>Sun, 14 Jul 2019 08:45:01 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20190714key/</guid>
+      <description>1.Key 参考：https://api.flutter.dev/flutter/widgets/Widget/key.html 控制一个widget该</description>
+    </item>
+    
+  </channel>
+</rss>

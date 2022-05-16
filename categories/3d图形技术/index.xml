@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>3D图形技术 on al4fun&#39;s notes</title>
+    <link>https://al4fun.gitee.io/categories/3d%E5%9B%BE%E5%BD%A2%E6%8A%80%E6%9C%AF/</link>
+    <description>Recent content in 3D图形技术 on al4fun&#39;s notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 26 Jan 2022 16:30:31 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/categories/3d%E5%9B%BE%E5%BD%A2%E6%8A%80%E6%9C%AF/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>glTF详解</title>
+      <link>https://al4fun.gitee.io/post/20220126gltf/</link>
+      <pubDate>Wed, 26 Jan 2022 16:30:31 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20220126gltf/</guid>
+      <description>本文是glTF官方文档的翻译和阅读笔记，原文见https://github.com/KhronosGroup/glTF-Tutorials，</description>
+    </item>
+    
+    <item>
+      <title>three.js源码阅读</title>
+      <link>https://al4fun.gitee.io/post/20220126three/</link>
+      <pubDate>Wed, 26 Jan 2022 16:10:02 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20220126three/</guid>
+      <description>源码版本: three.js v0.135.0 如何查看源码 创建一个空白npm项目，在项目中执行npm install three之后，在项目中的node_modules/three目录中就</description>
+    </item>
+    
+    <item>
+      <title>《WebGL编程指南》阅读笔记</title>
+      <link>https://al4fun.gitee.io/post/20220122webgl3/</link>
+      <pubDate>Sat, 22 Jan 2022 21:05:11 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20220122webgl3/</guid>
+      <description>1 WebGL概述 OpenGL &amp;amp; OpenGL ES &amp;amp; WebGL的版本对应关系 2 WebGL入门 零散 片段（fragment，也称为片元）是一个WebGL术语，你可以将其理</description>
+    </item>
+    
+    <item>
+      <title>WebGL入门</title>
+      <link>https://al4fun.gitee.io/post/20220122webgl2/</link>
+      <pubDate>Sat, 22 Jan 2022 20:02:10 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20220122webgl2/</guid>
+      <description>整理自官方API文档及官方入门教程 1 概述 WebGL是一套JavaScript API，可在任何兼容的Web浏览器中渲染高性能的交互式3D和2D</description>
+    </item>
+    
+    <item>
+      <title>OpenGL基本概念</title>
+      <link>https://al4fun.gitee.io/post/20220122webgl1/</link>
+      <pubDate>Sat, 22 Jan 2022 19:20:28 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20220122webgl1/</guid>
+      <description>摘自OpenGL和OpenGL ES相关文档 概述 OpenGL是一种跨平台的图形API，支持高性能2D和3D图形以及GPU加速。OpenGL ES</description>
+    </item>
+    
+  </channel>
+</rss>

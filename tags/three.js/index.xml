@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>three.js on al4fun&#39;s notes</title>
+    <link>https://al4fun.gitee.io/tags/three.js/</link>
+    <description>Recent content in three.js on al4fun&#39;s notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 26 Jan 2022 16:10:02 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/tags/three.js/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>three.js源码阅读</title>
+      <link>https://al4fun.gitee.io/post/20220126three/</link>
+      <pubDate>Wed, 26 Jan 2022 16:10:02 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20220126three/</guid>
+      <description>源码版本: three.js v0.135.0 如何查看源码 创建一个空白npm项目，在项目中执行npm install three之后，在项目中的node_modules/three目录中就</description>
+    </item>
+    
+  </channel>
+</rss>

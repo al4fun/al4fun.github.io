@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>al4fun&#39;s notes</title>
+    <link>https://al4fun.gitee.io/</link>
+    <description>Recent content on al4fun&#39;s notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 26 Jan 2022 16:30:31 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>glTF详解</title>
+      <link>https://al4fun.gitee.io/post/20220126gltf/</link>
+      <pubDate>Wed, 26 Jan 2022 16:30:31 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20220126gltf/</guid>
+      <description>本文是glTF官方文档的翻译和阅读笔记，原文见https://github.com/KhronosGroup/glTF-Tutorials，</description>
+    </item>
+    
+    <item>
+      <title>three.js源码阅读</title>
+      <link>https://al4fun.gitee.io/post/20220126three/</link>
+      <pubDate>Wed, 26 Jan 2022 16:10:02 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20220126three/</guid>
+      <description>源码版本: three.js v0.135.0 如何查看源码 创建一个空白npm项目，在项目中执行npm install three之后，在项目中的node_modules/three目录中就</description>
+    </item>
+    
+    <item>
+      <title>《WebGL编程指南》阅读笔记</title>
+      <link>https://al4fun.gitee.io/post/20220122webgl3/</link>
+      <pubDate>Sat, 22 Jan 2022 21:05:11 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20220122webgl3/</guid>
+      <description>1 WebGL概述 OpenGL &amp;amp; OpenGL ES &amp;amp; WebGL的版本对应关系 2 WebGL入门 零散 片段（fragment，也称为片元）是一个WebGL术语，你可以将其理</description>
+    </item>
+    
+    <item>
+      <title>WebGL入门</title>
+      <link>https://al4fun.gitee.io/post/20220122webgl2/</link>
+      <pubDate>Sat, 22 Jan 2022 20:02:10 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20220122webgl2/</guid>
+      <description>整理自官方API文档及官方入门教程 1 概述 WebGL是一套JavaScript API，可在任何兼容的Web浏览器中渲染高性能的交互式3D和2D</description>
+    </item>
+    
+    <item>
+      <title>OpenGL基本概念</title>
+      <link>https://al4fun.gitee.io/post/20220122webgl1/</link>
+      <pubDate>Sat, 22 Jan 2022 19:20:28 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20220122webgl1/</guid>
+      <description>摘自OpenGL和OpenGL ES相关文档 概述 OpenGL是一种跨平台的图形API，支持高性能2D和3D图形以及GPU加速。OpenGL ES</description>
+    </item>
+    
+    <item>
+      <title>前端无感知刷新token</title>
+      <link>https://al4fun.gitee.io/post/20210729refreshtoken/</link>
+      <pubDate>Thu, 29 Jul 2021 11:16:00 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20210729refreshtoken/</guid>
+      <description>要求 请求业务接口时，若后端返回token失效code(如401)，则前端需要自动刷新token 刷新token成功以后，继续请求业务接口并返回</description>
+    </item>
+    
+    <item>
+      <title>axios源码阅读</title>
+      <link>https://al4fun.gitee.io/post/20210713axios/</link>
+      <pubDate>Tue, 13 Jul 2021 17:54:00 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20210713axios/</guid>
+      <description>代码版本：0.21.1 打包 axios源码使用webpack进行打包，webpack.config.js文件内容如下： 1 2 3 4 5 6 7 8 9 10 11 12</description>
+    </item>
+    
+    <item>
+      <title>Flutter App性能优化关注点</title>
+      <link>https://al4fun.gitee.io/post/20200602flutter/</link>
+      <pubDate>Tue, 02 Jun 2020 17:20:21 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20200602flutter/</guid>
+      <description>参考：官方文档 控制build()消耗 避免在build方法中进行重复和高消耗的工作，因为build方法可能会被频繁的调用（当父组件、祖先组件r</description>
+    </item>
+    
+    <item>
+      <title>FFmpeg解码视频流</title>
+      <link>https://al4fun.gitee.io/post/20200214ffmpeg4/</link>
+      <pubDate>Fri, 14 Feb 2020 16:43:34 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20200214ffmpeg4/</guid>
+      <description>项目代码: demo 下面代码展示了如何将H264视频流解码为YUV原始图像文件。 关于从文件中获取数据包，这里采取的做法是通过fread直接读文件，并</description>
+    </item>
+    
+    <item>
+      <title>FFmpeg转换文件封装格式</title>
+      <link>https://al4fun.gitee.io/post/20200214ffmpeg3/</link>
+      <pubDate>Fri, 14 Feb 2020 16:42:39 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20200214ffmpeg3/</guid>
+      <description>项目代码: demo 下面代码展示了如何将mp4文件转换为flv文件。 因为mp4和flv都只是封装格式，底层音视频编码可以保持不变，因此这里的做法是直</description>
+    </item>
+    
+    <item>
+      <title>FFmpeg提取音视频流</title>
+      <link>https://al4fun.gitee.io/post/20200214ffmpeg2/</link>
+      <pubDate>Fri, 14 Feb 2020 16:41:25 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20200214ffmpeg2/</guid>
+      <description>项目代码: demo 下面代码展示了如何从mp4文件中提取aac音频流。而提取视频流的操作方法与提取音频流基本一致，详情可以参考项目代码。 其中一个主要</description>
+    </item>
+    
+    <item>
+      <title>demo:在Android中使用FFmpeg进行音视频编解码及处理</title>
+      <link>https://al4fun.gitee.io/post/20200213ffmpeg1/</link>
+      <pubDate>Thu, 13 Feb 2020 12:38:43 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20200213ffmpeg1/</guid>
+      <description>本项目展示如何在Android App中通过JNI调用FFmpeg动态库，以及如何使用FFmpeg进行基本音视频处理和编解码。主要包含： 音视频</description>
+    </item>
+    
+    <item>
+      <title>Flutter实现3D球</title>
+      <link>https://al4fun.gitee.io/post/20200212ball/</link>
+      <pubDate>Wed, 12 Feb 2020 17:39:41 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20200212ball/</guid>
+      <description>简介 这是之前项目中用到的一个3D球控件，实现了文字元素在球面上的分布以及球体滚动时文字外形和运动轨迹的透视效果。 因为没有实现丰富的可定制性和</description>
+    </item>
+    
+    <item>
+      <title>水平滚动的数字选择标尺</title>
+      <link>https://al4fun.gitee.io/post/20200211selector/</link>
+      <pubDate>Tue, 11 Feb 2020 20:27:02 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20200211selector/</guid>
+      <description>功能 水平滚动的数字选择标尺。支持： 选取整数、小数。不同的步进。 自定义刻度样式。 自定义数字显示的格式、单位。 惯性滚动。手指离开后自动对齐。 为了</description>
+    </item>
+    
+    <item>
+      <title>didUpdateWidget详解</title>
+      <link>https://al4fun.gitee.io/post/20200204didupdatewidget/</link>
+      <pubDate>Tue, 04 Feb 2020 17:49:48 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20200204didupdatewidget/</guid>
+      <description>概述 只要在父widget中调用setState，子widget的didUpdateWidget就一定会被调用，不管父widget传递给子wi</description>
+    </item>
+    
+    <item>
+      <title>Flutter常用的布局组件</title>
+      <link>https://al4fun.gitee.io/post/20200204layout/</link>
+      <pubDate>Tue, 04 Feb 2020 15:57:40 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20200204layout/</guid>
+      <description>Flutter中有很多布局组件，看起来纷繁复杂，而实际上其中有很多布局组件都是“过时”的，也就是说它们都有更好更简单的替代品。下面就将我最近</description>
+    </item>
+    
+    <item>
+      <title>Flutter中的路由函数</title>
+      <link>https://al4fun.gitee.io/post/20190921router/</link>
+      <pubDate>Sat, 21 Sep 2019 21:40:07 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20190921router/</guid>
+      <description>概述 Flutter中，路由(Router)即页面的封装，一个路由内部包含了一个页面。创建路由： 1 2 3 MaterialPageRoute route = MaterialPageRoute( builder: (BuildContext context) =&amp;gt; MyPage(), ); 类似于在Androi</description>
+    </item>
+    
+    <item>
+      <title>Flutter中的Key和GlobalKey</title>
+      <link>https://al4fun.gitee.io/post/20190714key/</link>
+      <pubDate>Sun, 14 Jul 2019 08:45:01 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20190714key/</guid>
+      <description>1.Key 参考：https://api.flutter.dev/flutter/widgets/Widget/key.html 控制一个widget该</description>
+    </item>
+    
+    <item>
+      <title>倒计时控件-CountdownView</title>
+      <link>https://al4fun.gitee.io/post/20180712countdownview/</link>
+      <pubDate>Thu, 12 Jul 2018 21:40:11 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20180712countdownview/</guid>
+      <description>这是新项目中用到的一个倒计时控件，可以通过addView(&amp;hellip;)添加到任意布局中。计时长短可调；各种颜色、尺寸可调；可以传入一个</description>
+    </item>
+    
+    <item>
+      <title>并发任务管理器-ConcurrentTasksManager</title>
+      <link>https://al4fun.gitee.io/post/20180408concurrent/</link>
+      <pubDate>Sun, 08 Apr 2018 16:37:06 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20180408concurrent/</guid>
+      <description>在app开发中经常会有这样一种需求：在多个线程中并发执行多个任务，当且仅当这些任务全部完成时，才继续进行下一步操作。以app的欢迎页为例，通</description>
+    </item>
+    
+    <item>
+      <title>过滤器控件-FilterView</title>
+      <link>https://al4fun.gitee.io/post/20180403filter/</link>
+      <pubDate>Tue, 03 Apr 2018 18:47:29 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20180403filter/</guid>
+      <description>这是新项目中用到的一个过滤器控件，会根据输入数据动态生成过滤器视图。每组过滤条件为单选，当选择的过滤条件有变化时会通过回调方法通知用户，并更</description>
+    </item>
+    
+    <item>
+      <title>ViewPager导航控件-SimpleViewpagerIndicator</title>
+      <link>https://al4fun.gitee.io/post/20180331indicator/</link>
+      <pubDate>Sat, 31 Mar 2018 11:24:13 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20180331indicator/</guid>
+      <description>写这个小控件是因为最近负责维护的一款app大改版，设计师给了一个新的ViewPager导航样式，但找了几个常用的导航控件发现都无法100%实</description>
+    </item>
+    
+    <item>
+      <title>基于zbar的相机扫码性能优化实践</title>
+      <link>https://al4fun.gitee.io/post/20171122scanner/</link>
+      <pubDate>Wed, 22 Nov 2017 16:02:56 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20171122scanner/</guid>
+      <description>基于zbar的，简单、易用、高性能的扫码器 1 需求 公司的多款工具类app都用到了相机扫码功能。近一年来，由于业务的快速发展，业务方对扫码模块的</description>
+    </item>
+    
+    <item>
+      <title>Android Camera详解</title>
+      <link>https://al4fun.gitee.io/post/20171113camera/</link>
+      <pubDate>Mon, 13 Nov 2017 10:21:04 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20171113camera/</guid>
+      <description>本文译自官方文档：https://developer.android.com/guide/topics/media/camera.html A</description>
+    </item>
+    
+    <item>
+      <title>子窗口应用实战</title>
+      <link>https://al4fun.gitee.io/post/20170930childwindow/</link>
+      <pubDate>Sat, 30 Sep 2017 17:44:57 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20170930childwindow/</guid>
+      <description>1 在页面任意位置展示一个漂浮view 1.1 需求背景 前几天接到一个小需求，要在app某页面中显示一个漂浮的文字提示。本来想就弹个Toast的，但P</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>https://al4fun.gitee.io/about/</link>
+      <pubDate>Sun, 20 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/about/</guid>
+      <description>Mail: al4fun@163.com
+Github: www.github.com/al4fun
+CSDN: blog.csdn.net/al4fun</description>
+    </item>
+    
+    <item>
+      <title>Android事件传递-流程详解</title>
+      <link>https://al4fun.gitee.io/post/20170712event2/</link>
+      <pubDate>Wed, 12 Jul 2017 17:45:42 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20170712event2/</guid>
+      <description>1 完整的事件传递流程 下沉 事件从上到下（即从父级到子级），依次通过各个控件的dispatchTouchEvent方法： 在dispatchTou</description>
+    </item>
+    
+    <item>
+      <title>Android事件传递-概述</title>
+      <link>https://al4fun.gitee.io/post/20170712event1/</link>
+      <pubDate>Wed, 12 Jul 2017 17:43:19 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20170712event1/</guid>
+      <description>1 事件传递流程概述 事件的传递是由最顶层（即最外层）的父控件开始，一层一层向下传递，直到最底层（即最内层）的子控件。若最底层的子控件没有消耗掉</description>
+    </item>
+    
+    <item>
+      <title>Activity的启动模式（二）</title>
+      <link>https://al4fun.gitee.io/post/20170627activity3/</link>
+      <pubDate>Tue, 27 Jun 2017 20:49:27 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20170627activity3/</guid>
+      <description>这里就是做了一个关于启动模式的小实验，实验代码可以在此处下载：http://download.csdn.net/detail/al4fun/</description>
+    </item>
+    
+    <item>
+      <title>Activity的启动模式（一）</title>
+      <link>https://al4fun.gitee.io/post/20170627activity2/</link>
+      <pubDate>Tue, 27 Jun 2017 20:43:04 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20170627activity2/</guid>
+      <description>1 任务栈 Android任务栈又称为Task，它是一个栈结构，具有后进先出的特点，用于存放我们的activity组件。 我们每次打开一个新的ac</description>
+    </item>
+    
+    <item>
+      <title>Activity的非正常销毁</title>
+      <link>https://al4fun.gitee.io/post/20170627activity1/</link>
+      <pubDate>Tue, 27 Jun 2017 20:37:43 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20170627activity1/</guid>
+      <description>1 不同情况下activity的生命周期 为了方便描述，我们将activity的销毁分为正常销毁和非正常销毁： 正常销毁：被销毁之后不会被自动重建</description>
+    </item>
+    
+    <item>
+      <title>Fragment使用过程中一些需要注意的点</title>
+      <link>https://al4fun.gitee.io/post/20170627fragment/</link>
+      <pubDate>Tue, 27 Jun 2017 20:09:50 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20170627fragment/</guid>
+      <description>对Fragment相关知识的一点复习和整理。 1 使用add-hide-show来显示和切换fragment add(int containerViewId, Fragment fragment)：将frag</description>
+    </item>
+    
+    <item>
+      <title>NestedScrolling机制-实例2</title>
+      <link>https://al4fun.gitee.io/post/20161226nestedscrolling4/</link>
+      <pubDate>Mon, 26 Dec 2016 20:54:37 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20161226nestedscrolling4/</guid>
+      <description>系列文章的最后，让我们来实现最初见到的那个饿了么店铺详情页效果吧。成品效果及对比如下： 算是低仿吧，主要是也没想要仿的一模一样(因为懒)。内容</description>
+    </item>
+    
+    <item>
+      <title>NestedScrolling机制-本质&amp;源码解析</title>
+      <link>https://al4fun.gitee.io/post/20161226nestedscrolling3/</link>
+      <pubDate>Mon, 26 Dec 2016 20:47:43 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20161226nestedscrolling3/</guid>
+      <description>要了解NestedScrolling机制的本质，当然少不了阅读源码。 这里我们先给出结论：NestedScrolling机制本质上就是两个相互</description>
+    </item>
+    
+    <item>
+      <title>NestedScrolling机制-实例1</title>
+      <link>https://al4fun.gitee.io/post/20161226nestedscrolling2/</link>
+      <pubDate>Mon, 26 Dec 2016 20:43:25 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20161226nestedscrolling2/</guid>
+      <description>1 实现自己的NestedScrollingParent和NestedScrollingChild 这个示例来自：http://blog.csd</description>
+    </item>
+    
+    <item>
+      <title>NestedScrolling机制-概述</title>
+      <link>https://al4fun.gitee.io/post/20161226nestedscrolling1/</link>
+      <pubDate>Mon, 26 Dec 2016 20:28:44 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20161226nestedscrolling1/</guid>
+      <description>如今，NestedScrolling机制(可以称为嵌套滚动或嵌套滑动)在各种app中的应用已经十分广泛了，下图是“饿了么”中的一个例子： 当向</description>
+    </item>
+    
+  </channel>
+</rss>

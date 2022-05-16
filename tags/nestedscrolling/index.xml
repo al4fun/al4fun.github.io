@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>NestedScrolling on al4fun&#39;s notes</title>
+    <link>https://al4fun.gitee.io/tags/nestedscrolling/</link>
+    <description>Recent content in NestedScrolling on al4fun&#39;s notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 26 Dec 2016 20:54:37 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/tags/nestedscrolling/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NestedScrolling机制-实例2</title>
+      <link>https://al4fun.gitee.io/post/20161226nestedscrolling4/</link>
+      <pubDate>Mon, 26 Dec 2016 20:54:37 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20161226nestedscrolling4/</guid>
+      <description>系列文章的最后，让我们来实现最初见到的那个饿了么店铺详情页效果吧。成品效果及对比如下： 算是低仿吧，主要是也没想要仿的一模一样(因为懒)。内容</description>
+    </item>
+    
+    <item>
+      <title>NestedScrolling机制-本质&amp;源码解析</title>
+      <link>https://al4fun.gitee.io/post/20161226nestedscrolling3/</link>
+      <pubDate>Mon, 26 Dec 2016 20:47:43 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20161226nestedscrolling3/</guid>
+      <description>要了解NestedScrolling机制的本质，当然少不了阅读源码。 这里我们先给出结论：NestedScrolling机制本质上就是两个相互</description>
+    </item>
+    
+    <item>
+      <title>NestedScrolling机制-实例1</title>
+      <link>https://al4fun.gitee.io/post/20161226nestedscrolling2/</link>
+      <pubDate>Mon, 26 Dec 2016 20:43:25 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20161226nestedscrolling2/</guid>
+      <description>1 实现自己的NestedScrollingParent和NestedScrollingChild 这个示例来自：http://blog.csd</description>
+    </item>
+    
+    <item>
+      <title>NestedScrolling机制-概述</title>
+      <link>https://al4fun.gitee.io/post/20161226nestedscrolling1/</link>
+      <pubDate>Mon, 26 Dec 2016 20:28:44 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20161226nestedscrolling1/</guid>
+      <description>如今，NestedScrolling机制(可以称为嵌套滚动或嵌套滑动)在各种app中的应用已经十分广泛了，下图是“饿了么”中的一个例子： 当向</description>
+    </item>
+    
+  </channel>
+</rss>

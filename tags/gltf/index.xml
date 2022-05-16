@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>glTF on al4fun&#39;s notes</title>
+    <link>https://al4fun.gitee.io/tags/gltf/</link>
+    <description>Recent content in glTF on al4fun&#39;s notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 26 Jan 2022 16:30:31 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/tags/gltf/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>glTF详解</title>
+      <link>https://al4fun.gitee.io/post/20220126gltf/</link>
+      <pubDate>Wed, 26 Jan 2022 16:30:31 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20220126gltf/</guid>
+      <description>本文是glTF官方文档的翻译和阅读笔记，原文见https://github.com/KhronosGroup/glTF-Tutorials，</description>
+    </item>
+    
+  </channel>
+</rss>

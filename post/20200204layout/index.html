@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Flutter常用的布局组件 - al4fun&#39;s notes</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="al4fun" /><meta name="description" content="Flutter中有很多布局组件，看起来纷繁复杂，而实际上其中有很多布局组件都是“过时”的，也就是说它们都有更好更简单的替代品。下面就将我最近" /><meta name="keywords" content="android, web, flutter" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.0 with theme even" />
+
+
+<link rel="canonical" href="https://al4fun.gitee.io/post/20200204layout/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.cb68f97bc9cece255d217346d970e3c62623408634e500c330a62fadabbbe77c.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Flutter常用的布局组件" />
+<meta property="og:description" content="Flutter中有很多布局组件，看起来纷繁复杂，而实际上其中有很多布局组件都是“过时”的，也就是说它们都有更好更简单的替代品。下面就将我最近" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://al4fun.gitee.io/post/20200204layout/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-02-04T15:57:40+00:00" />
+<meta property="article:modified_time" content="2020-02-04T15:57:40+00:00" />
+
+<meta itemprop="name" content="Flutter常用的布局组件">
+<meta itemprop="description" content="Flutter中有很多布局组件，看起来纷繁复杂，而实际上其中有很多布局组件都是“过时”的，也就是说它们都有更好更简单的替代品。下面就将我最近"><meta itemprop="datePublished" content="2020-02-04T15:57:40+00:00" />
+<meta itemprop="dateModified" content="2020-02-04T15:57:40+00:00" />
+<meta itemprop="wordCount" content="3529">
+<meta itemprop="keywords" content="布局," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Flutter常用的布局组件"/>
+<meta name="twitter:description" content="Flutter中有很多布局组件，看起来纷繁复杂，而实际上其中有很多布局组件都是“过时”的，也就是说它们都有更好更简单的替代品。下面就将我最近"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">al4fun&#39;s notes</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">al4fun&#39;s notes</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Flutter常用的布局组件</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-02-04 </span>
+        <div class="post-category">
+            <a href="/categories/flutter/"> Flutter </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1常用布局组件">1.常用布局组件</a>
+      <ul>
+        <li><a href="#row">Row</a></li>
+        <li><a href="#column">Column</a></li>
+        <li><a href="#expanded">Expanded</a></li>
+        <li><a href="#wrap">Wrap</a></li>
+        <li><a href="#stack">Stack</a></li>
+        <li><a href="#postioned">Postioned</a></li>
+        <li><a href="#container">Container</a></li>
+      </ul>
+    </li>
+    <li><a href="#2其他布局组件">2.其他布局组件</a></li>
+    <li><a href="#3很少用的布局组件">3.很少用的布局组件</a>
+      <ul>
+        <li><a href="#flex">Flex</a></li>
+        <li><a href="#center">Center</a></li>
+        <li><a href="#sizedbox">SizedBox</a></li>
+        <li><a href="#constrainedbox">ConstrainedBox</a></li>
+        <li><a href="#decoratedbox">DecoratedBox</a></li>
+        <li><a href="#padding">Padding</a></li>
+        <li><a href="#transform--rotatedbox">Transform &amp; RotatedBox</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>Flutter中有很多布局组件，看起来纷繁复杂，而实际上其中有很多布局组件都是“过时”的，也就是说它们都有更好更简单的替代品。下面就将我最近半年多Flutter开发中常用的布局组件做一个小归纳。</p>
+<h1 id="1常用布局组件">1.常用布局组件</h1>
+<h2 id="row">Row</h2>
+<p><a href="https://api.flutter.dev/flutter/widgets/Row-class.html">https://api.flutter.dev/flutter/widgets/Row-class.html</a></p>
+<p>构造函数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dart" data-lang="dart"><span class="n">Row</span><span class="p">({</span>
+  <span class="n">Key</span> <span class="n">key</span><span class="p">,</span> 
+  <span class="n">MainAxisAlignment</span> <span class="n">mainAxisAlignment</span><span class="p">,</span><span class="c1">// 主轴方向的对齐方式
+</span><span class="c1"></span>  <span class="n">MainAxisSize</span> <span class="n">mainAxisSize</span><span class="p">,</span><span class="c1">// 主轴方向上的尺寸，默认matchParent。也可设置为wrapContent
+</span><span class="c1"></span>  <span class="n">CrossAxisAlignment</span> <span class="n">crossAxisAlignment</span><span class="p">,</span> <span class="c1">// 副轴方向的对齐方式。注：副轴方向的尺寸只能为wrapContent
+</span><span class="c1"></span>  <span class="n">TextDirection</span> <span class="n">textDirection</span><span class="p">,</span> 
+  <span class="n">VerticalDirection</span> <span class="n">verticalDirection</span><span class="p">,</span> 
+  <span class="n">TextBaseline</span> <span class="n">textBaseline</span><span class="p">,</span> 
+  <span class="n">List</span><span class="o">&lt;</span><span class="n">Widget</span><span class="o">&gt;</span> <span class="nl">children:</span> <span class="kd">const</span> <span class="p">[]</span> <span class="p">})</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>A widget that displays its children in a horizontal array.</strong></p>
+<ul>
+<li>如果你只有一个子元素要放置，那么考虑使用Align 或者 Center。</li>
+<li>如果希望child占满Row主轴方向上的剩余空间，那么先使用Expanded包裹child，再把它放到Row中。</li>
+</ul>
+<p><strong>MainAxisAlignment的取值：</strong></p>
+<ul>
+<li>start</li>
+<li>end</li>
+<li>center</li>
+<li>spaceBetween</li>
+<li>spaceAround</li>
+<li>spaceEvenly</li>
+</ul>
+<p><strong>CrossAxisAlignment的取值：</strong></p>
+<ul>
+<li>start</li>
+<li>end</li>
+<li>center</li>
+<li>stretch</li>
+<li>baseline</li>
+</ul>
+<h2 id="column">Column</h2>
+<p><a href="https://api.flutter.dev/flutter/widgets/Column-class.html">https://api.flutter.dev/flutter/widgets/Column-class.html</a></p>
+<p>Column和Row非常类似，就是变了个方向而已，不再赘述。</p>
+<h2 id="expanded">Expanded</h2>
+<p><a href="https://api.flutter.dev/flutter/widgets/Expanded-class.html">https://api.flutter.dev/flutter/widgets/Expanded-class.html</a></p>
+<p>构造函数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dart" data-lang="dart"> <span class="n">Expanded</span><span class="p">({</span>
+   <span class="n">Key</span> <span class="n">key</span><span class="p">,</span> 
+   <span class="kt">int</span> <span class="nl">flex:</span> <span class="m">1</span><span class="p">,</span> 
+   <span class="err">@</span><span class="n">required</span> <span class="n">Widget</span> <span class="n">child</span> 
+ <span class="p">})</span> 
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>可以按比例扩伸Row、Column、Flex的子widget在Row、Column、Flex主轴方向上所占用的空间。</strong></p>
+<p><strong>flex为弹性系数，如果为0或null，则child是没有弹性的，即不会被扩伸占用的空间。如果大于0，所有的Expanded会按照其flex的比例来分割主轴的全部剩余空间。</strong></p>
+<blockquote>
+<p>Row和Column是Flex的子类。</p>
+</blockquote>
+<h2 id="wrap">Wrap</h2>
+<p><a href="https://api.flutter.dev/flutter/widgets/Wrap-class.html">https://api.flutter.dev/flutter/widgets/Wrap-class.html</a></p>
+<p>构造函数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dart" data-lang="dart"> <span class="n">Wrap</span><span class="p">({</span>
+   <span class="n">Key</span> <span class="n">key</span><span class="p">,</span> 
+   <span class="n">Axis</span> <span class="n">direction</span><span class="p">,</span> 
+   <span class="n">WrapAlignment</span> <span class="n">alignment</span><span class="p">,</span> 
+   <span class="kt">double</span> <span class="n">spacing</span><span class="p">,</span> <span class="c1">// 主轴方向子widget的间距
+</span><span class="c1"></span>   <span class="n">WrapAlignment</span> <span class="n">runAlignment</span><span class="p">,</span> 
+   <span class="kt">double</span> <span class="n">runSpacing</span><span class="p">,</span> <span class="c1">// 副轴方向子widget的间距
+</span><span class="c1"></span>   <span class="n">WrapCrossAlignment</span> <span class="n">crossAxisAlignment</span><span class="p">,</span> 
+   <span class="n">TextDirection</span> <span class="n">textDirection</span><span class="p">,</span> 
+   <span class="n">VerticalDirection</span> <span class="n">verticalDirection</span><span class="p">,</span> 
+   <span class="n">List</span><span class="o">&lt;</span><span class="n">Widget</span><span class="o">&gt;</span> <span class="nl">children:</span> <span class="kd">const</span> <span class="p">[]</span> 
+ <span class="p">})</span> 
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>流式布局</strong>。</p>
+<p>在介绍Row和Colum时，如果子widget超出屏幕范围，则会报溢出错误。</p>
+<p>可以认为Wrap和Flex（包括Row和Column）除了超出显示范围后Wrap会折行外，其它行为基本相同。</p>
+<p><strong>wrap在主轴副轴方向上的尺寸应该都是wrapContent。</strong></p>
+<h2 id="stack">Stack</h2>
+<p><a href="https://api.flutter.dev/flutter/widgets/Stack-class.html">https://api.flutter.dev/flutter/widgets/Stack-class.html</a></p>
+<p>构造函数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dart" data-lang="dart"><span class="n">Stack</span><span class="p">({</span>
+  <span class="n">Key</span> <span class="n">key</span><span class="p">,</span> 
+  <span class="n">AlignmentGeometry</span> <span class="n">alignment</span><span class="p">,</span><span class="c1">// 未定位元素和部分定位元素的对齐方式
+</span><span class="c1"></span>  <span class="n">List</span><span class="o">&lt;</span><span class="n">Widget</span><span class="o">&gt;</span> <span class="nl">children:</span> <span class="kd">const</span> <span class="p">[]</span> 
+<span class="p">})</span> 
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>层叠布局，即该布局中的子元素可以堆叠放置。</strong></p>
+<p><strong>Stack中可以包含未定位元素和已定位元素。已定位元素即被Positioned包裹（且Positioned的定位属性不全为null的）的元素。</strong></p>
+<p><strong>Stack的默认尺寸为包裹所有未定位的子元素。大部分情况下，我们希望Stack能占满父元素的剩余空间，这时使用Container或SizedBox或ConstrainedBox包裹Stack即可：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dart" data-lang="dart"><span class="n">SizedBox</span><span class="p">(</span>
+  <span class="nl">width:</span> <span class="kt">double</span><span class="p">.</span><span class="n">infinity</span><span class="p">,</span>
+  <span class="nl">height:</span> <span class="kt">double</span><span class="p">.</span><span class="n">infinity</span><span class="p">,</span>
+  <span class="nl">child:</span> <span class="n">Stack</span><span class="p">(...),</span>
+<span class="p">);</span>
+
+<span class="err">或</span>
+  
+<span class="n">ConstrainedBox</span><span class="p">(</span>
+  <span class="nl">constraints:</span> <span class="n">BoxConstraints</span><span class="p">.</span><span class="n">expand</span><span class="p">(),</span>
+  <span class="nl">child:</span> <span class="n">Stack</span><span class="p">(),</span>
+<span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="postioned">Postioned</h2>
+<p><a href="https://api.flutter.dev/flutter/widgets/Positioned-class.html">https://api.flutter.dev/flutter/widgets/Positioned-class.html</a></p>
+<p>构造函数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dart" data-lang="dart"><span class="n">Positioned</span><span class="p">({</span>
+  <span class="n">Key</span> <span class="n">key</span><span class="p">,</span> 
+  <span class="kt">double</span> <span class="n">left</span><span class="p">,</span> 
+  <span class="kt">double</span> <span class="n">top</span><span class="p">,</span> 
+  <span class="kt">double</span> <span class="n">right</span><span class="p">,</span> 
+  <span class="kt">double</span> <span class="n">bottom</span><span class="p">,</span> 
+  <span class="kt">double</span> <span class="n">width</span><span class="p">,</span> 
+  <span class="kt">double</span> <span class="n">height</span><span class="p">,</span> 
+  <span class="err">@</span><span class="n">required</span> <span class="n">Widget</span> <span class="n">child</span> 
+<span class="p">})</span> 
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>只能在Stack中使用，控制子元素在Stack中该如何定位。</strong></p>
+<p><strong>left、top 、right、bottom分别代表子元素离Stack左、上、右、下四边的距离。width和height用于指定子元素的宽度和高度。</strong></p>
+<p>显然，Postioned的尺寸就是wrapContent。</p>
+<p>示例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dart" data-lang="dart"><span class="c1">//通过ConstrainedBox来确保Stack占满屏幕
+</span><span class="c1"></span><span class="n">ConstrainedBox</span><span class="p">(</span>
+  <span class="nl">constraints:</span> <span class="n">BoxConstraints</span><span class="p">.</span><span class="n">expand</span><span class="p">(),</span>
+  <span class="nl">child:</span> <span class="n">Stack</span><span class="p">(</span>
+    <span class="nl">alignment:</span><span class="n">Alignment</span><span class="p">.</span><span class="n">center</span> <span class="p">,</span>
+    <span class="nl">children:</span> <span class="o">&lt;</span><span class="n">Widget</span><span class="o">&gt;</span><span class="p">[</span>
+      <span class="n">Container</span><span class="p">(</span><span class="nl">child:</span> <span class="n">Text</span><span class="p">(</span><span class="s2">&#34;Hello world&#34;</span><span class="p">,</span><span class="nl">style:</span> <span class="n">TextStyle</span><span class="p">(</span><span class="nl">color:</span> <span class="n">Colors</span><span class="p">.</span><span class="n">white</span><span class="p">)),</span>
+        <span class="nl">color:</span> <span class="n">Colors</span><span class="p">.</span><span class="n">red</span><span class="p">,</span>
+      <span class="p">),</span>
+      <span class="n">Positioned</span><span class="p">(</span>
+        <span class="nl">left:</span> <span class="m">18.0</span><span class="p">,</span>
+        <span class="nl">child:</span> <span class="n">Text</span><span class="p">(</span><span class="s2">&#34;I am Jack&#34;</span><span class="p">),</span>
+      <span class="p">),</span>
+      <span class="n">Positioned</span><span class="p">(</span>
+        <span class="nl">top:</span> <span class="m">18.0</span><span class="p">,</span>
+        <span class="nl">child:</span> <span class="n">Text</span><span class="p">(</span><span class="s2">&#34;Your friend&#34;</span><span class="p">),</span>
+      <span class="p">)</span>        
+    <span class="p">],</span>
+  <span class="p">),</span>
+<span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="container">Container</h2>
+<p><a href="https://api.flutter.dev/flutter/widgets/Container-class.html">https://api.flutter.dev/flutter/widgets/Container-class.html</a></p>
+<p>构造函数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dart" data-lang="dart"><span class="n">Container</span><span class="p">({</span>
+  <span class="n">Key</span> <span class="n">key</span><span class="p">,</span> 
+  <span class="n">AlignmentGeometry</span> <span class="n">alignment</span><span class="p">,</span> <span class="c1">// child在Container中的对齐方式
+</span><span class="c1"></span>  <span class="n">EdgeInsetsGeometry</span> <span class="n">padding</span><span class="p">,</span> <span class="c1">// Container的内边距
+</span><span class="c1"></span>  <span class="n">EdgeInsetsGeometry</span> <span class="n">margin</span><span class="p">,</span> <span class="c1">// Container的外边距
+</span><span class="c1"></span>  <span class="n">Color</span> <span class="n">color</span><span class="p">,</span> <span class="c1">// 背景色
+</span><span class="c1"></span>  <span class="n">Decoration</span> <span class="n">decoration</span><span class="p">,</span> <span class="c1">// 背景装饰 
+</span><span class="c1"></span>  <span class="n">Decoration</span> <span class="n">foregroundDecoration</span><span class="p">,</span> <span class="c1">// 前景装饰
+</span><span class="c1"></span>  <span class="kt">double</span> <span class="n">width</span><span class="p">,</span> <span class="c1">// Container的宽
+</span><span class="c1"></span>  <span class="kt">double</span> <span class="n">height</span><span class="p">,</span> <span class="c1">// Container的高
+</span><span class="c1"></span>  <span class="n">BoxConstraints</span> <span class="n">constraints</span><span class="p">,</span> <span class="c1">// 容器大小的限制条件
+</span><span class="c1"></span>  <span class="n">Matrix4</span> <span class="n">transform</span><span class="p">,</span> <span class="c1">// 变换（旋转、错切、缩放、平移）
+</span><span class="c1"></span>  <span class="n">Widget</span> <span class="n">child</span><span class="p">,</span>
+<span class="p">})</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>Container是多个widget组合而成的一个widget，可以部分或完全替代Center、SizedBox、DecoratedBox、ConstrainedBox、Transform、Padding、Align等widget的功能。</strong></p>
+<p>尺寸规则：</p>
+<ol>
+<li><strong>如果指定了Container的尺寸，但未指定alignment，那么Container会使子元素的尺寸等于Container的尺寸。</strong></li>
+<li><strong>如果指定了Container的尺寸，也指定了alignment，那么子元素的尺寸不会变。</strong></li>
+<li><strong>如果未指定Container的尺寸，也未指定alignment，那么Container的尺寸为wrapContent</strong>（子元素的尺寸不会变）。</li>
+<li>如果未指定Container的尺寸，但指定了alignment——行为比较奇怪，不建议使用。</li>
+</ol>
+<p>另外：</p>
+<ul>
+<li>容器的大小可以通过<code>width</code>、<code>height</code>属性来指定，也可以通过<code>constraints</code>来指定，如果同时存在时，<code>width</code>、<code>height</code>优先。实际上Container内部会根据<code>width</code>、<code>height</code>来生成一个<code>constraints</code>。</li>
+<li><code>color</code>和<code>decoration</code>是互斥的，实际上，当指定color时，Container内会自动创建一个decoration。</li>
+</ul>
+<h1 id="2其他布局组件">2.其他布局组件</h1>
+<p>AspectRatio：限制子widget的宽高比。</p>
+<p>Baseline：A widget that positions its child according to the child&rsquo;s baseline.</p>
+<p>IndexedStack：A Stack that shows a single child from a list of children.The displayed child is the one with the given index. The stack is always as big as the largest child.</p>
+<h1 id="3很少用的布局组件">3.很少用的布局组件</h1>
+<p>这部分介绍的组件很少使用，通常是因为有了更好的替代品。</p>
+<h2 id="flex">Flex</h2>
+<p><a href="https://api.flutter.dev/flutter/widgets/Flex-class.html">https://api.flutter.dev/flutter/widgets/Flex-class.html</a></p>
+<p>构造函数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dart" data-lang="dart"><span class="n">Flex</span><span class="p">({</span>
+  <span class="n">Key</span> <span class="n">key</span><span class="p">,</span> 
+  <span class="err">@</span><span class="n">required</span> <span class="n">Axis</span> <span class="n">direction</span><span class="p">,</span> 
+  <span class="n">MainAxisAlignment</span> <span class="n">mainAxisAlignment</span><span class="p">,</span> 
+  <span class="n">MainAxisSize</span> <span class="n">mainAxisSize</span><span class="p">,</span>
+  <span class="n">CrossAxisAlignment</span> <span class="n">crossAxisAlignment</span><span class="p">,</span> 
+  <span class="n">TextDirection</span> <span class="n">textDirection</span><span class="p">,</span> 
+  <span class="n">VerticalDirection</span> <span class="n">verticalDirection</span><span class="p">,</span> 
+  <span class="n">TextBaseline</span> <span class="n">textBaseline</span><span class="p">,</span>
+  <span class="n">List</span><span class="o">&lt;</span><span class="n">Widget</span><span class="o">&gt;</span> <span class="nl">children:</span> <span class="kd">const</span> <span class="p">[]</span> 
+<span class="p">})</span> 
+</code></pre></td></tr></table>
+</div>
+</div><p>参数和Row和Column基本一样，就是多了个direction——其实Row和Column就是direction分别取水平方向和竖直方向的Flex。一般使用Row和Column，不使用Flex。</p>
+<h2 id="center">Center</h2>
+<p><a href="https://api.flutter.dev/flutter/widgets/Center-class.html">https://api.flutter.dev/flutter/widgets/Center-class.html</a></p>
+<p>构造函数：<code>Center({Key key, double widthFactor, double heightFactor, Widget child })</code></p>
+<p><strong>A widget that centers its child within itself.</strong></p>
+<ul>
+<li>This widget will be as big as possible if its dimensions are constrained and widthFactor and heightFactor are null.——如果某个维度的尺寸有限制，且该维度的尺寸因子为null，那么该维度的尺寸会尽可能的大，这是最常用的场景。</li>
+<li>If a dimension is unconstrained and the corresponding size factor is null then the widget will match its child&rsquo;s size in that dimension.——如果某个维度的尺寸没有限制，且该维度的尺寸因子为null，那么该维度的尺寸会是wrapContent效果。</li>
+<li>If a size factor is non-null then the corresponding dimension of this widget will be the product of the child&rsquo;s dimension and the size factor. For example if widthFactor is 2.0 then the width of this widget will always be twice its child&rsquo;s width.——如果某个维度的尺寸因子不为null，那么该维度的尺寸就是child的该维度尺寸乘以尺寸因子。</li>
+</ul>
+<h2 id="sizedbox">SizedBox</h2>
+<p><a href="https://api.flutter.dev/flutter/widgets/SizedBox-class.html">https://api.flutter.dev/flutter/widgets/SizedBox-class.html</a></p>
+<p>构造函数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dart" data-lang="dart"><span class="n">SizedBox</span><span class="p">({</span>
+  <span class="n">Key</span> <span class="n">key</span><span class="p">,</span> 
+  <span class="kt">double</span> <span class="n">width</span><span class="p">,</span> <span class="c1">// SizedBox的宽，double.infinity代表matchParent
+</span><span class="c1"></span>  <span class="kt">double</span> <span class="n">height</span><span class="p">,</span> <span class="c1">// SizedBox的高，double.infinity代表matchParent
+</span><span class="c1"></span>  <span class="n">Widget</span> <span class="n">child</span> 
+<span class="p">})</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>A box with a specified size</strong>.</p>
+<ul>
+<li><strong>如果SizedBox有子元素，那么会使子元素的尺寸等于SizedBox的尺寸（已测试证实。这是最常用的场景☆，例如，按钮widget本身无法指定尺寸，如果想指定按钮的尺寸，那么可以在按钮外面包一层SizedBox）</strong>。</li>
+<li>如果参数width或height为null，那么SizedBox在该维度的尺寸会等于子元素的尺寸。</li>
+</ul>
+<h2 id="constrainedbox">ConstrainedBox</h2>
+<p><a href="https://api.flutter.dev/flutter/widgets/ConstrainedBox-class.html">https://api.flutter.dev/flutter/widgets/ConstrainedBox-class.html</a></p>
+<p>构造函数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dart" data-lang="dart"><span class="n">ConstrainedBox</span><span class="p">({</span>
+  <span class="n">Key</span> <span class="n">key</span><span class="p">,</span> 
+  <span class="err">@</span><span class="n">required</span> <span class="n">BoxConstraints</span> <span class="n">constraints</span><span class="p">,</span> 
+  <span class="n">Widget</span> <span class="n">child</span> 
+<span class="p">})</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>SizedBox实际上只是ConstainedBox的一个定制。</strong></p>
+<p>BoxConstraints的构造函数和用法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dart" data-lang="dart"><span class="n">BoxConstraints</span><span class="p">({</span>
+  <span class="kt">double</span> <span class="n">minWidth</span><span class="p">,</span> <span class="c1">// double.infinity代表matchParent，下面几个参数也是一样
+</span><span class="c1"></span>  <span class="kt">double</span> <span class="n">maxWidth</span><span class="p">,</span> 
+  <span class="kt">double</span> <span class="n">minHeight</span><span class="p">,</span> 
+  <span class="kt">double</span> <span class="n">maxHeight</span><span class="p">,</span>
+<span class="p">})</span>
+
+<span class="c1">// ConstrainedBox的尺寸为matchParent。如果指定了width或height，那么ConstrainedBox的width或height就是指定的值
+</span><span class="c1"></span><span class="n">BoxConstraints</span><span class="p">.</span><span class="n">expand</span><span class="p">({</span><span class="kt">double</span> <span class="n">width</span><span class="p">,</span> <span class="kt">double</span> <span class="n">height</span> <span class="p">})</span>
+<span class="c1">// 严格指定ConstrainedBox的尺寸
+</span><span class="c1"></span><span class="n">BoxConstraints</span><span class="p">.</span><span class="n">tight</span><span class="p">(</span><span class="n">Size</span> <span class="n">size</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="decoratedbox">DecoratedBox</h2>
+<p><a href="https://api.flutter.dev/flutter/widgets/DecoratedBox-class.html">https://api.flutter.dev/flutter/widgets/DecoratedBox-class.html</a></p>
+<p>构造函数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dart" data-lang="dart"><span class="n">DecoratedBox</span><span class="p">({</span>
+  <span class="n">Key</span> <span class="n">key</span><span class="p">,</span>
+  <span class="err">@</span><span class="n">required</span> <span class="n">Decoration</span> <span class="n">decoration</span><span class="p">,</span> <span class="c1">// 装饰，通常使用BoxDecoration
+</span><span class="c1"></span>  <span class="n">DecorationPosition</span> <span class="n">position</span><span class="p">,</span> <span class="c1">// 装饰的位置，取值为background或foreground 
+</span><span class="c1"></span>  <span class="n">Widget</span> <span class="n">child</span><span class="p">,</span>
+<span class="p">})</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>DecoratedBox可以在其子widget绘制前或后绘制一个装饰Decoration（如背景、边框、阴影、圆角等）。</p>
+<p>BoxDecoration的构造函数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dart" data-lang="dart"><span class="n">BoxDecoration</span><span class="p">({</span>
+  <span class="n">Color</span> <span class="n">color</span><span class="p">,</span> <span class="c1">//颜色
+</span><span class="c1"></span>  <span class="n">DecorationImage</span> <span class="n">image</span><span class="p">,</span><span class="c1">//图片
+</span><span class="c1"></span>  <span class="n">BoxBorder</span> <span class="n">border</span><span class="p">,</span> <span class="c1">//边框
+</span><span class="c1"></span>  <span class="n">BorderRadiusGeometry</span> <span class="n">borderRadius</span><span class="p">,</span> <span class="c1">//圆角
+</span><span class="c1"></span>  <span class="n">List</span><span class="o">&lt;</span><span class="n">BoxShadow</span><span class="o">&gt;</span> <span class="n">boxShadow</span><span class="p">,</span> <span class="c1">//阴影,可以指定多个
+</span><span class="c1"></span>  <span class="n">Gradient</span> <span class="n">gradient</span><span class="p">,</span> <span class="c1">//渐变
+</span><span class="c1"></span>  <span class="n">BlendMode</span> <span class="n">backgroundBlendMode</span><span class="p">,</span> <span class="c1">//背景混合模式
+</span><span class="c1"></span>  <span class="n">BoxShape</span> <span class="n">shape</span><span class="p">,</span> <span class="c1">//形状
+</span><span class="c1"></span><span class="p">})</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>显然，DecoratedBox的尺寸为wrapContent。</p>
+<p>示例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dart" data-lang="dart"><span class="k">return</span> <span class="n">DecoratedBox</span><span class="p">(</span>
+  <span class="nl">decoration:</span> <span class="n">BoxDecoration</span><span class="p">(</span>
+      <span class="nl">gradient:</span> <span class="n">LinearGradient</span><span class="p">(</span><span class="nl">colors:</span> <span class="p">[</span><span class="n">Colors</span><span class="p">.</span><span class="n">red</span><span class="p">,</span> <span class="n">Colors</span><span class="p">.</span><span class="n">orange</span><span class="p">[</span><span class="m">700</span><span class="p">]]),</span> <span class="c1">//背景渐变
+</span><span class="c1"></span>      <span class="nl">borderRadius:</span> <span class="n">BorderRadius</span><span class="p">.</span><span class="n">circular</span><span class="p">(</span><span class="m">3.0</span><span class="p">),</span> <span class="c1">//3像素圆角
+</span><span class="c1"></span>      <span class="nl">boxShadow:</span> <span class="p">[</span>
+        <span class="c1">//阴影
+</span><span class="c1"></span>        <span class="n">BoxShadow</span><span class="p">(</span>
+            <span class="nl">color:</span> <span class="n">Colors</span><span class="p">.</span><span class="n">black54</span><span class="p">,</span>
+            <span class="nl">offset:</span> <span class="n">Offset</span><span class="p">(</span><span class="m">2.0</span><span class="p">,</span> <span class="m">2.0</span><span class="p">),</span>
+            <span class="nl">blurRadius:</span> <span class="m">4.0</span><span class="p">)</span>
+      <span class="p">]),</span>
+  <span class="nl">child:</span> <span class="n">Padding</span><span class="p">(</span>
+    <span class="nl">padding:</span> <span class="n">EdgeInsets</span><span class="p">.</span><span class="n">symmetric</span><span class="p">(</span><span class="nl">horizontal:</span> <span class="m">80.0</span><span class="p">,</span> <span class="nl">vertical:</span> <span class="m">18.0</span><span class="p">),</span>
+    <span class="nl">child:</span> <span class="n">Text</span><span class="p">(</span>
+      <span class="s2">&#34;Login&#34;</span><span class="p">,</span>
+      <span class="nl">style:</span> <span class="n">TextStyle</span><span class="p">(</span><span class="nl">color:</span> <span class="n">Colors</span><span class="p">.</span><span class="n">white</span><span class="p">),</span>
+    <span class="p">),</span>
+  <span class="p">),</span>
+<span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="1.png" alt=""></p>
+<h2 id="padding">Padding</h2>
+<p><a href="https://api.flutter.dev/flutter/widgets/Padding-class.html">https://api.flutter.dev/flutter/widgets/Padding-class.html</a></p>
+<p>构造函数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dart" data-lang="dart"><span class="n">Padding</span><span class="p">({</span>
+  <span class="n">Key</span> <span class="n">key</span><span class="p">,</span> 
+  <span class="err">@</span><span class="n">required</span> <span class="n">EdgeInsetsGeometry</span> <span class="n">padding</span><span class="p">,</span> 
+  <span class="n">Widget</span> <span class="n">child</span> 
+<span class="p">})</span> 
+</code></pre></td></tr></table>
+</div>
+</div><p>Padding是一个自己带有padding的widget，实际就相当于给它的子元素加margin。</p>
+<p>显然，Padding的尺寸为wrapContent。</p>
+<h2 id="transform--rotatedbox">Transform &amp; RotatedBox</h2>
+<p>详见官方文档。</p>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E5%B8%83%E5%B1%80/">布局</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/20200204didupdatewidget/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">didUpdateWidget详解</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/20190921router/">
+            <span class="next-text nav-default">Flutter中的路由函数</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:al4fun@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://github.com/al4fun" class="iconfont icon-github" title="github"></a>
+  <a href="https://al4fun.gitee.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2016 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>al4fun</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

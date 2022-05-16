@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Android on al4fun&#39;s notes</title>
+    <link>https://al4fun.gitee.io/categories/android/</link>
+    <description>Recent content in Android on al4fun&#39;s notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 12 Jul 2018 21:40:11 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/categories/android/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>倒计时控件-CountdownView</title>
+      <link>https://al4fun.gitee.io/post/20180712countdownview/</link>
+      <pubDate>Thu, 12 Jul 2018 21:40:11 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20180712countdownview/</guid>
+      <description>这是新项目中用到的一个倒计时控件，可以通过addView(&amp;hellip;)添加到任意布局中。计时长短可调；各种颜色、尺寸可调；可以传入一个</description>
+    </item>
+    
+    <item>
+      <title>并发任务管理器-ConcurrentTasksManager</title>
+      <link>https://al4fun.gitee.io/post/20180408concurrent/</link>
+      <pubDate>Sun, 08 Apr 2018 16:37:06 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20180408concurrent/</guid>
+      <description>在app开发中经常会有这样一种需求：在多个线程中并发执行多个任务，当且仅当这些任务全部完成时，才继续进行下一步操作。以app的欢迎页为例，通</description>
+    </item>
+    
+    <item>
+      <title>过滤器控件-FilterView</title>
+      <link>https://al4fun.gitee.io/post/20180403filter/</link>
+      <pubDate>Tue, 03 Apr 2018 18:47:29 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20180403filter/</guid>
+      <description>这是新项目中用到的一个过滤器控件，会根据输入数据动态生成过滤器视图。每组过滤条件为单选，当选择的过滤条件有变化时会通过回调方法通知用户，并更</description>
+    </item>
+    
+    <item>
+      <title>ViewPager导航控件-SimpleViewpagerIndicator</title>
+      <link>https://al4fun.gitee.io/post/20180331indicator/</link>
+      <pubDate>Sat, 31 Mar 2018 11:24:13 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20180331indicator/</guid>
+      <description>写这个小控件是因为最近负责维护的一款app大改版，设计师给了一个新的ViewPager导航样式，但找了几个常用的导航控件发现都无法100%实</description>
+    </item>
+    
+    <item>
+      <title>基于zbar的相机扫码性能优化实践</title>
+      <link>https://al4fun.gitee.io/post/20171122scanner/</link>
+      <pubDate>Wed, 22 Nov 2017 16:02:56 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20171122scanner/</guid>
+      <description>基于zbar的，简单、易用、高性能的扫码器 1 需求 公司的多款工具类app都用到了相机扫码功能。近一年来，由于业务的快速发展，业务方对扫码模块的</description>
+    </item>
+    
+    <item>
+      <title>Android Camera详解</title>
+      <link>https://al4fun.gitee.io/post/20171113camera/</link>
+      <pubDate>Mon, 13 Nov 2017 10:21:04 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20171113camera/</guid>
+      <description>本文译自官方文档：https://developer.android.com/guide/topics/media/camera.html A</description>
+    </item>
+    
+    <item>
+      <title>子窗口应用实战</title>
+      <link>https://al4fun.gitee.io/post/20170930childwindow/</link>
+      <pubDate>Sat, 30 Sep 2017 17:44:57 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20170930childwindow/</guid>
+      <description>1 在页面任意位置展示一个漂浮view 1.1 需求背景 前几天接到一个小需求，要在app某页面中显示一个漂浮的文字提示。本来想就弹个Toast的，但P</description>
+    </item>
+    
+    <item>
+      <title>Android事件传递-流程详解</title>
+      <link>https://al4fun.gitee.io/post/20170712event2/</link>
+      <pubDate>Wed, 12 Jul 2017 17:45:42 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20170712event2/</guid>
+      <description>1 完整的事件传递流程 下沉 事件从上到下（即从父级到子级），依次通过各个控件的dispatchTouchEvent方法： 在dispatchTou</description>
+    </item>
+    
+    <item>
+      <title>Android事件传递-概述</title>
+      <link>https://al4fun.gitee.io/post/20170712event1/</link>
+      <pubDate>Wed, 12 Jul 2017 17:43:19 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20170712event1/</guid>
+      <description>1 事件传递流程概述 事件的传递是由最顶层（即最外层）的父控件开始，一层一层向下传递，直到最底层（即最内层）的子控件。若最底层的子控件没有消耗掉</description>
+    </item>
+    
+    <item>
+      <title>Activity的启动模式（二）</title>
+      <link>https://al4fun.gitee.io/post/20170627activity3/</link>
+      <pubDate>Tue, 27 Jun 2017 20:49:27 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20170627activity3/</guid>
+      <description>这里就是做了一个关于启动模式的小实验，实验代码可以在此处下载：http://download.csdn.net/detail/al4fun/</description>
+    </item>
+    
+    <item>
+      <title>Activity的启动模式（一）</title>
+      <link>https://al4fun.gitee.io/post/20170627activity2/</link>
+      <pubDate>Tue, 27 Jun 2017 20:43:04 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20170627activity2/</guid>
+      <description>1 任务栈 Android任务栈又称为Task，它是一个栈结构，具有后进先出的特点，用于存放我们的activity组件。 我们每次打开一个新的ac</description>
+    </item>
+    
+    <item>
+      <title>Activity的非正常销毁</title>
+      <link>https://al4fun.gitee.io/post/20170627activity1/</link>
+      <pubDate>Tue, 27 Jun 2017 20:37:43 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20170627activity1/</guid>
+      <description>1 不同情况下activity的生命周期 为了方便描述，我们将activity的销毁分为正常销毁和非正常销毁： 正常销毁：被销毁之后不会被自动重建</description>
+    </item>
+    
+    <item>
+      <title>Fragment使用过程中一些需要注意的点</title>
+      <link>https://al4fun.gitee.io/post/20170627fragment/</link>
+      <pubDate>Tue, 27 Jun 2017 20:09:50 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20170627fragment/</guid>
+      <description>对Fragment相关知识的一点复习和整理。 1 使用add-hide-show来显示和切换fragment add(int containerViewId, Fragment fragment)：将frag</description>
+    </item>
+    
+    <item>
+      <title>NestedScrolling机制-实例2</title>
+      <link>https://al4fun.gitee.io/post/20161226nestedscrolling4/</link>
+      <pubDate>Mon, 26 Dec 2016 20:54:37 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20161226nestedscrolling4/</guid>
+      <description>系列文章的最后，让我们来实现最初见到的那个饿了么店铺详情页效果吧。成品效果及对比如下： 算是低仿吧，主要是也没想要仿的一模一样(因为懒)。内容</description>
+    </item>
+    
+    <item>
+      <title>NestedScrolling机制-本质&amp;源码解析</title>
+      <link>https://al4fun.gitee.io/post/20161226nestedscrolling3/</link>
+      <pubDate>Mon, 26 Dec 2016 20:47:43 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20161226nestedscrolling3/</guid>
+      <description>要了解NestedScrolling机制的本质，当然少不了阅读源码。 这里我们先给出结论：NestedScrolling机制本质上就是两个相互</description>
+    </item>
+    
+    <item>
+      <title>NestedScrolling机制-实例1</title>
+      <link>https://al4fun.gitee.io/post/20161226nestedscrolling2/</link>
+      <pubDate>Mon, 26 Dec 2016 20:43:25 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20161226nestedscrolling2/</guid>
+      <description>1 实现自己的NestedScrollingParent和NestedScrollingChild 这个示例来自：http://blog.csd</description>
+    </item>
+    
+    <item>
+      <title>NestedScrolling机制-概述</title>
+      <link>https://al4fun.gitee.io/post/20161226nestedscrolling1/</link>
+      <pubDate>Mon, 26 Dec 2016 20:28:44 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20161226nestedscrolling1/</guid>
+      <description>如今，NestedScrolling机制(可以称为嵌套滚动或嵌套滑动)在各种app中的应用已经十分广泛了，下图是“饿了么”中的一个例子： 当向</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,2953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>glTF详解 - al4fun&#39;s notes</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="al4fun" /><meta name="description" content="本文是glTF官方文档的翻译和阅读笔记，原文见https://github.com/KhronosGroup/glTF-Tutorials，" /><meta name="keywords" content="android, web, flutter" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.0 with theme even" />
+
+
+<link rel="canonical" href="https://al4fun.gitee.io/post/20220126gltf/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.cb68f97bc9cece255d217346d970e3c62623408634e500c330a62fadabbbe77c.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="glTF详解" />
+<meta property="og:description" content="本文是glTF官方文档的翻译和阅读笔记，原文见https://github.com/KhronosGroup/glTF-Tutorials，" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://al4fun.gitee.io/post/20220126gltf/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-01-26T16:30:31+00:00" />
+<meta property="article:modified_time" content="2022-01-26T16:30:31+00:00" />
+
+<meta itemprop="name" content="glTF详解">
+<meta itemprop="description" content="本文是glTF官方文档的翻译和阅读笔记，原文见https://github.com/KhronosGroup/glTF-Tutorials，"><meta itemprop="datePublished" content="2022-01-26T16:30:31+00:00" />
+<meta itemprop="dateModified" content="2022-01-26T16:30:31+00:00" />
+<meta itemprop="wordCount" content="10539">
+<meta itemprop="keywords" content="glTF," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="glTF详解"/>
+<meta name="twitter:description" content="本文是glTF官方文档的翻译和阅读笔记，原文见https://github.com/KhronosGroup/glTF-Tutorials，"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">al4fun&#39;s notes</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">al4fun&#39;s notes</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">glTF详解</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2022-01-26 </span>
+        <div class="post-category">
+            <a href="/categories/3d%E5%9B%BE%E5%BD%A2%E6%8A%80%E6%9C%AF/"> 3D图形技术 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#简介">简介</a></li>
+    <li><a href="#gltf的基本结构">glTF的基本结构</a></li>
+    <li><a href="#示例一个极小的gltf文件">示例：一个极小的glTF文件</a></li>
+    <li><a href="#---">&mdash;</a></li>
+    <li><a href="#场景和节点">场景和节点</a></li>
+    <li><a href="#bufferbufferviewaccessor">Buffer、BufferView、Accessor</a></li>
+    <li><a href="#动画">动画</a></li>
+    <li><a href="#网格mesh">网格(Mesh)</a></li>
+    <li><a href="#材质material">材质(Material)</a></li>
+    <li><a href="#纹理texture">纹理(Texture)</a></li>
+    <li><a href="#高级材质">高级材质</a></li>
+    <li><a href="#相机">相机</a></li>
+    <li><a href="#变形目标morph-target">变形目标(Morph Target)</a></li>
+    <li><a href="#蒙皮skin">蒙皮(Skin)</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<ol>
+<li>本文是glTF官方文档的翻译和阅读笔记，原文见https://github.com/KhronosGroup/glTF-Tutorials，glTF版本为2.0。</li>
+<li>以下内容涉及部分WebGL知识，如果没有WebGL或OpenGL基础建议先去了解。</li>
+<li>在VS Code中安装glTF Tools插件，就可以直接对glTF文件进行查看和调试。</li>
+</ol>
+</blockquote>
+<h1 id="简介">简介</h1>
+<p>glTF：GL transmission format，即图形库传输格式。glTF格式其实是一个文件夹，包含一个json文件作为解析入口，一个二进制文件用来放顶点数据，以及各种图片作为纹理。</p>
+<p>制定glTF标准的目的在于提供一种 <em>易读的、紧凑的、便于实时渲染程序(如WebGL)进行高效渲染</em> 的标准格式。</p>
+<h1 id="gltf的基本结构">glTF的基本结构</h1>
+<p><strong>概述</strong></p>
+<p>glTF的核心是一个json文件，它描述了3D场景(scene)的全部内容。节点(nodes)的层次关系描述了场景的结构；网格(meshes)定义了场景中的物体；材质(materials)定义了物体的外观；动画(animations)定义了物体如何随着时间而变换(如平移、旋转等)；蒙皮(skins)定义了物体几何(geometry)如何基于骨架姿态(skeleton pose)而变化；相机(cameras)描述了渲染器(renderer)的视角设置。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="c1">// mesh列表
+</span><span class="c1"></span><span class="s2">&#34;meshes&#34;</span> <span class="err">:</span> 
+<span class="p">[</span>
+    <span class="p">{</span> <span class="err">...</span> <span class="p">}</span>
+    <span class="p">{</span> <span class="err">...</span> <span class="p">}</span>
+    <span class="err">...</span>
+<span class="p">]</span><span class="err">,</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>上面的例子定义了多个网格，而节点可以使用网格在meshes数组中的索引来引用网格，如下所示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="c1">// 节点列表
+</span><span class="c1"></span><span class="s2">&#34;nodes&#34;</span><span class="err">:</span> 
+<span class="p">[</span>
+    <span class="p">{</span> <span class="nt">&#34;mesh&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="err">...</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="nt">&#34;mesh&#34;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="err">...</span> <span class="p">},</span>
+    <span class="err">...</span>
+<span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>对象之间的引用关系如下图所示：</p>
+<p><img src="./imgs/gltfJsonStructure.png" alt=""></p>
+<ul>
+<li>scene：场景描述的入口。它会通过索引引用node。</li>
+<li>node：节点。它可能会引用：另一个node、mesh、camera、skin。在node内部也可能包含变换(如平移、旋转等)。</li>
+<li>mesh：网格。它会引用accessor(几何数据)和material(材质)。</li>
+<li>accessor：(几何数据的)访问器。它会被mesh、skin、animation引用。accessor会引用一个bufferView，通过bufferView连接到buffer，而buffer才是真正存储几何数据的地方。</li>
+<li>material：材质。</li>
+<li>texture：纹理。</li>
+</ul>
+<p><strong>引用外部数据</strong></p>
+<p>二进制数据，如几何数据和图片，通常并不会被直接包含在json文件中。而是将它们存储为单独的文件，在json文件中仅存储指向它们的链接。这样做的好处是：几何数据和图片可以被存储得十分紧凑，便于网络传输，也便于渲染程序高效读取和渲染。</p>
+<p><img src="./imgs/externalData.png" alt=""></p>
+<blockquote>
+<p>如果几何数据和图片非常小，偶尔也会通过<code>data URI</code>技术将它们直接包含在json文件中。</p>
+</blockquote>
+<h1 id="示例一个极小的gltf文件">示例：一个极小的glTF文件</h1>
+<p>下面是一个极小的、但完整的glTF文件，包含了一个三角形。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;scene&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="c1">// 入口，指定默认展示的场景，通过索引引用了场景列表中的一个场景
+</span><span class="c1"></span>  <span class="nt">&#34;scenes&#34;</span> <span class="p">:</span> <span class="p">[</span> <span class="c1">// 场景列表
+</span><span class="c1"></span>    <span class="p">{</span>
+      <span class="nt">&#34;nodes&#34;</span> <span class="p">:</span> <span class="p">[</span> <span class="mi">0</span> <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;nodes&#34;</span> <span class="p">:</span> <span class="p">[</span> <span class="c1">// 节点列表
+</span><span class="c1"></span>    <span class="p">{</span>
+      <span class="nt">&#34;mesh&#34;</span> <span class="p">:</span> <span class="mi">0</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;meshes&#34;</span> <span class="p">:</span> <span class="p">[</span> <span class="c1">// 网格列表
+</span><span class="c1"></span>    <span class="p">{</span>
+      <span class="nt">&#34;primitives&#34;</span> <span class="p">:</span> <span class="p">[</span> <span class="p">{</span>
+        <span class="nt">&#34;attributes&#34;</span> <span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&#34;POSITION&#34;</span> <span class="p">:</span> <span class="mi">1</span>
+        <span class="p">},</span>
+        <span class="nt">&#34;indices&#34;</span> <span class="p">:</span> <span class="mi">0</span>
+      <span class="p">}</span> <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;buffers&#34;</span> <span class="p">:</span> <span class="p">[</span> <span class="c1">// buffer列表
+</span><span class="c1"></span>    <span class="p">{</span>
+      <span class="nt">&#34;uri&#34;</span> <span class="p">:</span> <span class="s2">&#34;data:application/octet-stream;base64,AAABAAIAAAAAAAAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAAAAAACAPwAAAAA=&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span> <span class="p">:</span> <span class="mi">44</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;bufferViews&#34;</span> <span class="p">:</span> <span class="p">[</span> <span class="c1">// bufferViews列表
+</span><span class="c1"></span>    <span class="p">{</span>
+      <span class="nt">&#34;buffer&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span> <span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+      <span class="nt">&#34;target&#34;</span> <span class="p">:</span> <span class="mi">34963</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;buffer&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span> <span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span> <span class="p">:</span> <span class="mi">36</span><span class="p">,</span>
+      <span class="nt">&#34;target&#34;</span> <span class="p">:</span> <span class="mi">34962</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;accessors&#34;</span> <span class="p">:</span> <span class="p">[</span> <span class="c1">// 访问器列表
+</span><span class="c1"></span>    <span class="p">{</span>
+      <span class="nt">&#34;bufferView&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;componentType&#34;</span> <span class="p">:</span> <span class="mi">5123</span><span class="p">,</span>
+      <span class="nt">&#34;count&#34;</span> <span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+      <span class="nt">&#34;type&#34;</span> <span class="p">:</span> <span class="s2">&#34;SCALAR&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;max&#34;</span> <span class="p">:</span> <span class="p">[</span> <span class="mi">2</span> <span class="p">],</span>
+      <span class="nt">&#34;min&#34;</span> <span class="p">:</span> <span class="p">[</span> <span class="mi">0</span> <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;bufferView&#34;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;componentType&#34;</span> <span class="p">:</span> <span class="mi">5126</span><span class="p">,</span>
+      <span class="nt">&#34;count&#34;</span> <span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+      <span class="nt">&#34;type&#34;</span> <span class="p">:</span> <span class="s2">&#34;VEC3&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;max&#34;</span> <span class="p">:</span> <span class="p">[</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span> <span class="p">],</span>
+      <span class="nt">&#34;min&#34;</span> <span class="p">:</span> <span class="p">[</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span> <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;asset&#34;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;version&#34;</span> <span class="p">:</span> <span class="s2">&#34;2.0&#34;</span> <span class="c1">// gltf版本
+</span><span class="c1"></span>  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="./imgs/triangle.png" alt=""></p>
+<p><strong>scene、nodes</strong></p>
+<p>上面json的<code>scene</code>字段是整个文件的解析入口，它通过索引指向了场景列表中一个场景对象。而每个场景对象都有一个<code>nodes</code>字段，通过<code>nodes</code>字段中的索引指向节点列表中的一个或多个节点。</p>
+<p><strong>mesh</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="s2">&#34;meshes&#34;</span> <span class="err">:</span> <span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nt">&#34;primitives&#34;</span> <span class="p">:</span> <span class="p">[</span> <span class="p">{</span>
+          <span class="nt">&#34;attributes&#34;</span> <span class="p">:</span> <span class="p">{</span> <span class="c1">// 顶点属性
+</span><span class="c1"></span>              <span class="nt">&#34;NORMAL&#34;</span> <span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="c1">// 顶点法线。通过索引指向访问器列表中的一个访问器(accessor)
+</span><span class="c1"></span>              <span class="nt">&#34;POSITION&#34;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="c1">// 顶点位置。通过索引指向访问器列表中的一个访问器
+</span><span class="c1"></span>              <span class="nt">&#34;TEXCOORD_0&#34;</span> <span class="p">:</span> <span class="mi">3</span> <span class="c1">// 纹理坐标。通过索引指向访问器列表中的一个访问器
+</span><span class="c1"></span>          <span class="p">},</span>
+          <span class="nt">&#34;indices&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="c1">// 顶点索引。通过索引指向访问器列表中的一个访问器
+</span><span class="c1"></span>    <span class="p">}</span> <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">]</span><span class="err">,</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>mesh对象通常只会包含一个primitive对象的数组，而不含其他属性。每个primitive对象都表示物体的一个组成部分。</p>
+<p><strong>accessor、bufferView、buffer</strong></p>
+<p>关于accessor、bufferView和buffer，可以参考JS中的类型化数组，accessor和bufferView就相当于类型化数组的“视图”，buffer就相当于类型化数组的“缓冲”。</p>
+<p>简言之，buffer代表一段没有类型和任何意义的数据；而accessor和bufferView则描述了应该如何去访问buffer(包括：从buffer的什么位置开始读取、读取多少、数据类型等)。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json">  <span class="s2">&#34;buffers&#34;</span> <span class="err">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="c1">// data uri
+</span><span class="c1"></span>      <span class="nt">&#34;uri&#34;</span> <span class="p">:</span> <span class="s2">&#34;data:application/octet-stream;base64,AAABAAIAAAAAAAAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAAAAAACAPwAAAAA=&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span> <span class="p">:</span> <span class="mi">44</span>
+    <span class="p">}</span>
+  <span class="p">]</span><span class="err">,</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json">  <span class="s2">&#34;bufferViews&#34;</span> <span class="err">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;buffer&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="c1">// 偏移量(单位:字节)
+</span><span class="c1"></span>      <span class="nt">&#34;byteLength&#34;</span> <span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="c1">// 长度(单位:字节)
+</span><span class="c1"></span>      <span class="nt">&#34;target&#34;</span> <span class="p">:</span> <span class="mi">34963</span> <span class="c1">// 数据的用途，34963代表ELEMENT_ARRAY_BUFFER
+</span><span class="c1"></span>    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;buffer&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span> <span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span> <span class="p">:</span> <span class="mi">36</span><span class="p">,</span>
+      <span class="nt">&#34;target&#34;</span> <span class="p">:</span> <span class="mi">34962</span> <span class="c1">// 数据的用途，34962代表ARRAY_BUFFER
+</span><span class="c1"></span>    <span class="p">}</span>
+  <span class="p">]</span><span class="err">,</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json">  <span class="s2">&#34;accessors&#34;</span> <span class="err">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;bufferView&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;componentType&#34;</span> <span class="p">:</span> <span class="mi">5123</span><span class="p">,</span> <span class="c1">// 5123代表`unsigned short`
+</span><span class="c1"></span>      <span class="nt">&#34;count&#34;</span> <span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="c1">// 要访问几个SCALAR
+</span><span class="c1"></span>      <span class="nt">&#34;type&#34;</span> <span class="p">:</span> <span class="s2">&#34;SCALAR&#34;</span><span class="p">,</span> <span class="c1">// 标量
+</span><span class="c1"></span>      <span class="nt">&#34;max&#34;</span> <span class="p">:</span> <span class="p">[</span> <span class="mi">2</span> <span class="p">],</span>
+      <span class="nt">&#34;min&#34;</span> <span class="p">:</span> <span class="p">[</span> <span class="mi">0</span> <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;bufferView&#34;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;componentType&#34;</span> <span class="p">:</span> <span class="mi">5126</span><span class="p">,</span> <span class="c1">// 5126代表`float`
+</span><span class="c1"></span>      <span class="nt">&#34;count&#34;</span> <span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="c1">// 要访问几个VEC3
+</span><span class="c1"></span>      <span class="nt">&#34;type&#34;</span> <span class="p">:</span> <span class="s2">&#34;VEC3&#34;</span><span class="p">,</span> <span class="c1">// 三维向量
+</span><span class="c1"></span>      <span class="nt">&#34;max&#34;</span> <span class="p">:</span> <span class="p">[</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span> <span class="p">],</span>
+      <span class="nt">&#34;min&#34;</span> <span class="p">:</span> <span class="p">[</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span> <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">]</span><span class="err">,</span>
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="---">&mdash;</h1>
+<h1 id="场景和节点">场景和节点</h1>
+<p><strong>节点构成了场景图(scene graph，指节点之间的树状层级关系)</strong></p>
+<p>每个节点都可以有一个名为children的属性，其中存储的是该节点的子节点的索引。节点之间的这种层级关系就构成了场景图。</p>
+<p><img src="./imgs/sceneGraph.png" alt=""></p>
+<p><strong>本地变换和全局变换</strong></p>
+<p>我们可以在节点上使用属性matrix、translation、rotation、scale来定义作用于该节点的变换，这些变换也会对该节点的全部子孙节点生效。</p>
+<blockquote>
+<p>习惯将translation、rotation、scale简称为TRS。</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="c1">// column-major order
+</span><span class="c1"></span>    <span class="nt">&#34;matrix&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="mf">2.0</span><span class="p">,</span>    <span class="mf">0.0</span><span class="p">,</span>    <span class="mf">0.0</span><span class="p">,</span>    <span class="mf">0.0</span><span class="p">,</span>
+        <span class="mf">0.0</span><span class="p">,</span>    <span class="mf">0.866</span><span class="p">,</span>  <span class="mf">0.5</span><span class="p">,</span>    <span class="mf">0.0</span><span class="p">,</span>
+        <span class="mf">0.0</span><span class="p">,</span>   <span class="mf">-0.25</span><span class="p">,</span>   <span class="mf">0.433</span><span class="p">,</span>  <span class="mf">0.0</span><span class="p">,</span>
+       <span class="mf">10.0</span><span class="p">,</span>   <span class="mf">20.0</span><span class="p">,</span>   <span class="mf">30.0</span><span class="p">,</span>    <span class="mf">1.0</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="c1">// [沿x轴平移量，沿y轴平移量，沿z轴平移量]
+</span><span class="c1"></span>    <span class="nt">&#34;translation&#34;</span><span class="p">:</span> <span class="p">[</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">30.0</span> <span class="p">],</span>
+    <span class="c1">// 使用四元数(quaternion )来表示旋转
+</span><span class="c1"></span>    <span class="c1">// 具体来说就是：(x*sin(θ/2),y*sin(θ/2),z*sin(θ/2),cos(θ/2))
+</span><span class="c1"></span>    <span class="c1">// 其中(x,y,z)是旋转轴，θ是旋转角度
+</span><span class="c1"></span>    <span class="nt">&#34;rotation&#34;</span><span class="p">:</span> <span class="p">[</span> <span class="mf">0.259</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.966</span> <span class="p">],</span>
+    <span class="c1">// [x轴方向的缩放因子，y轴方向的缩放因子，z轴方向的缩放因子]
+</span><span class="c1"></span>    <span class="nt">&#34;scale&#34;</span><span class="p">:</span> <span class="p">[</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.5</span> <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>定义在节点自身上的变换称为节点的本地变换。节点的本地变换与定义在该节点的父节点、祖先节点上的变换的叠加，称为该节点的全局变换(也称为世界变换)。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">Structure:           local transform      global transform
+root                 R                    R
+ +- nodeA            A                    R*A
+     +- nodeB        B                    R*A*B
+     +- nodeC        C                    R*A*C
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="bufferbufferviewaccessor">Buffer、BufferView、Accessor</h1>
+<p><strong>Buffer</strong></p>
+<p>一个buffer代表一个原始二进制数据块，没有结构和意义。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json">  <span class="s2">&#34;buffers&#34;</span> <span class="err">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;uri&#34;</span> <span class="p">:</span> <span class="s2">&#34;data:application/octet-stream;base64,AAABAAIAAAAAAAAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAAAAAACAPwAAAAA=&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span> <span class="p">:</span> <span class="mi">44</span>
+    <span class="p">}</span>
+  <span class="p">]</span><span class="err">,</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="./imgs/buffer.png" alt=""></p>
+<p>buffer中的数据在渲染时可能被用作顶点属性、顶点索引、蒙皮信息或者动画关键帧等等。为了能够使用这些数据，还需要知道这些数据的类型和结构等。</p>
+<p><strong>BufferView</strong></p>
+<p>一个bufferView代表buffer中的一个片段。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json">  <span class="s2">&#34;bufferViews&#34;</span> <span class="err">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;buffer&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="c1">// 偏移量(单位:字节)
+</span><span class="c1"></span>      <span class="nt">&#34;byteLength&#34;</span> <span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="c1">// 长度(单位:字节)
+</span><span class="c1"></span>      <span class="nt">&#34;target&#34;</span> <span class="p">:</span> <span class="mi">34963</span> <span class="c1">// 数据的用途，34963代表ELEMENT_ARRAY_BUFFER
+</span><span class="c1"></span>    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;buffer&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span> <span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span> <span class="p">:</span> <span class="mi">36</span><span class="p">,</span>
+      <span class="nt">&#34;target&#34;</span> <span class="p">:</span> <span class="mi">34962</span> <span class="c1">// 数据的用途，34962代表ARRAY_BUFFER
+</span><span class="c1"></span>    <span class="p">}</span>
+  <span class="p">]</span><span class="err">,</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="./imgs/bufferBufferView.png" alt=""></p>
+<p>bufferView的target属性用以告诉渲染器当前bufferView中数据的用途。例如用作顶点属性 (<code>34962</code>，代表<code>ARRAY_BUFFER</code>)，或者用作顶点索引 (<code>34963</code>，代表<code>ELEMENT_ARRAY_BUFFER</code>)。</p>
+<p>至此，我们通过bufferView将buffer划分为了多个片段。但要真正将buffer中的数据用于渲染，我们还需要知道buffer中数据的类型和排布(layout)。</p>
+<p><strong>Accessor</strong></p>
+<p>一个accessor指向一个bufferView，并且定义了bufferView中数据的类型和排布(layout)。</p>
+<ul>
+<li>数据类型</li>
+</ul>
+<p>type属性表明数据元素(data element)的类型是标量、向量、还是矩阵。例如，<code>&quot;SCALAR&quot;</code>代表标量，<code>&quot;VEC3&quot;</code>代表三维向量，<code>&quot;MAT4&quot;</code>代表4×4的矩阵。</p>
+<p>componentType表明数据元素的每个构成部分(component)的类型。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json">  <span class="s2">&#34;accessors&#34;</span> <span class="err">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;bufferView&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;componentType&#34;</span> <span class="p">:</span> <span class="mi">5123</span><span class="p">,</span> <span class="c1">// 5123代表`unsigned short`
+</span><span class="c1"></span>      <span class="nt">&#34;count&#34;</span> <span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="c1">// 要访问几个SCALAR
+</span><span class="c1"></span>      <span class="nt">&#34;type&#34;</span> <span class="p">:</span> <span class="s2">&#34;SCALAR&#34;</span><span class="p">,</span> <span class="c1">// 标量
+</span><span class="c1"></span>      <span class="nt">&#34;max&#34;</span> <span class="p">:</span> <span class="p">[</span> <span class="mi">2</span> <span class="p">],</span>
+      <span class="nt">&#34;min&#34;</span> <span class="p">:</span> <span class="p">[</span> <span class="mi">0</span> <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;bufferView&#34;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;componentType&#34;</span> <span class="p">:</span> <span class="mi">5126</span><span class="p">,</span> <span class="c1">// 5126代表`float`
+</span><span class="c1"></span>      <span class="nt">&#34;count&#34;</span> <span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="c1">// 要访问几个VEC3
+</span><span class="c1"></span>      <span class="nt">&#34;type&#34;</span> <span class="p">:</span> <span class="s2">&#34;VEC3&#34;</span><span class="p">,</span> <span class="c1">// 三维向量
+</span><span class="c1"></span>      <span class="nt">&#34;max&#34;</span> <span class="p">:</span> <span class="p">[</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span> <span class="p">],</span>
+      <span class="nt">&#34;min&#34;</span> <span class="p">:</span> <span class="p">[</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span> <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">]</span><span class="err">,</span>
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>数据排布</li>
+</ul>
+<p>count属性代表accessor由几个数据元素(data element)构成。</p>
+<p>每个accessor还有一个byteOffset属性，它代表accessor应该从bufferView的什么位置开始读取。在上面的例子中，两个accessor的byteOffset属性都是0，这是因为每个bufferView都只对应着一个accessor。但是当一个bufferView被多个accessor共享的话，byteOffset属性就会非常有用。</p>
+<ul>
+<li>数据交错(data interleaving)</li>
+</ul>
+<p>bufferView中的数据也可能是一个结构化的数组(Array-Of-Structures)。例如，在一个bufferView中，可能交错存储着顶点位置和顶点法线。在这种情况下，可以使用bufferView的byteStride属性来表明相邻两个元素之间的跨度，如下图所示。</p>
+<p><img src="./imgs/aos.png" alt=""></p>
+<ul>
+<li>数据内容</li>
+</ul>
+<p>accessor的min和max属性是对数据内容的概括，它们对于下载优先级(prioritizing downloads)判断、可见性检测(visibility detection)等很有用。</p>
+<h1 id="动画">动画</h1>
+<p>对《示例：一个极小的glTF文件》中的代码稍加改动，就能实现一个简单的动画：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span><span class="lnt">90
+</span><span class="lnt">91
+</span><span class="lnt">92
+</span><span class="lnt">93
+</span><span class="lnt">94
+</span><span class="lnt">95
+</span><span class="lnt">96
+</span><span class="lnt">97
+</span><span class="lnt">98
+</span><span class="lnt">99
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="c1">// ...
+</span><span class="c1"></span>    <span class="nt">&#34;nodes&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;mesh&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="nt">&#34;rotation&#34;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="mf">0.0</span><span class="p">,</span>
+                <span class="mf">0.0</span><span class="p">,</span>
+                <span class="mf">0.0</span><span class="p">,</span>
+                <span class="mf">1.0</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&#34;animations&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;channels&#34;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="nt">&#34;sampler&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="c1">// 索引为0的sampler
+</span><span class="c1"></span>                    <span class="nt">&#34;target&#34;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="nt">&#34;node&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="c1">// 索引为0的node
+</span><span class="c1"></span>                        <span class="nt">&#34;path&#34;</span><span class="p">:</span> <span class="s2">&#34;rotation&#34;</span> <span class="c1">// 作用于node的rotation属性
+</span><span class="c1"></span>                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">],</span>
+            <span class="nt">&#34;samplers&#34;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="nt">&#34;input&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="c1">// 索引为2的accessor
+</span><span class="c1"></span>                    <span class="nt">&#34;interpolation&#34;</span><span class="p">:</span> <span class="s2">&#34;LINEAR&#34;</span><span class="p">,</span> <span class="c1">// 插值方式为线性插值。glTF支持三种插值方式：STEP(也就是不插值)、LINEAR(线性插值)和CUBICSPLINE(三次样条曲线插值)
+</span><span class="c1"></span>                    <span class="nt">&#34;output&#34;</span><span class="p">:</span> <span class="mi">3</span> <span class="c1">// 索引为3的accessor
+</span><span class="c1"></span>                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&#34;accessors&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="c1">// ...
+</span><span class="c1"></span>        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="c1">// ...
+</span><span class="c1"></span>        <span class="p">},</span>
+        <span class="c1">// times accessor.动画关键帧对应的时刻，一共5个关键帧，所以count为5
+</span><span class="c1"></span>        <span class="p">{</span>
+            <span class="nt">&#34;bufferView&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="nt">&#34;componentType&#34;</span><span class="p">:</span> <span class="mi">5126</span><span class="p">,</span>
+            <span class="nt">&#34;count&#34;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;SCALAR&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;max&#34;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="mf">1.0</span>
+            <span class="p">],</span>
+            <span class="nt">&#34;min&#34;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="mf">0.0</span>
+            <span class="p">]</span>
+        <span class="p">},</span>
+        <span class="c1">// rotations accessor.每个关键帧对应的rotation值
+</span><span class="c1"></span>        <span class="p">{</span>
+            <span class="nt">&#34;bufferView&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+            <span class="nt">&#34;componentType&#34;</span><span class="p">:</span> <span class="mi">5126</span><span class="p">,</span>
+            <span class="nt">&#34;count&#34;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;VEC4&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;max&#34;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="mf">0.0</span><span class="p">,</span>
+                <span class="mf">0.0</span><span class="p">,</span>
+                <span class="mf">1.0</span><span class="p">,</span>
+                <span class="mf">1.0</span>
+            <span class="p">],</span>
+            <span class="nt">&#34;min&#34;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="mf">0.0</span><span class="p">,</span>
+                <span class="mf">0.0</span><span class="p">,</span>
+                <span class="mf">0.0</span><span class="p">,</span>
+                <span class="mf">-0.707</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&#34;bufferViews&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="c1">// ...
+</span><span class="c1"></span>        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="c1">// ...
+</span><span class="c1"></span>        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;buffer&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">100</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&#34;buffers&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="c1">// ...
+</span><span class="c1"></span>        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;uri&#34;</span><span class="p">:</span> <span class="s2">&#34;data:application/octet-stream;base64,AAAAAAAAgD4AAAA/AABAPwAAgD8AAAAAAAAAAAAAAAAAAIA/AAAAAAAAAAD0/TQ/9P00PwAAAAAAAAAAAACAPwAAAAAAAAAAAAAAAPT9ND/0/TS/AAAAAAAAAAAAAAAAAACAPw==&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">100</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="c1">// ...
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="./imgs/animatedTriangle.gif" alt=""></p>
+<p>实际的动画数据是通过times accessor和rotations accessor从buffer中取得的，如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th>times accessor</th>
+<th>rotations accessor</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.0</td>
+<td>(0.0, 0.0, 0.0, 1.0 )</td>
+<td>At 0.0 seconds, the triangle has a rotation of 0 degrees</td>
+</tr>
+<tr>
+<td>0.25</td>
+<td>(0.0, 0.0, 0.707, 0.707)</td>
+<td>At 0.25 seconds, it has a rotation of 90 degrees around the z-axis</td>
+</tr>
+<tr>
+<td>0.5</td>
+<td>(0.0, 0.0, 1.0, 0.0)</td>
+<td>At 0.5 seconds, it has a rotation of 180 degrees around the z-axis</td>
+</tr>
+<tr>
+<td>0.75</td>
+<td>(0.0, 0.0, 0.707, -0.707)</td>
+<td>At 0.75 seconds, it has a rotation of 270 (= -90) degrees around the z-axis</td>
+</tr>
+<tr>
+<td>1.0</td>
+<td>(0.0, 0.0, 0.0, 1.0)</td>
+<td>At 1.0 seconds, it has a rotation of 360 (= 0) degrees around the z-axis</td>
+</tr>
+</tbody>
+</table>
+<p>因此，此动画描述的是沿z轴一秒钟旋转360度。</p>
+<p>下面是另一个例子。这一次，animation对象包含了两个channel，一个对translation做动画，另一个对rotation做动画：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="s2">&#34;animations&#34;</span><span class="err">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="nt">&#34;samplers&#34;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="nt">&#34;input&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="nt">&#34;interpolation&#34;</span><span class="p">:</span> <span class="s2">&#34;LINEAR&#34;</span><span class="p">,</span>
+                <span class="nt">&#34;output&#34;</span><span class="p">:</span> <span class="mi">3</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="nt">&#34;input&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="nt">&#34;interpolation&#34;</span><span class="p">:</span> <span class="s2">&#34;LINEAR&#34;</span><span class="p">,</span>
+                <span class="nt">&#34;output&#34;</span><span class="p">:</span> <span class="mi">4</span>
+            <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="nt">&#34;channels&#34;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="nt">&#34;sampler&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="nt">&#34;target&#34;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="nt">&#34;node&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="nt">&#34;path&#34;</span><span class="p">:</span> <span class="s2">&#34;rotation&#34;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="nt">&#34;sampler&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="nt">&#34;target&#34;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="nt">&#34;node&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="nt">&#34;path&#34;</span><span class="p">:</span> <span class="s2">&#34;translation&#34;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="网格mesh">网格(Mesh)</h1>
+<p><strong>简单的例子</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&#34;scene&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;scenes&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;nodes&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="c1">// 此scene包含了两个node
+</span><span class="c1"></span>        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&#34;nodes&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="c1">// 两个node引用了同一个mesh
+</span><span class="c1"></span>        <span class="p">{</span>
+            <span class="nt">&#34;mesh&#34;</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;mesh&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="nt">&#34;translation&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&#34;meshes&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;primitives&#34;</span><span class="p">:</span> <span class="p">[{</span>
+                <span class="nt">&#34;attributes&#34;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="nt">&#34;POSITION&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="c1">// 顶点位置
+</span><span class="c1"></span>                    <span class="nt">&#34;NORMAL&#34;</span><span class="p">:</span> <span class="mi">2</span> <span class="c1">// 顶点法线
+</span><span class="c1"></span>                <span class="p">},</span>
+                <span class="nt">&#34;indices&#34;</span><span class="p">:</span> <span class="mi">0</span> <span class="c1">// 顶点索引
+</span><span class="c1"></span>            <span class="p">}]</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&#34;accessors&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;bufferView&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="nt">&#34;componentType&#34;</span><span class="p">:</span> <span class="mi">5123</span><span class="p">,</span>
+            <span class="nt">&#34;count&#34;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;SCALAR&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;max&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+            <span class="nt">&#34;min&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;bufferView&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="nt">&#34;componentType&#34;</span><span class="p">:</span> <span class="mi">5126</span><span class="p">,</span>
+            <span class="nt">&#34;count&#34;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;VEC3&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;max&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+            <span class="nt">&#34;min&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;bufferView&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">36</span><span class="p">,</span>
+            <span class="nt">&#34;componentType&#34;</span><span class="p">:</span> <span class="mi">5126</span><span class="p">,</span>
+            <span class="nt">&#34;count&#34;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;VEC3&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;max&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+            <span class="nt">&#34;min&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&#34;bufferViews&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;buffer&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+            <span class="nt">&#34;target&#34;</span><span class="p">:</span> <span class="mi">34963</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;buffer&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+            <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">72</span><span class="p">,</span>
+            <span class="nt">&#34;target&#34;</span><span class="p">:</span> <span class="mi">34962</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&#34;buffers&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;uri&#34;</span><span class="p">:</span> <span class="s2">&#34;data:application/octet-stream;base64,AAABAAIAAAAAAAAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAAAAAACAPwAAAAAAAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8=&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">80</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&#34;asset&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;2.0&#34;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="./imgs/simpleMeshes.png" alt=""></p>
+<p><strong>primitive对象的mode属性</strong></p>
+<p>指的是渲染模式，默认是<code>TRIANGLES</code>，除此之外还可以是<code>POINTS</code>或<code>LINES</code>等，详见: <a href="https://www.khronos.org/registry/glTF/specs/2.0/glTF-2.0.html#_mesh_primitive_mode">https://www.khronos.org/registry/glTF/specs/2.0/glTF-2.0.html#_mesh_primitive_mode</a> 。</p>
+<p>渲染模式对应的是OpenGL或WebGL中的<strong>图元</strong>，此处不再赘述。</p>
+<h1 id="材质material">材质(Material)</h1>
+<p>关于材质的属性有多种不同的表现形式，而着色模型(shading model)描述了这些属性应该被如何处理。简单的着色模型比如<a href="https://en.wikipedia.org/wiki/Phong_reflection_model">Phong</a> 或 <a href="https://en.wikipedia.org/wiki/Blinn%E2%80%93Phong_shading_model">Blinn-Phong</a>，在OpenGL、WebGL等通用图形API中都得到了很好的支持。</p>
+<p><strong>基于物理的渲染(PBR，Physically-Based Rendering)</strong></p>
+<p>要渲染出物体在光照下的真实外观，就得将物体表面的物理特性纳入考虑。为此，我们通常会使用 <em>金属质感-粗糙度模型(metallic-roughness model)</em>，它使用三个参数来描述物体的表面特性：</p>
+<ul>
+<li>物体表面的基础颜色</li>
+<li>金属质感：用来描述物体表面的反光特性与金属的相似程度</li>
+<li>粗糙度</li>
+</ul>
+<p>具体效果如下图所示：</p>
+<p><img src="./imgs/metallicRoughnessSpheres.png" alt=""></p>
+<blockquote>
+<p>glTF直接支持metallic-roughness model，而另一些常见模型，如镜面-光泽度模型(specular-glossiness model)，需要通过扩展来支持。</p>
+</blockquote>
+<p>可以对整个物体使用相同基础颜色、金属质感和粗糙度，也可以通过纹理(texture)，对物体表面的不同部分使用不同的基础颜色、金属质感和粗糙度。</p>
+<p>依赖于着色模式，我们还可以向物体表面应用额外的效果，例如：</p>
+<ul>
+<li>发光纹理(emissive texture)：描述物体表面会发出某种颜色的光</li>
+<li>遮蔽纹理(occlusion texture)：用以模拟物体的自阴影(self-shadowing)效果</li>
+<li>法线贴图(normal map)：用以描述物体表面细微的凹凸起伏</li>
+</ul>
+<p>glTF支持上面所述的全部效果，如果没有明确指定的话，它们都会有合理的默认值。</p>
+<p><strong>简单的例子</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&#34;scene&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;scenes&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;nodes&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&#34;nodes&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;mesh&#34;</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+
+    <span class="nt">&#34;meshes&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;primitives&#34;</span><span class="p">:</span> <span class="p">[{</span>
+                <span class="nt">&#34;attributes&#34;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="nt">&#34;POSITION&#34;</span><span class="p">:</span> <span class="mi">1</span>
+                <span class="p">},</span>
+                <span class="nt">&#34;indices&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="nt">&#34;material&#34;</span><span class="p">:</span> <span class="mi">0</span> <span class="c1">// materials中索引为0的material
+</span><span class="c1"></span>            <span class="p">}]</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&#34;accessors&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;bufferView&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="nt">&#34;componentType&#34;</span><span class="p">:</span> <span class="mi">5123</span><span class="p">,</span>
+            <span class="nt">&#34;count&#34;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;SCALAR&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;max&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+            <span class="nt">&#34;min&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;bufferView&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="nt">&#34;componentType&#34;</span><span class="p">:</span> <span class="mi">5126</span><span class="p">,</span>
+            <span class="nt">&#34;count&#34;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;VEC3&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;max&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+            <span class="nt">&#34;min&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&#34;bufferViews&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;buffer&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+            <span class="nt">&#34;target&#34;</span><span class="p">:</span> <span class="mi">34963</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;buffer&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+            <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">36</span><span class="p">,</span>
+            <span class="nt">&#34;target&#34;</span><span class="p">:</span> <span class="mi">34962</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&#34;buffers&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;uri&#34;</span><span class="p">:</span> <span class="s2">&#34;data:application/octet-stream;base64,AAABAAIAAAAAAAAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAAAAAACAPwAAAAA=&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">44</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&#34;materials&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;pbrMetallicRoughness&#34;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&#34;baseColorFactor&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.000</span><span class="p">,</span> <span class="mf">0.766</span><span class="p">,</span> <span class="mf">0.336</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+                <span class="nt">&#34;metallicFactor&#34;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+                <span class="nt">&#34;roughnessFactor&#34;</span><span class="p">:</span> <span class="mf">0.1</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&#34;asset&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;2.0&#34;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="纹理texture">纹理(Texture)</h1>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;scene&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;scenes&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;nodes&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;nodes&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;mesh&#34;</span><span class="p">:</span> <span class="mi">0</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;meshes&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;primitives&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&#34;attributes&#34;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&#34;POSITION&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="c1">// 顶点位置
+</span><span class="c1"></span>            <span class="nt">&#34;TEXCOORD_0&#34;</span><span class="p">:</span> <span class="mi">2</span> <span class="c1">// 顶点的纹理坐标
+</span><span class="c1"></span>          <span class="p">},</span>
+          <span class="nt">&#34;indices&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+          <span class="nt">&#34;material&#34;</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;materials&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="c1">// 使用metallic-roughness模型
+</span><span class="c1"></span>      <span class="nt">&#34;pbrMetallicRoughness&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="c1">// 使用索引为0的纹理(texture)
+</span><span class="c1"></span>        <span class="nt">&#34;baseColorTexture&#34;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&#34;index&#34;</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="p">},</span>
+        <span class="c1">// 金属质感
+</span><span class="c1"></span>        <span class="nt">&#34;metallicFactor&#34;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="c1">// 粗糙度
+</span><span class="c1"></span>        <span class="nt">&#34;roughnessFactor&#34;</span><span class="p">:</span> <span class="mf">1.0</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;textures&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;sampler&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="c1">// 索引为0的sampler
+</span><span class="c1"></span>      <span class="nt">&#34;source&#34;</span><span class="p">:</span> <span class="mi">0</span> <span class="c1">// 索引为0的image
+</span><span class="c1"></span>    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;images&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;uri&#34;</span><span class="p">:</span> <span class="s2">&#34;testTexture.png&#34;</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;samplers&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="c1">// 这些参数的具体含义参考OpenGL相关文档
+</span><span class="c1"></span>      <span class="nt">&#34;magFilter&#34;</span><span class="p">:</span> <span class="mi">9729</span><span class="p">,</span> <span class="c1">// 放大时的过滤方式
+</span><span class="c1"></span>      <span class="nt">&#34;minFilter&#34;</span><span class="p">:</span> <span class="mi">9987</span><span class="p">,</span> <span class="c1">// 缩小时的过滤方式
+</span><span class="c1"></span>      <span class="nt">&#34;wrapS&#34;</span><span class="p">:</span> <span class="mi">33648</span><span class="p">,</span> <span class="c1">// s轴(横轴)重复方式
+</span><span class="c1"></span>      <span class="nt">&#34;wrapT&#34;</span><span class="p">:</span> <span class="mi">33648</span> <span class="c1">// t轴(纵轴)重复方式
+</span><span class="c1"></span>    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;accessors&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;bufferView&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;componentType&#34;</span><span class="p">:</span> <span class="mi">5123</span><span class="p">,</span>
+      <span class="nt">&#34;count&#34;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;SCALAR&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;max&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+      <span class="nt">&#34;min&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;bufferView&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;componentType&#34;</span><span class="p">:</span> <span class="mi">5126</span><span class="p">,</span>
+      <span class="nt">&#34;count&#34;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;VEC3&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;max&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+      <span class="nt">&#34;min&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;bufferView&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">48</span><span class="p">,</span>
+      <span class="nt">&#34;componentType&#34;</span><span class="p">:</span> <span class="mi">5126</span><span class="p">,</span>
+      <span class="nt">&#34;count&#34;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;VEC2&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;max&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+      <span class="nt">&#34;min&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;bufferViews&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;buffer&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+      <span class="nt">&#34;target&#34;</span><span class="p">:</span> <span class="mi">34963</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;buffer&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">96</span><span class="p">,</span>
+      <span class="nt">&#34;byteStride&#34;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+      <span class="nt">&#34;target&#34;</span><span class="p">:</span> <span class="mi">34962</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;buffers&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;uri&#34;</span><span class="p">:</span> <span class="s2">&#34;data:application/gltf-buffer;base64,AAABAAIAAQADAAIAAAAAAAAAAAAAAAAAAACAPwAAAAAAAAAAAAAAAAAAgD8AAAAAAACAPwAAgD8AAAAAAAAAAAAAgD8AAAAAAACAPwAAgD8AAAAAAAAAAAAAAAAAAAAAAACAPwAAAAAAAAAA&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">108</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;asset&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;2.0&#34;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>纹理所用图片<code>testTexture.png</code>如下图所示：</p>
+<p><img src="./imgs/testTexture.png" alt=""></p>
+<p>glTF文件渲染效果如下图所示：</p>
+<p><img src="./imgs/simpleTexture.png" alt=""></p>
+<p>默认情况下，会通过<code>mesh.primitive.attributes</code>的<code>TEXCOORD_0</code>来获取顶点纹理坐标。</p>
+<p>在<code>mesh.primitive.attributes</code>中也可以定义多组顶点纹理坐标，此时可以通过<code>baseColorTexture</code>的<code>texCoord</code>属性来指定要使用哪一组顶点纹理坐标：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="s2">&#34;baseColorTexture&#34;</span> <span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&#34;index&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;texCoord&#34;</span><span class="p">:</span> <span class="mi">2</span> <span class="c1">// 使用TEXCOORD_2
+</span><span class="c1"></span><span class="p">}</span><span class="err">,</span>
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="高级材质">高级材质</h1>
+<p>在上面的例子中，我们使用纹理来定义材质的基础颜色。而实际上，材质的以下属性都可以使用纹理来定义：</p>
+<ul>
+<li>基础颜色(base color)</li>
+<li>金属质感(metallic)</li>
+<li>粗糙度(roughness)</li>
+<li>发光(emissive)</li>
+<li>遮蔽(occlusion)</li>
+<li>法线(normal map)</li>
+</ul>
+<p>下面是Khronos官方的一个例子——<a href="https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/WaterBottle">WaterBottle</a>：</p>
+<p><img src="./imgs/materials.png" alt=""></p>
+<p>粗糙度效果——瓶身粗糙度较低，而瓶盖粗糙度较高：</p>
+<p><img src="./imgs/advancedMaterial_roughness.png" alt=""></p>
+<p>金属质感效果——瓶身反射来自周围环境的光线：</p>
+<p><img src="./imgs/advancedMaterial_metallic.png" alt=""></p>
+<p>发光效果——尽管周围环境黑暗，但文字清晰可见：</p>
+<p><img src="./imgs/advancedMaterial_emissive.png" alt=""></p>
+<p>法线效果——文字的浮雕效果：</p>
+<p><img src="./imgs/advancedMaterial_normal.png" alt=""></p>
+<h1 id="相机">相机</h1>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span><span class="lnt">90
+</span><span class="lnt">91
+</span><span class="lnt">92
+</span><span class="lnt">93
+</span><span class="lnt">94
+</span><span class="lnt">95
+</span><span class="lnt">96
+</span><span class="lnt">97
+</span><span class="lnt">98
+</span><span class="lnt">99
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;scene&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;scenes&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;nodes&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;nodes&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;rotation&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">-0.383</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.924</span><span class="p">],</span>
+      <span class="nt">&#34;mesh&#34;</span><span class="p">:</span> <span class="mi">0</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;translation&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span>
+      <span class="nt">&#34;camera&#34;</span><span class="p">:</span> <span class="mi">0</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;translation&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span>
+      <span class="nt">&#34;camera&#34;</span><span class="p">:</span> <span class="mi">1</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;meshes&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;primitives&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&#34;attributes&#34;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&#34;POSITION&#34;</span><span class="p">:</span> <span class="mi">1</span>
+          <span class="p">},</span>
+          <span class="nt">&#34;indices&#34;</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;accessors&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;bufferView&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;componentType&#34;</span><span class="p">:</span> <span class="mi">5123</span><span class="p">,</span>
+      <span class="nt">&#34;count&#34;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;SCALAR&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;max&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+      <span class="nt">&#34;min&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;bufferView&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;componentType&#34;</span><span class="p">:</span> <span class="mi">5126</span><span class="p">,</span>
+      <span class="nt">&#34;count&#34;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;VEC3&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;max&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+      <span class="nt">&#34;min&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;bufferViews&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;buffer&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+      <span class="nt">&#34;target&#34;</span><span class="p">:</span> <span class="mi">34963</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;buffer&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">48</span><span class="p">,</span>
+      <span class="nt">&#34;target&#34;</span><span class="p">:</span> <span class="mi">34962</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;buffers&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;uri&#34;</span><span class="p">:</span> <span class="s2">&#34;data:application/octet-stream;base64,AAABAAIAAQADAAIAAAAAAAAAAAAAAAAAAACAPwAAAAAAAAAAAAAAAAAAgD8AAAAAAACAPwAAgD8AAAAA&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">60</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;cameras&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="c1">// 透视相机
+</span><span class="c1"></span>    <span class="p">{</span>
+      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;perspective&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;perspective&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;aspectRatio&#34;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="nt">&#34;yfov&#34;</span><span class="p">:</span> <span class="mf">0.7</span><span class="p">,</span>
+        <span class="nt">&#34;zfar&#34;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+        <span class="nt">&#34;znear&#34;</span><span class="p">:</span> <span class="mf">0.01</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="c1">// 正视相机
+</span><span class="c1"></span>    <span class="p">{</span>
+      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;orthographic&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;orthographic&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;xmag&#34;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="nt">&#34;ymag&#34;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="nt">&#34;zfar&#34;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+        <span class="nt">&#34;znear&#34;</span><span class="p">:</span> <span class="mf">0.01</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;asset&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;2.0&#34;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="变形目标morph-target">变形目标(Morph Target)</h1>
+<p>从版本2.0开始，glTF允许定义变形目标。</p>
+<p>下面例子使用一个动画来展示变形目标的作用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;scene&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;scenes&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;nodes&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;nodes&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;mesh&#34;</span><span class="p">:</span> <span class="mi">0</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;meshes&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;primitives&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&#34;attributes&#34;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&#34;POSITION&#34;</span><span class="p">:</span> <span class="mi">1</span>
+          <span class="p">},</span>
+          <span class="c1">// morph target
+</span><span class="c1"></span>          <span class="nt">&#34;targets&#34;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+              <span class="nt">&#34;POSITION&#34;</span><span class="p">:</span> <span class="mi">2</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+              <span class="nt">&#34;POSITION&#34;</span><span class="p">:</span> <span class="mi">3</span>
+            <span class="p">}</span>
+          <span class="p">],</span>
+          <span class="nt">&#34;indices&#34;</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="c1">// 两个morph target的权重
+</span><span class="c1"></span>      <span class="nt">&#34;weights&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="c1">// 对权重做动画
+</span><span class="c1"></span>  <span class="nt">&#34;animations&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;channels&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&#34;sampler&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+          <span class="nt">&#34;target&#34;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&#34;node&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="nt">&#34;path&#34;</span><span class="p">:</span> <span class="s2">&#34;weights&#34;</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&#34;samplers&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&#34;input&#34;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+          <span class="nt">&#34;interpolation&#34;</span><span class="p">:</span> <span class="s2">&#34;LINEAR&#34;</span><span class="p">,</span>
+          <span class="nt">&#34;output&#34;</span><span class="p">:</span> <span class="mi">5</span>
+        <span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;accessors&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;bufferView&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;componentType&#34;</span><span class="p">:</span> <span class="mi">5123</span><span class="p">,</span>
+      <span class="nt">&#34;count&#34;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;SCALAR&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;max&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+      <span class="nt">&#34;min&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;bufferView&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;componentType&#34;</span><span class="p">:</span> <span class="mi">5126</span><span class="p">,</span>
+      <span class="nt">&#34;count&#34;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;VEC3&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;max&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+      <span class="nt">&#34;min&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;bufferView&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">36</span><span class="p">,</span>
+      <span class="nt">&#34;componentType&#34;</span><span class="p">:</span> <span class="mi">5126</span><span class="p">,</span>
+      <span class="nt">&#34;count&#34;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;VEC3&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;max&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+      <span class="nt">&#34;min&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">-1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;bufferView&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">72</span><span class="p">,</span>
+      <span class="nt">&#34;componentType&#34;</span><span class="p">:</span> <span class="mi">5126</span><span class="p">,</span>
+      <span class="nt">&#34;count&#34;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;VEC3&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;max&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+      <span class="nt">&#34;min&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;bufferView&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;componentType&#34;</span><span class="p">:</span> <span class="mi">5126</span><span class="p">,</span>
+      <span class="nt">&#34;count&#34;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;SCALAR&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;max&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">4.0</span><span class="p">],</span>
+      <span class="nt">&#34;min&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;bufferView&#34;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;componentType&#34;</span><span class="p">:</span> <span class="mi">5126</span><span class="p">,</span>
+      <span class="nt">&#34;count&#34;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;SCALAR&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;max&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">],</span>
+      <span class="nt">&#34;min&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;bufferViews&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;buffer&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+      <span class="nt">&#34;target&#34;</span><span class="p">:</span> <span class="mi">34963</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;buffer&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">108</span><span class="p">,</span>
+      <span class="nt">&#34;byteStride&#34;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+      <span class="nt">&#34;target&#34;</span><span class="p">:</span> <span class="mi">34962</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;buffer&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">20</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;buffer&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">40</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;buffers&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;uri&#34;</span><span class="p">:</span> <span class="s2">&#34;data:application/gltf-buffer;base64,AAABAAIAAAAAAAAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAAA/AAAAPwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIC/AACAPwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIA/AACAPwAAAAA=&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">116</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;uri&#34;</span><span class="p">:</span> <span class="s2">&#34;data:application/gltf-buffer;base64,AAAAAAAAgD8AAABAAABAQAAAgEAAAAAAAAAAAAAAAAAAAIA/AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAA&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">60</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;asset&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;2.0&#34;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="./imgs/simpleMorphInitial.png" alt=""></p>
+<p>mesh.primitive.attributes中定义了三角形的原始顶点位置(图中黑色)，而两个变形目标定义了三角形变形后的顶点位置(分别为图中红色和绿色)。</p>
+<p>实际渲染出来的顶点位置由以下公式计算得出：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">renderedPrimitive.POSITION = primitive.POSITION + 
+  weights[0] * primitive.targets[0].POSITION +
+  weights[1] * primitive.targets[1].POSITION;
+</code></pre></td></tr></table>
+</div>
+</div><p>使用animation来对两个变形目标的权重做动画：</p>
+<table>
+<thead>
+<tr>
+<th>Time</th>
+<th>Weights</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.0</td>
+<td>0.0, 0.0</td>
+</tr>
+<tr>
+<td>1.0</td>
+<td>0.0, 1.0</td>
+</tr>
+<tr>
+<td>2.0</td>
+<td>1.0, 1.0</td>
+</tr>
+<tr>
+<td>3.0</td>
+<td>1.0, 0.0</td>
+</tr>
+<tr>
+<td>4.0</td>
+<td>0.0, 0.0</td>
+</tr>
+</tbody>
+</table>
+<h1 id="蒙皮skin">蒙皮(Skin)</h1>
+<p>蒙皮(skins)定义了物体几何(geometry)如何基于骨架姿态(skeleton pose)而变化。</p>
+<p><strong>简单的例子</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;scene&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;scenes&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;nodes&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;nodes&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;skin&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;mesh&#34;</span><span class="p">:</span> <span class="mi">0</span>
+    <span class="p">},</span>
+    <span class="c1">// 以下是两个关节节点
+</span><span class="c1"></span>    <span class="c1">// 第二个关节节点是第一个关节节点的子节点
+</span><span class="c1"></span>    <span class="c1">// 参考“《WebGL编程指南》摘要.md”——层次模型
+</span><span class="c1"></span>    <span class="p">{</span>
+      <span class="nt">&#34;children&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;translation&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+      <span class="nt">&#34;rotation&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;meshes&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;primitives&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&#34;attributes&#34;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&#34;POSITION&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="c1">// 顶点位置
+</span><span class="c1"></span>            <span class="nt">&#34;JOINTS_0&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="c1">// 顶点受哪些关节影响
+</span><span class="c1"></span>            <span class="nt">&#34;WEIGHTS_0&#34;</span><span class="p">:</span> <span class="mi">3</span> <span class="c1">// 顶点受每个关节影响的程度
+</span><span class="c1"></span>          <span class="p">},</span>
+          <span class="nt">&#34;indices&#34;</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;skins&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;inverseBindMatrices&#34;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="c1">// 通过索引引用了一个accessor
+</span><span class="c1"></span>      <span class="nt">&#34;joints&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="c1">// 通过索引引用了nodes中的两个关节节点
+</span><span class="c1"></span>    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;animations&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;channels&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&#34;sampler&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+          <span class="nt">&#34;target&#34;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&#34;node&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="nt">&#34;path&#34;</span><span class="p">:</span> <span class="s2">&#34;rotation&#34;</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&#34;samplers&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&#34;input&#34;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+          <span class="nt">&#34;interpolation&#34;</span><span class="p">:</span> <span class="s2">&#34;LINEAR&#34;</span><span class="p">,</span>
+          <span class="nt">&#34;output&#34;</span><span class="p">:</span> <span class="mi">6</span>
+        <span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;accessors&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="c1">// 顶点索引
+</span><span class="c1"></span>    <span class="p">{</span>
+      <span class="nt">&#34;bufferView&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;componentType&#34;</span><span class="p">:</span> <span class="mi">5123</span><span class="p">,</span>
+      <span class="nt">&#34;count&#34;</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span>
+      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;SCALAR&#34;</span>
+    <span class="p">},</span>
+    <span class="c1">// 顶点坐标
+</span><span class="c1"></span>    <span class="p">{</span>
+      <span class="nt">&#34;bufferView&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&#34;componentType&#34;</span><span class="p">:</span> <span class="mi">5126</span><span class="p">,</span>
+      <span class="nt">&#34;count&#34;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;VEC3&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;max&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+      <span class="nt">&#34;min&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">-0.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;bufferView&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+      <span class="nt">&#34;componentType&#34;</span><span class="p">:</span> <span class="mi">5123</span><span class="p">,</span>
+      <span class="nt">&#34;count&#34;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;VEC4&#34;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;bufferView&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">160</span><span class="p">,</span>
+      <span class="nt">&#34;componentType&#34;</span><span class="p">:</span> <span class="mi">5126</span><span class="p">,</span>
+      <span class="nt">&#34;count&#34;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;VEC4&#34;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;bufferView&#34;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+      <span class="nt">&#34;componentType&#34;</span><span class="p">:</span> <span class="mi">5126</span><span class="p">,</span>
+      <span class="nt">&#34;count&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;MAT4&#34;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;bufferView&#34;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+      <span class="nt">&#34;componentType&#34;</span><span class="p">:</span> <span class="mi">5126</span><span class="p">,</span>
+      <span class="nt">&#34;count&#34;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;SCALAR&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;max&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">5.5</span><span class="p">],</span>
+      <span class="nt">&#34;min&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;bufferView&#34;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">48</span><span class="p">,</span>
+      <span class="nt">&#34;componentType&#34;</span><span class="p">:</span> <span class="mi">5126</span><span class="p">,</span>
+      <span class="nt">&#34;count&#34;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;VEC4&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;max&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.707</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+      <span class="nt">&#34;min&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">-0.707</span><span class="p">,</span> <span class="mf">0.707</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;bufferViews&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;buffer&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">48</span><span class="p">,</span>
+      <span class="nt">&#34;target&#34;</span><span class="p">:</span> <span class="mi">34963</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;buffer&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;byteOffset&#34;</span><span class="p">:</span> <span class="mi">48</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">120</span><span class="p">,</span>
+      <span class="nt">&#34;target&#34;</span><span class="p">:</span> <span class="mi">34962</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;buffer&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">320</span><span class="p">,</span>
+      <span class="nt">&#34;byteStride&#34;</span><span class="p">:</span> <span class="mi">16</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;buffer&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">128</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;buffer&#34;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">240</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;buffers&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;uri&#34;</span><span class="p">:</span> <span class="s2">&#34;data:application/gltf-buffer;base64,AAABAAMAAAADAAIAAgADAAUAAgAFAAQABAAFAAcABAAHAAYABgAHAAkABgAJAAgAAAAAvwAAAAAAAAAAAAAAPwAAAAAAAAAAAAAAvwAAAD8AAAAAAAAAPwAAAD8AAAAAAAAAvwAAgD8AAAAAAAAAPwAAgD8AAAAAAAAAvwAAwD8AAAAAAAAAPwAAwD8AAAAAAAAAvwAAAEAAAAAAAAAAPwAAAEAAAAAA&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">168</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;uri&#34;</span><span class="p">:</span> <span class="s2">&#34;data:application/gltf-buffer;base64,AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAAAAAABAPwAAgD4AAAAAAAAAAAAAQD8AAIA+AAAAAAAAAAAAAAA/AAAAPwAAAAAAAAAAAAAAPwAAAD8AAAAAAAAAAAAAgD4AAEA/AAAAAAAAAAAAAIA+AABAPwAAAAAAAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAIA/AAAAAAAAAAA=&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">320</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;uri&#34;</span><span class="p">:</span> <span class="s2">&#34;data:application/gltf-buffer;base64,AACAPwAAAAAAAAAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAAAAAAAAAAAAAAAAAAAAAACAPwAAAAAAAAAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAIC/AAAAAAAAgD8=&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">128</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;uri&#34;</span><span class="p">:</span> <span class="s2">&#34;data:application/gltf-buffer;base64,AAAAAAAAAD8AAIA/AADAPwAAAEAAACBAAABAQAAAYEAAAIBAAACQQAAAoEAAALBAAAAAAAAAAAAAAAAAAACAPwAAAAAAAAAAkxjEPkSLbD8AAAAAAAAAAPT9ND/0/TQ/AAAAAAAAAAD0/TQ/9P00PwAAAAAAAAAAkxjEPkSLbD8AAAAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAAAAAACAPwAAAAAAAAAAkxjEvkSLbD8AAAAAAAAAAPT9NL/0/TQ/AAAAAAAAAAD0/TS/9P00PwAAAAAAAAAAkxjEvkSLbD8AAAAAAAAAAAAAAAAAAIA/&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;byteLength&#34;</span><span class="p">:</span> <span class="mi">240</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;asset&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;2.0&#34;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="./imgs/simpleSkin.gif" alt=""></p>
+<p><strong>几何数据</strong></p>
+<p>上面示例中的几何数据是 <em>使用索引的三角形网格</em>，由10个顶点构成8个三角形，进一步构成一个宽1.0高2.0的矩形。矩形底边的中点位于原点(0,0,0)。10个顶点的坐标如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">-0.5, 0.0, 0.0,
+ 0.5, 0.0, 0.0,
+-0.5, 0.5, 0.0,
+ 0.5, 0.5, 0.0,
+-0.5, 1.0, 0.0,
+ 0.5, 1.0, 0.0,
+-0.5, 1.5, 0.0,
+ 0.5, 1.5, 0.0,
+-0.5, 2.0, 0.0,
+ 0.5, 2.0, 0.0
+</code></pre></td></tr></table>
+</div>
+</div><p>构成三角形的顶点索引：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">// 8个三角形，24个顶点，所以是24个索引
+
+0, 1, 3,
+0, 3, 2,
+2, 3, 5,
+2, 5, 4,
+4, 5, 7,
+4, 7, 6,
+6, 7, 9,
+6, 9, 8,
+</code></pre></td></tr></table>
+</div>
+</div><p>对几何数据进行描边渲染效果如下所示：</p>
+<p><img src="./imgs/simpleSkinOutline01.png" alt=""></p>
+<p><strong>骨架(skeleton structure)</strong></p>
+<p>在上面的例子中，有两个节点定义了骨架，它们被称为骨架节点或关节节点。skin对象的joints属性通过索引引用了关节节点。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="s2">&#34;nodes&#34;</span> <span class="err">:</span> <span class="p">[</span> 
+  <span class="err">...</span>
+  <span class="c1">// 以下是两个关节节点
+</span><span class="c1"></span>  <span class="p">{</span>
+   <span class="nt">&#34;children&#34;</span> <span class="p">:</span> <span class="p">[</span> <span class="mi">2</span> <span class="p">]</span>
+  <span class="p">},</span> 
+  <span class="p">{</span>
+   <span class="nt">&#34;translation&#34;</span> <span class="p">:</span> <span class="p">[</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span> <span class="p">],</span>
+   <span class="nt">&#34;rotation&#34;</span> <span class="p">:</span> <span class="p">[</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span> <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">]</span><span class="err">,</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>第一个关节节点位于坐标系原点，并且不包含任何变换。第二个关节节点有一个translation属性，描述了一个沿y轴平移1的平移变换，以及一个rotation属性，描述了一个旋转0度的旋转变换。rotation属性稍后将会被animation改变，使用骨架向左和向右弯曲，以观察顶点蒙皮的效果。</p>
+<p><strong>蒙皮</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="s2">&#34;skins&#34;</span> <span class="err">:</span> <span class="p">[</span> 
+  <span class="p">{</span>
+   <span class="nt">&#34;inverseBindMatrices&#34;</span> <span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="c1">// 通过索引引用了一个accessor
+</span><span class="c1"></span>   <span class="nt">&#34;joints&#34;</span> <span class="p">:</span> <span class="p">[</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="p">]</span> <span class="c1">// 通过索引引用了nodes中的两个关节节点
+</span><span class="c1"></span>  <span class="p">}</span>
+<span class="p">]</span><span class="err">,</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>joints通过索引引用了nodes中的两个关节节点。而inverseBindMatrices通过索引引用了一个accessor，它为每个关节提供了一个矩阵，矩阵的作用是将几何数据(即顶点坐标)变换到关节的坐标空间中(所谓关节的坐标空间，就是说，关节所在的位置，就是坐标原点)。inverseBindMatrix实际就是关节节点的世界变换矩阵的逆矩阵。</p>
+<p>在上面的例子中，关节0没有进行变换，因此它的世界变换矩阵是单位矩阵，它的inverseBindMatrix也是单位矩阵；而关节1的世界变换矩阵是沿y轴平移1，因此它的inverseBindMatrix是沿y轴平移-1：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">1.0   0.0   0.0    0.0   
+0.0   1.0   0.0   -1.0   
+0.0   0.0   1.0    0.0   
+0.0   0.0   0.0    1.0
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="./imgs/skinInverseBindMatrix.png" alt=""></p>
+<p>矩形底边变换前纵坐标为0，变换后纵坐标为-1；矩形顶边变换前纵坐标为2，变换后纵坐标为1。</p>
+<p><strong>顶点蒙皮的实现</strong></p>
+<p>实际的顶点蒙皮计算通常是在顶点着色器中进行的，一般并不需要我们关心。但是，了解一些计算细节对我们创建适于蒙皮计算的模型很有帮助。因此下面对其进行简要介绍。</p>
+<ul>
+<li>关节矩阵(joint matrix)</li>
+</ul>
+<p>顶点着色器在计算顶点位置时需要考虑骨架姿态(pose of the skeleton)的影响，该信息是通过关节矩阵(joint matrix)传递到顶点着色器中的，也就是下面代码中的<code>u_jointMat[2]</code>。它是一个数组，每个数组元素就是一个关节的关节矩阵，因为示例中有两个关节，所以该数组的长度为2。</p>
+<p>在顶点着色器中，关节矩阵会被用来计算蒙皮矩阵(skinning matrix)：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-glsl" data-lang="glsl"><span class="p">...</span>
+<span class="k">uniform</span> <span class="n">mat4</span> <span class="n">u_jointMat</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+
+<span class="p">...</span>
+<span class="k">void</span> <span class="n">main</span><span class="p">(</span><span class="k">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">mat4</span> <span class="n">skinMat</span> <span class="o">=</span>
+        <span class="n">a_weight</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">u_jointMat</span><span class="p">[</span><span class="k">int</span><span class="p">(</span><span class="n">a_joint</span><span class="p">.</span><span class="n">x</span><span class="p">)]</span> <span class="o">+</span>
+        <span class="n">a_weight</span><span class="p">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">u_jointMat</span><span class="p">[</span><span class="k">int</span><span class="p">(</span><span class="n">a_joint</span><span class="p">.</span><span class="n">y</span><span class="p">)]</span> <span class="o">+</span>
+        <span class="n">a_weight</span><span class="p">.</span><span class="n">z</span> <span class="o">*</span> <span class="n">u_jointMat</span><span class="p">[</span><span class="k">int</span><span class="p">(</span><span class="n">a_joint</span><span class="p">.</span><span class="n">z</span><span class="p">)]</span> <span class="o">+</span>
+        <span class="n">a_weight</span><span class="p">.</span><span class="n">w</span> <span class="o">*</span> <span class="n">u_jointMat</span><span class="p">[</span><span class="k">int</span><span class="p">(</span><span class="n">a_joint</span><span class="p">.</span><span class="n">w</span><span class="p">)];</span>
+    <span class="p">....</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>关节矩阵需要对顶点做如下变换：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">1.需要通过inverseBindMatrix将顶点转换到关节的坐标空间中
+2.需要将关节的世界变换矩阵应用于顶点
+</code></pre></td></tr></table>
+</div>
+</div><p>因此，关节矩阵应该这样计算：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">jointMatrix(j) =
+  globalTransformOfJointNode(j) *
+  inverseBindMatrixForJoint(j);
+</code></pre></td></tr></table>
+</div>
+</div><p>下图展示了关节1被旋转了45度时将关节矩阵应用于顶点的效果：</p>
+<p><img src="./imgs/skinJointMatrices.png" alt=""></p>
+<ul>
+<li>权重</li>
+</ul>
+<p>你应该已经注意到，在mesh.primitive中新增了两个新的顶点属性：<code>JOINTS_0</code> 和 <code>WEIGHTS_0</code>。</p>
+<p><code>JOINTS_0</code>指向一个accessor，该accessor包含的数据是——对每个顶点有影响的关节的索引，如下所示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">Vertex 0:  0, 0, 0, 0,
+Vertex 1:  0, 0, 0, 0,
+Vertex 2:  0, 1, 0, 0,
+Vertex 3:  0, 1, 0, 0,
+Vertex 4:  0, 1, 0, 0,
+Vertex 5:  0, 1, 0, 0,
+Vertex 6:  0, 1, 0, 0,
+Vertex 7:  0, 1, 0, 0,
+Vertex 8:  0, 1, 0, 0,
+Vertex 9:  0, 1, 0, 0,
+</code></pre></td></tr></table>
+</div>
+</div><p>为了简单和高效，这些索引通常被存储为4维向量，也就限制了对一个顶点有影响的关节最多只有有4个。</p>
+<p>对于：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">3, 1, 8, 4,
+</code></pre></td></tr></table>
+</div>
+</div><p>意思是该顶点会被关节3、1、8、4影响。</p>
+<p><code>WEIGHTS_0</code>指向一个accessor，该accessor包含的数据是——每个关节对顶点的影响力的大小，如下所示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">Vertex 0:  1.00,  0.00,  0.0, 0.0,
+Vertex 1:  1.00,  0.00,  0.0, 0.0,
+Vertex 2:  0.75,  0.25,  0.0, 0.0,
+Vertex 3:  0.75,  0.25,  0.0, 0.0,
+Vertex 4:  0.50,  0.50,  0.0, 0.0,
+Vertex 5:  0.50,  0.50,  0.0, 0.0,
+Vertex 6:  0.25,  0.75,  0.0, 0.0,
+Vertex 7:  0.25,  0.75,  0.0, 0.0,
+Vertex 8:  0.00,  1.00,  0.0, 0.0,
+Vertex 9:  0.00,  1.00,  0.0, 0.0,
+</code></pre></td></tr></table>
+</div>
+</div><p><code>JOINTS_0</code>、<code>WEIGHTS_0</code>和关节矩阵会共同参与蒙皮矩阵(skinning matrix)的计算：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-glsl" data-lang="glsl"><span class="p">...</span>
+<span class="k">attribute</span> <span class="k">vec4</span> <span class="n">a_joint</span><span class="p">;</span> <span class="c1">// JOINTS_0数据</span>
+<span class="k">attribute</span> <span class="k">vec4</span> <span class="n">a_weight</span><span class="p">;</span> <span class="c1">// WEIGHTS_0数据</span>
+
+<span class="k">uniform</span> <span class="n">mat4</span> <span class="n">u_jointMat</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span> <span class="c1">// 两个关节矩阵</span>
+
+<span class="p">...</span>
+<span class="k">void</span> <span class="n">main</span><span class="p">(</span><span class="k">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">mat4</span> <span class="n">skinMat</span> <span class="o">=</span>
+        <span class="n">a_weight</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">u_jointMat</span><span class="p">[</span><span class="k">int</span><span class="p">(</span><span class="n">a_joint</span><span class="p">.</span><span class="n">x</span><span class="p">)]</span> <span class="o">+</span>
+        <span class="n">a_weight</span><span class="p">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">u_jointMat</span><span class="p">[</span><span class="k">int</span><span class="p">(</span><span class="n">a_joint</span><span class="p">.</span><span class="n">y</span><span class="p">)]</span> <span class="o">+</span>
+        <span class="n">a_weight</span><span class="p">.</span><span class="n">z</span> <span class="o">*</span> <span class="n">u_jointMat</span><span class="p">[</span><span class="k">int</span><span class="p">(</span><span class="n">a_joint</span><span class="p">.</span><span class="n">z</span><span class="p">)]</span> <span class="o">+</span>
+        <span class="n">a_weight</span><span class="p">.</span><span class="n">w</span> <span class="o">*</span> <span class="n">u_jointMat</span><span class="p">[</span><span class="k">int</span><span class="p">(</span><span class="n">a_joint</span><span class="p">.</span><span class="n">w</span><span class="p">)];</span>
+    <span class="k">vec4</span> <span class="n">worldPosition</span> <span class="o">=</span> <span class="n">skinMat</span> <span class="o">*</span> <span class="k">vec4</span><span class="p">(</span><span class="n">a_position</span><span class="p">,</span><span class="mf">1.0</span><span class="p">);</span>
+    <span class="k">vec4</span> <span class="n">cameraPosition</span> <span class="o">=</span> <span class="n">u_viewMatrix</span> <span class="o">*</span> <span class="n">worldPosition</span><span class="p">;</span>
+    <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">u_projectionMatrix</span> <span class="o">*</span> <span class="n">cameraPosition</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="./imgs/skinSkinMatrix.png" alt=""></p>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/gltf/">glTF</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/20220126three/">
+            <span class="next-text nav-default">three.js源码阅读</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:al4fun@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://github.com/al4fun" class="iconfont icon-github" title="github"></a>
+  <a href="https://al4fun.gitee.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2016 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>al4fun</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>indicator on al4fun&#39;s notes</title>
+    <link>https://al4fun.gitee.io/tags/indicator/</link>
+    <description>Recent content in indicator on al4fun&#39;s notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 31 Mar 2018 11:24:13 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/tags/indicator/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ViewPager导航控件-SimpleViewpagerIndicator</title>
+      <link>https://al4fun.gitee.io/post/20180331indicator/</link>
+      <pubDate>Sat, 31 Mar 2018 11:24:13 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20180331indicator/</guid>
+      <description>写这个小控件是因为最近负责维护的一款app大改版，设计师给了一个新的ViewPager导航样式，但找了几个常用的导航控件发现都无法100%实</description>
+    </item>
+    
+  </channel>
+</rss>

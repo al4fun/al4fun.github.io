@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>token on al4fun&#39;s notes</title>
+    <link>https://al4fun.gitee.io/tags/token/</link>
+    <description>Recent content in token on al4fun&#39;s notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 29 Jul 2021 11:16:00 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/tags/token/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>前端无感知刷新token</title>
+      <link>https://al4fun.gitee.io/post/20210729refreshtoken/</link>
+      <pubDate>Thu, 29 Jul 2021 11:16:00 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20210729refreshtoken/</guid>
+      <description>要求 请求业务接口时，若后端返回token失效code(如401)，则前端需要自动刷新token 刷新token成功以后，继续请求业务接口并返回</description>
+    </item>
+    
+  </channel>
+</rss>

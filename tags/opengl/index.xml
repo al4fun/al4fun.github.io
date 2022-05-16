@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>OpenGL on al4fun&#39;s notes</title>
+    <link>https://al4fun.gitee.io/tags/opengl/</link>
+    <description>Recent content in OpenGL on al4fun&#39;s notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 22 Jan 2022 19:20:28 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/tags/opengl/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>OpenGL基本概念</title>
+      <link>https://al4fun.gitee.io/post/20220122webgl1/</link>
+      <pubDate>Sat, 22 Jan 2022 19:20:28 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20220122webgl1/</guid>
+      <description>摘自OpenGL和OpenGL ES相关文档 概述 OpenGL是一种跨平台的图形API，支持高性能2D和3D图形以及GPU加速。OpenGL ES</description>
+    </item>
+    
+  </channel>
+</rss>

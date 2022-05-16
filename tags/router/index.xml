@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>router on al4fun&#39;s notes</title>
+    <link>https://al4fun.gitee.io/tags/router/</link>
+    <description>Recent content in router on al4fun&#39;s notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 21 Sep 2019 21:40:07 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/tags/router/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Flutter中的路由函数</title>
+      <link>https://al4fun.gitee.io/post/20190921router/</link>
+      <pubDate>Sat, 21 Sep 2019 21:40:07 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20190921router/</guid>
+      <description>概述 Flutter中，路由(Router)即页面的封装，一个路由内部包含了一个页面。创建路由： 1 2 3 MaterialPageRoute route = MaterialPageRoute( builder: (BuildContext context) =&amp;gt; MyPage(), ); 类似于在Androi</description>
+    </item>
+    
+  </channel>
+</rss>

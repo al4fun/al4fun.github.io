@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>3d ball on al4fun&#39;s notes</title>
+    <link>https://al4fun.gitee.io/tags/3d-ball/</link>
+    <description>Recent content in 3d ball on al4fun&#39;s notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 12 Feb 2020 17:39:41 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/tags/3d-ball/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Flutter实现3D球</title>
+      <link>https://al4fun.gitee.io/post/20200212ball/</link>
+      <pubDate>Wed, 12 Feb 2020 17:39:41 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20200212ball/</guid>
+      <description>简介 这是之前项目中用到的一个3D球控件，实现了文字元素在球面上的分布以及球体滚动时文字外形和运动轨迹的透视效果。 因为没有实现丰富的可定制性和</description>
+    </item>
+    
+  </channel>
+</rss>

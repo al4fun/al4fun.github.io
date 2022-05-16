@@ -1,0 +1,1707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Android Camera详解 - al4fun&#39;s notes</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="al4fun" /><meta name="description" content="本文译自官方文档：https://developer.android.com/guide/topics/media/camera.html A" /><meta name="keywords" content="android, web, flutter" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.0 with theme even" />
+
+
+<link rel="canonical" href="https://al4fun.gitee.io/post/20171113camera/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.cb68f97bc9cece255d217346d970e3c62623408634e500c330a62fadabbbe77c.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Android Camera详解" />
+<meta property="og:description" content="本文译自官方文档：https://developer.android.com/guide/topics/media/camera.html A" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://al4fun.gitee.io/post/20171113camera/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2017-11-13T10:21:04+00:00" />
+<meta property="article:modified_time" content="2017-11-13T10:21:04+00:00" />
+
+<meta itemprop="name" content="Android Camera详解">
+<meta itemprop="description" content="本文译自官方文档：https://developer.android.com/guide/topics/media/camera.html A"><meta itemprop="datePublished" content="2017-11-13T10:21:04+00:00" />
+<meta itemprop="dateModified" content="2017-11-13T10:21:04+00:00" />
+<meta itemprop="wordCount" content="8963">
+<meta itemprop="keywords" content="Camera," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Android Camera详解"/>
+<meta name="twitter:description" content="本文译自官方文档：https://developer.android.com/guide/topics/media/camera.html A"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">al4fun&#39;s notes</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">al4fun&#39;s notes</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Android Camera详解</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2017-11-13 </span>
+        <div class="post-category">
+            <a href="/categories/android/"> Android </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-基础">1 基础</a></li>
+    <li><a href="#2-清单文件声明">2 清单文件声明</a></li>
+    <li><a href="#3-通过intent使用已有的相机app来拍照和录像">3 通过Intent使用已有的相机app来拍照和录像</a>
+      <ul>
+        <li><a href="#1-拍照intent">（1） 拍照intent</a></li>
+        <li><a href="#2-录像intent">（2） 录像intent</a></li>
+        <li><a href="#3-接收拍照或录像的结果">（3） 接收拍照或录像的结果</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-直接操作相机设备来拍照和录像">4 直接操作相机设备来拍照和录像</a>
+      <ul>
+        <li><a href="#侦测相机设备">侦测相机设备</a></li>
+        <li><a href="#访问相机">访问相机</a></li>
+        <li><a href="#获取相机的更多信息">获取相机的更多信息</a></li>
+        <li><a href="#创建预览视图">创建预览视图</a></li>
+        <li><a href="#将预览视图放到布局中">将预览视图放到布局中</a></li>
+        <li><a href="#拍照">拍照</a></li>
+        <li><a href="#录像">录像</a>
+          <ul>
+            <li><a href="#1-概述">(1) 概述</a></li>
+            <li><a href="#2-配置mediarecorder">(2) 配置MediaRecorder</a></li>
+            <li><a href="#3-启动和停止mediarecorder">(3) 启动和停止MediaRecorder</a></li>
+          </ul>
+        </li>
+        <li><a href="#释放相机资源">释放相机资源</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-存储媒体文件">5 存储媒体文件</a></li>
+    <li><a href="#6-相机特性camera-features">6 相机特性(Camera Features)</a>
+      <ul>
+        <li><a href="#检查相机特性是否可用">检查相机特性是否可用</a></li>
+        <li><a href="#使用相机特性">使用相机特性</a></li>
+        <li><a href="#测光和对焦区域metering-and-focus-areas">测光和对焦区域（Metering and focus areas）</a></li>
+        <li><a href="#面部侦测">面部侦测</a></li>
+        <li><a href="#时间推移视频time-lapse-video">时间推移视频（Time lapse video）</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>本文译自官方文档：https://developer.android.com/guide/topics/media/camera.html</p>
+<p>Android框架层包含了对多种相机和相机特性的支持，可以让你在你的应用中拍照或录像。本文档主要讨论如何快速、简单的进行拍照和录像，同时也对如何开发复杂一些的相机应用做了简要介绍。</p>
+<h1 id="1-基础">1 基础</h1>
+<p>Android框架层支持通过<code>android.hardware.camera2</code>API 或 camera Intent来拍照和录像，以下是相关的类：</p>
+<p><strong>android.hardware.camera2</strong></p>
+<p>这个包提供了控制相机设备的主要API。</p>
+<p><strong>Camera</strong></p>
+<p>已过时的控制相机设备的API。</p>
+<p><strong>SurfaceView</strong></p>
+<p>这个类用来向用户展示实时的相机预览（live camera preview）。</p>
+<p><strong>MediaRecorder</strong></p>
+<p>这个类用来录像。</p>
+<p><strong>Intent</strong></p>
+<p>不需要直接操作相机设备，通过<code>MediaStore.ACTION_IMAGE_CAPTURE</code>和<code>MediaStore.ACTION_VIDEO_CAPTURE</code>这两个Intent就可以快速地进行拍照和录像。</p>
+<h1 id="2-清单文件声明">2 清单文件声明</h1>
+<p>在开始使用相机API进行开发之前，首先要确保你的清单文件中已经声明了相应的权限和特性。</p>
+<p><strong>相机权限</strong> —— 如果你的app要直接使用相机设备，则必须声明此权限。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&#34;android.permission.CAMERA&#34;</span> <span class="nt">/&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>注意：如果是通过Intent来间接使用相机，则不需要声明此权限。</p>
+</blockquote>
+<p><strong>相机特性（Camera Features）</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;uses-feature</span> <span class="na">android:name=</span><span class="s">&#34;android.hardware.camera&#34;</span> <span class="nt">/&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果在清单文件中声明了相机特性，那么Google Play会阻止你的app被安装在不支持相机的设备上。</p>
+<p><strong>存储权限</strong> —— 如果你的app将相片和视频存储在外部存储设备（SD卡），则必须声明此权限。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&#34;android.permission.WRITE_EXTERNAL_STORAGE&#34;</span> <span class="nt">/&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>录音权限</strong> —— 如果需要在录像的同时录音，则必须声明录音权限。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&#34;android.permission.RECORD_AUDIO&#34;</span> <span class="nt">/&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>获取位置信息权限</strong> —— 如果想要给拍摄的照片加上位置信息，则必须声明此权限。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&#34;android.permission.ACCESS_FINE_LOCATION&#34;</span> <span class="nt">/&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="3-通过intent使用已有的相机app来拍照和录像">3 通过Intent使用已有的相机app来拍照和录像</h1>
+<p>在你的app中进行拍照和录像的一个简单方法是：通过Intent来调起一个已有的相机应用。有如下几步：</p>
+<ol>
+<li>创建Intent
+<ul>
+<li><code>MediaStore.ACTION_IMAGE_CAPTURE</code>：通过已有的相机应用拍照。</li>
+<li><code>MediaStore.ACTION_VIDEO_CAPTURE</code>：通过已有的相机应用录像。</li>
+</ul>
+</li>
+<li>发送Intent：调用<code>startActivityForResult()</code>。</li>
+<li>接收拍照或录像的结果：在<code>onActivityResult()</code>方法中接收拍照或录像的结果。</li>
+</ol>
+<h2 id="1-拍照intent">（1） 拍照intent</h2>
+<p>拍照Intent可以包含如下额外信息：</p>
+<ul>
+<li><code>MediaStore.EXTRA_OUTPUT</code>：设置照片保存的路径（包含文件名），值为一个Uri对象。此项设置是可选的，但是强烈建议进行设置。如果不设置，则照片会以默认的名字保存在默认路径，通过调用<code>onActivityResult()</code>方法中参数intent的<code>getData()</code>方法，可以获得照片的保存路径(uri)。</li>
+</ul>
+<p>以下为示例代码，其中<code>getOutputMediaFileUri(...)</code>方法的实现见后面的<strong>存储媒体文件</strong>部分：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE</span> <span class="o">=</span> <span class="n">100</span><span class="o">;</span>
+<span class="kd">private</span> <span class="n">Uri</span> <span class="n">fileUri</span><span class="o">;</span>
+
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+    <span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">main</span><span class="o">);</span>
+
+    <span class="c1">// create Intent to take a picture and return control to the calling application
+</span><span class="c1"></span>    <span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="n">MediaStore</span><span class="o">.</span><span class="na">ACTION_IMAGE_CAPTURE</span><span class="o">);</span>
+
+    <span class="n">fileUri</span> <span class="o">=</span> <span class="n">getOutputMediaFileUri</span><span class="o">(</span><span class="n">MEDIA_TYPE_IMAGE</span><span class="o">);</span> <span class="c1">// create a file to save the image
+</span><span class="c1"></span>    <span class="n">intent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="n">MediaStore</span><span class="o">.</span><span class="na">EXTRA_OUTPUT</span><span class="o">,</span> <span class="n">fileUri</span><span class="o">);</span> <span class="c1">// set the image file name
+</span><span class="c1"></span>
+    <span class="c1">// start the image capture Intent
+</span><span class="c1"></span>    <span class="n">startActivityForResult</span><span class="o">(</span><span class="n">intent</span><span class="o">,</span> <span class="n">CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="2-录像intent">（2） 录像intent</h2>
+<p>录像Intent可以包含如下额外信息：</p>
+<ul>
+<li><code>MediaStore.EXTRA_OUTPUT</code>：同上，设置视频保存的路径（包含文件名），不再赘述。</li>
+<li><code>MediaStore.EXTRA_VIDEO_QUALITY</code>：设置视频的质量。取值从0到1，1代表最高的视频质量（和最大的文件尺寸）。</li>
+<li><code>MediaStore.EXTRA_DURATION_LIMIT</code>：限制视频的时长，以秒为单位。</li>
+<li><code>MediaStore.EXTRA_SIZE_LIMIT</code>：限制视频文件的大小，以字节为单位。</li>
+</ul>
+<p>以下为示例代码，其中<code>getOutputMediaFileUri(...)</code>方法的实现见后面的<strong>存储媒体文件</strong>部分：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE</span> <span class="o">=</span> <span class="n">200</span><span class="o">;</span>
+<span class="kd">private</span> <span class="n">Uri</span> <span class="n">fileUri</span><span class="o">;</span>
+
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+    <span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">main</span><span class="o">);</span>
+
+    <span class="c1">//create new Intent
+</span><span class="c1"></span>    <span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="n">MediaStore</span><span class="o">.</span><span class="na">ACTION_VIDEO_CAPTURE</span><span class="o">);</span>
+
+    <span class="n">fileUri</span> <span class="o">=</span> <span class="n">getOutputMediaFileUri</span><span class="o">(</span><span class="n">MEDIA_TYPE_VIDEO</span><span class="o">);</span>  <span class="c1">// create a file to save the video
+</span><span class="c1"></span>    <span class="n">intent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="n">MediaStore</span><span class="o">.</span><span class="na">EXTRA_OUTPUT</span><span class="o">,</span> <span class="n">fileUri</span><span class="o">);</span>  <span class="c1">// set the image file name
+</span><span class="c1"></span>    <span class="n">intent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="n">MediaStore</span><span class="o">.</span><span class="na">EXTRA_VIDEO_QUALITY</span><span class="o">,</span> <span class="n">1</span><span class="o">);</span> <span class="c1">// set the video image quality to high
+</span><span class="c1"></span>
+    <span class="c1">// start the Video Capture Intent
+</span><span class="c1"></span>    <span class="n">startActivityForResult</span><span class="o">(</span><span class="n">intent</span><span class="o">,</span> <span class="n">CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="3-接收拍照或录像的结果">（3） 接收拍照或录像的结果</h2>
+<p>为了接收拍照或录像的结果，你需要覆写Acitivity的<code>onActivityResult(...)</code>方法，如下例所示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE</span> <span class="o">=</span> <span class="n">100</span><span class="o">;</span>
+<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE</span> <span class="o">=</span> <span class="n">200</span><span class="o">;</span>
+
+<span class="nd">@Override</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onActivityResult</span><span class="o">(</span><span class="kt">int</span> <span class="n">requestCode</span><span class="o">,</span> <span class="kt">int</span> <span class="n">resultCode</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">requestCode</span> <span class="o">==</span> <span class="n">CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">resultCode</span> <span class="o">==</span> <span class="n">RESULT_OK</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// Image captured and saved to fileUri specified in the Intent
+</span><span class="c1"></span>            <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="s">&#34;Image saved to:\n&#34;</span> <span class="o">+</span> <span class="n">data</span><span class="o">.</span><span class="na">getData</span><span class="o">(),</span> <span class="n">Toast</span><span class="o">.</span><span class="na">LENGTH_LONG</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">resultCode</span> <span class="o">==</span> <span class="n">RESULT_CANCELED</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// User cancelled the image capture
+</span><span class="c1"></span>        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="c1">// Image capture failed, advise user
+</span><span class="c1"></span>        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">requestCode</span> <span class="o">==</span> <span class="n">CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">resultCode</span> <span class="o">==</span> <span class="n">RESULT_OK</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// Video captured and saved to fileUri specified in the Intent
+</span><span class="c1"></span>            <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="s">&#34;Video saved to:\n&#34;</span> <span class="o">+</span> <span class="n">data</span><span class="o">.</span><span class="na">getData</span><span class="o">(),</span> <span class="n">Toast</span><span class="o">.</span><span class="na">LENGTH_LONG</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">resultCode</span> <span class="o">==</span> <span class="n">RESULT_CANCELED</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// User cancelled the video capture
+</span><span class="c1"></span>        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="c1">// Video capture failed, advise user
+</span><span class="c1"></span>        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="4-直接操作相机设备来拍照和录像">4 直接操作相机设备来拍照和录像</h1>
+<p>如果你想要定义自己的拍照和录像界面，或者需要更高级一些的功能，那么Intent方式就不能满足要求了——你需要直接操作相机设备来达到目的。</p>
+<blockquote>
+<p>注意：下面的讲述以过时的<code>Camera</code>中的API为例。但如果你是开发一个新的app，不考虑向下兼容性，那么建议使用<code>android.hardware.camera2</code>中的新API（仅支持API level 21以上，即Android 5.0以上的设备）。</p>
+</blockquote>
+<p>步骤：</p>
+<ul>
+<li>检测和访问相机：使用代码检测设备上是否有相机设备，如果有则打开相机设备。</li>
+<li>创建预览视图：创建一个类用于展示相机预览画面，它需要继承<code>SurfaceView</code>类并实现<code>SurfaceHolder</code>接口。</li>
+<li>创建布局：创建一个布局以容纳预览视图以及用户操作界面。</li>
+<li>设置画面采集的开关：为用户操作界面中的按钮设置监听，当点击按钮时就开始或停止采集画面。</li>
+<li>画面采集与保存：采集静态图像或视频，并保存。</li>
+<li>释放相机资源：在使用完相机资源之后，必须将其释放。</li>
+</ul>
+<blockquote>
+<p>注意：在使用完相机资源之后一定要记得使用<code>Camera.release()</code>将其释放，否则之后的任何打开相机操作都将失败（无论是其他app还是当前app），这可能会造成错误和app闪退。</p>
+</blockquote>
+<h2 id="侦测相机设备">侦测相机设备</h2>
+<p>在使用相机之前，首先要检测当前设备上是否有相机设备：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="cm">/** Check if this device has a camera */</span>
+<span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">checkCameraHardware</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">context</span><span class="o">.</span><span class="na">getPackageManager</span><span class="o">().</span><span class="na">hasSystemFeature</span><span class="o">(</span><span class="n">PackageManager</span><span class="o">.</span><span class="na">FEATURE_CAMERA</span><span class="o">)){</span>
+        <span class="c1">// this device has a camera
+</span><span class="c1"></span>        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="c1">// no camera on this device
+</span><span class="c1"></span>        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在一个Android设备上可能存在多个相机设备，比如用于拍照的后置相机和用于视频通话的前置相机。在Android 2.3(API Level 9)以上，你可以使用<code>Camera.getNumberOfCameras()</code>来获取当前设备上的相机数量。</p>
+<h2 id="访问相机">访问相机</h2>
+<p>通过<code>Camera.open()</code>来获取当前设备上主相机（一般就是后置相机）的实例，如下面代码所示。记得要捕获可能抛出的异常：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">/** A safe way to get an instance of the Camera object. */
+public static Camera getCameraInstance(){
+    Camera c = null;
+    try {
+        c = Camera.open(); // attempt to get a Camera instance
+    }catch (Exception e){
+        // Camera is not available (in use or does not exist)
+    }
+    return c; // returns null if camera is unavailable
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>在Android 2.3(API Level 9)以上的设备上，你可以使用<code>Camera.open(int id)</code>来获得指定的相机。</p>
+<h2 id="获取相机的更多信息">获取相机的更多信息</h2>
+<p>在获得了相机实例之后，你可以通过调用其<code>Camera.getParameters()</code>方法来获得此相机的更多信息。在API Level 9及以上的设备上，还可以使用<code>Camera.getCameraInfo()</code>来查看此相机是前置相机还是后置相机，以及相机画面的方向。</p>
+<h2 id="创建预览视图">创建预览视图</h2>
+<p>下面的代码说明了如何创建一个类用于展示相机预览画面。这个类是<code>SurfaceView</code>的子类，因而可以实时显示来自相机的画面数据；实现了<code>SurfaceHolder.Callback</code>接口，因而可以监听surface的创建和销毁。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="cm">/** A basic Camera preview class */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CameraPreview</span> <span class="kd">extends</span> <span class="n">SurfaceView</span> <span class="kd">implements</span> <span class="n">SurfaceHolder</span><span class="o">.</span><span class="na">Callback</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">SurfaceHolder</span> <span class="n">mHolder</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">Camera</span> <span class="n">mCamera</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">CameraPreview</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">Camera</span> <span class="n">camera</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+        <span class="n">mCamera</span> <span class="o">=</span> <span class="n">camera</span><span class="o">;</span>
+
+        <span class="c1">// Install a SurfaceHolder.Callback so we get notified when the
+</span><span class="c1"></span>        <span class="c1">// underlying surface is created and destroyed.
+</span><span class="c1"></span>        <span class="n">mHolder</span> <span class="o">=</span> <span class="n">getHolder</span><span class="o">();</span>
+        <span class="n">mHolder</span><span class="o">.</span><span class="na">addCallback</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+        <span class="c1">// deprecated setting, but required on Android versions prior to 3.0
+</span><span class="c1"></span>        <span class="n">mHolder</span><span class="o">.</span><span class="na">setType</span><span class="o">(</span><span class="n">SurfaceHolder</span><span class="o">.</span><span class="na">SURFACE_TYPE_PUSH_BUFFERS</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">surfaceCreated</span><span class="o">(</span><span class="n">SurfaceHolder</span> <span class="n">holder</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// The Surface has been created, now tell the camera where to draw the preview.
+</span><span class="c1"></span>        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">mCamera</span><span class="o">.</span><span class="na">setPreviewDisplay</span><span class="o">(</span><span class="n">holder</span><span class="o">);</span>
+            <span class="n">mCamera</span><span class="o">.</span><span class="na">startPreview</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&#34;Error setting camera preview: &#34;</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">surfaceDestroyed</span><span class="o">(</span><span class="n">SurfaceHolder</span> <span class="n">holder</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// empty. Take care of releasing the Camera preview in your activity.
+</span><span class="c1"></span>    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">surfaceChanged</span><span class="o">(</span><span class="n">SurfaceHolder</span> <span class="n">holder</span><span class="o">,</span> <span class="kt">int</span> <span class="n">format</span><span class="o">,</span> <span class="kt">int</span> <span class="n">w</span><span class="o">,</span> <span class="kt">int</span> <span class="n">h</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// If your preview can change or rotate, take care of those events here.
+</span><span class="c1"></span>        <span class="c1">// Make sure to stop the preview before resizing or reformatting it.
+</span><span class="c1"></span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mHolder</span><span class="o">.</span><span class="na">getSurface</span><span class="o">()</span> <span class="o">==</span> <span class="kc">null</span><span class="o">){</span><span class="c1">// preview surface does not exist          
+</span><span class="c1"></span>          <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="c1">// stop preview before making changes
+</span><span class="c1"></span>        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">mCamera</span><span class="o">.</span><span class="na">stopPreview</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">){</span>
+          <span class="c1">// ignore: tried to stop a non-existent preview
+</span><span class="c1"></span>        <span class="o">}</span>
+
+        <span class="c1">// set preview size and make any resize, rotate or reformatting changes here
+</span><span class="c1"></span>
+        <span class="c1">// start preview with new settings
+</span><span class="c1"></span>        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">mCamera</span><span class="o">.</span><span class="na">setPreviewDisplay</span><span class="o">(</span><span class="n">mHolder</span><span class="o">);</span>
+            <span class="n">mCamera</span><span class="o">.</span><span class="na">startPreview</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">){</span>
+            <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&#34;Error starting camera preview: &#34;</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果你想使用<code>setPreviewSize(...)</code>设置相机预览数据的宽高尺寸，那么就按照上面注释中的说明，在<code>surfaceChanged(...)</code>方法中进行设置。但是要注意，相机预览的宽高尺寸必须是<code>getSupportedPreviewSizes(...)</code>方法的返回值中有的，不能随意设置。</p>
+<h2 id="将预览视图放到布局中">将预览视图放到布局中</h2>
+<p>下面的示例代码创建了一个简单的Acitivity布局，用来容纳预览视图。其中的FrameLayout就是预览视图的容器。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+<span class="nt">&lt;LinearLayout</span> <span class="na">xmlns:android=</span><span class="s">&#34;http://schemas.android.com/apk/res/android&#34;</span>
+    <span class="na">android:orientation=</span><span class="s">&#34;horizontal&#34;</span>
+    <span class="na">android:layout_width=</span><span class="s">&#34;fill_parent&#34;</span>
+    <span class="na">android:layout_height=</span><span class="s">&#34;fill_parent&#34;</span> <span class="nt">&gt;</span>
+
+  <span class="nt">&lt;FrameLayout</span>
+    <span class="na">android:id=</span><span class="s">&#34;@+id/camera_preview&#34;</span>
+    <span class="na">android:layout_width=</span><span class="s">&#34;fill_parent&#34;</span>
+    <span class="na">android:layout_height=</span><span class="s">&#34;fill_parent&#34;</span>
+    <span class="na">android:layout_weight=</span><span class="s">&#34;1&#34;</span> <span class="nt">/&gt;</span>
+
+  <span class="nt">&lt;Button</span>
+    <span class="na">android:id=</span><span class="s">&#34;@+id/button_capture&#34;</span>
+    <span class="na">android:text=</span><span class="s">&#34;Capture&#34;</span>
+    <span class="na">android:layout_width=</span><span class="s">&#34;wrap_content&#34;</span>
+    <span class="na">android:layout_height=</span><span class="s">&#34;wrap_content&#34;</span>
+    <span class="na">android:layout_gravity=</span><span class="s">&#34;center&#34;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/LinearLayout&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在绝大多数设备上，相机预览画面都是横屏（landscape）的，因此为了简单一点，我们也将activity的方向锁定为横屏：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;activity</span> <span class="na">android:name=</span><span class="s">&#34;.CameraActivity&#34;</span>
+          <span class="na">android:label=</span><span class="s">&#34;@string/app_name&#34;</span>
+          <span class="na">android:screenOrientation=</span><span class="s">&#34;landscape&#34;</span><span class="nt">&gt;</span>
+          <span class="c">&lt;!-- configure this activity to use landscape orientation --&gt;</span>
+
+	<span class="nt">&lt;intent-filter&gt;</span>
+		<span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">&#34;android.intent.action.MAIN&#34;</span> <span class="nt">/&gt;</span>
+		<span class="nt">&lt;category</span> <span class="na">android:name=</span><span class="s">&#34;android.intent.category.LAUNCHER&#34;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/intent-filter&gt;</span>
+<span class="nt">&lt;/activity&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>注意：相机预览画面并不一定非得是横屏的，在Android 2.2(API Level 8)及以上，可以使用<code>setDisplayOrientation()</code>来改变相机预览画面的方向。但是，如果相机预览正在进行的话，需要先停止预览（调用<code>Camera.stopPreview()</code>），然后改变相机预览画面的方向，最后再重新开始相机预览（调用<code>Camera.startPreview()</code>）。</p>
+</blockquote>
+<p>下面的代码展示了如何将预览视图（）添加到Activity的布局中：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CameraActivity</span> <span class="kd">extends</span> <span class="n">Activity</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">Camera</span> <span class="n">mCamera</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">CameraPreview</span> <span class="n">mPreview</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+        <span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">main</span><span class="o">);</span>
+
+        <span class="c1">// Create an instance of Camera
+</span><span class="c1"></span>        <span class="n">mCamera</span> <span class="o">=</span> <span class="n">getCameraInstance</span><span class="o">();</span>
+
+        <span class="c1">// Create our Preview view and set it as the content of our activity.
+</span><span class="c1"></span>        <span class="n">mPreview</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CameraPreview</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">mCamera</span><span class="o">);</span>
+        <span class="n">FrameLayout</span> <span class="n">preview</span> <span class="o">=</span> <span class="o">(</span><span class="n">FrameLayout</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">camera_preview</span><span class="o">);</span>
+        <span class="n">preview</span><span class="o">.</span><span class="na">addView</span><span class="o">(</span><span class="n">mPreview</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>getCameraInstance()</code>详见上面的<strong>访问相机</strong>部分。</p>
+<h2 id="拍照">拍照</h2>
+<p>使用<code>Camera.takePicture()</code>来拍摄一张照片：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">// Add a listener to the Capture button
+</span><span class="c1"></span><span class="n">Button</span> <span class="n">captureButton</span> <span class="o">=</span> <span class="o">(</span><span class="n">Button</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">id</span><span class="o">.</span><span class="na">button_capture</span><span class="o">);</span>
+<span class="n">captureButton</span><span class="o">.</span><span class="na">setOnClickListener</span><span class="o">(</span>
+    <span class="k">new</span> <span class="n">View</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// get an image from the camera
+</span><span class="c1"></span>            <span class="n">mCamera</span><span class="o">.</span><span class="na">takePicture</span><span class="o">(</span><span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">mPicture</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>其中<code>mPicture</code>是一个回调，其代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="n">PictureCallback</span> <span class="n">mPicture</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PictureCallback</span><span class="o">()</span> <span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onPictureTaken</span><span class="o">(</span><span class="kt">byte</span><span class="o">[]</span> <span class="n">data</span><span class="o">,</span> <span class="n">Camera</span> <span class="n">camera</span><span class="o">)</span> <span class="o">{</span>
+
+        <span class="n">File</span> <span class="n">pictureFile</span> <span class="o">=</span> <span class="n">getOutputMediaFile</span><span class="o">(</span><span class="n">MEDIA_TYPE_IMAGE</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">pictureFile</span> <span class="o">==</span> <span class="kc">null</span><span class="o">){</span>
+            <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&#34;Error creating media file, check storage permissions: &#34;</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">FileOutputStream</span> <span class="n">fos</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileOutputStream</span><span class="o">(</span><span class="n">pictureFile</span><span class="o">);</span>
+            <span class="n">fos</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">data</span><span class="o">);</span>
+            <span class="n">fos</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">FileNotFoundException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&#34;File not found: &#34;</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&#34;Error accessing file: &#34;</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="录像">录像</h2>
+<h3 id="1-概述">(1) 概述</h3>
+<p>录像使用的是<code>MediaRecorder</code>。除了<code>Camera.open()</code>和<code>Camera.release()</code>之外，你还需要适时的调用<code>Camera.lock()</code>和<code>Camera.unlock()</code>，这样<code>MediaRecorder</code>才能成功地访问到相机设备。</p>
+<blockquote>
+<p>注意：从Android 4.0(API level 14)开始，<code>Camera.lock()</code>和<code>Camera.unlock()</code>会被自动调用，不再需要你去手动调用。</p>
+</blockquote>
+<p>录像有严格的步骤和顺序，如下所示：</p>
+<p><strong>1 打开相机</strong></p>
+<p>调用<code>Camera.open()</code>来获得一个相机实例。</p>
+<p><strong>2 连接到预览视图</strong></p>
+<p>调用<code>Camera.setPreviewDisplay()</code>以使Camera和SurfaceView建立关联。</p>
+<p><strong>3 开始相机预览</strong></p>
+<p>调用<code>Camera.startPreview()</code>。</p>
+<p><strong>4 开始录像</strong></p>
+<p>下面的步骤必须严格按照顺来执行：</p>
+<p>a.解锁相机：调用<code>Camera.unlock()</code>。</p>
+<p>b.配置MediaRecorder：按顺序调用MediaRecorder的下列方法。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">1. setCamera()
+2. setAudioSource()：设置音频信号源, 使用MediaRecorder.AudioSource.CAMCORDER. 
+3. setVideoSource()：设置视频信号源，使用MediaRecorder.VideoSource.CAMERA.
+4. 设置视频输出格式与编码：
+	从Android 2.2(API Level 8)开始，直接调用MediaRecorder.setProfile(CamcorderProfile.get(...))即可。
+	对于Android 2.2以前的版本，调用setOutputFormat()、setAudioEncoder()和setVideoEncoder()来进行设置。
+5. setOutputFile()：设置输出文件
+6. setPreviewDisplay()：注意这是MediaRecorder的setPreviewDisplay()方法。
+
+注意：必须按顺序调用以上方法，否则可能会出错。
+</code></pre></td></tr></table>
+</div>
+</div><p>c.准备MediaRecorder：调用<code>MediaRecorder.prepare()</code>使上面的配置生效。</p>
+<p>d.启动MediaRecorder：调用<code>MediaRecorder.start()</code>。</p>
+<p><strong>5 停止录像</strong></p>
+<p>按照顺序调用如下方法：</p>
+<p>a.停止MediaRecorder：调用<code>MediaRecorder.stop()</code>。</p>
+<p>b.重置MediaRecorder：调用<code>MediaRecorder.reset()</code>，此操作是可选的。</p>
+<p>c.释放MediaRecorder：调用<code>MediaRecorder.release()</code>。</p>
+<p>d.锁定相机：调用<code>Camera.lock()</code>。</p>
+<p><strong>6 停止相机预览</strong></p>
+<p>调用<code>Camera.stopPreview()</code>。</p>
+<p><strong>7 释放相机资源</strong></p>
+<p>调用<code>Camera.release()</code>。</p>
+<h3 id="2-配置mediarecorder">(2) 配置MediaRecorder</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">prepareVideoRecorder</span><span class="o">(){</span>
+    <span class="n">mCamera</span> <span class="o">=</span> <span class="n">getCameraInstance</span><span class="o">();</span>
+    <span class="n">mMediaRecorder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MediaRecorder</span><span class="o">();</span>
+
+    <span class="c1">// Step 1: Unlock and set camera to MediaRecorder
+</span><span class="c1"></span>    <span class="n">mCamera</span><span class="o">.</span><span class="na">unlock</span><span class="o">();</span>
+    <span class="n">mMediaRecorder</span><span class="o">.</span><span class="na">setCamera</span><span class="o">(</span><span class="n">mCamera</span><span class="o">);</span>
+
+    <span class="c1">// Step 2: Set sources
+</span><span class="c1"></span>    <span class="n">mMediaRecorder</span><span class="o">.</span><span class="na">setAudioSource</span><span class="o">(</span><span class="n">MediaRecorder</span><span class="o">.</span><span class="na">AudioSource</span><span class="o">.</span><span class="na">CAMCORDER</span><span class="o">);</span>
+    <span class="n">mMediaRecorder</span><span class="o">.</span><span class="na">setVideoSource</span><span class="o">(</span><span class="n">MediaRecorder</span><span class="o">.</span><span class="na">VideoSource</span><span class="o">.</span><span class="na">CAMERA</span><span class="o">);</span>
+
+    <span class="c1">// Step 3: Set a CamcorderProfile (requires API Level 8 or higher)
+</span><span class="c1"></span>    <span class="n">mMediaRecorder</span><span class="o">.</span><span class="na">setProfile</span><span class="o">(</span><span class="n">CamcorderProfile</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">CamcorderProfile</span><span class="o">.</span><span class="na">QUALITY_HIGH</span><span class="o">));</span>
+
+    <span class="c1">// Step 4: Set output file
+</span><span class="c1"></span>    <span class="n">mMediaRecorder</span><span class="o">.</span><span class="na">setOutputFile</span><span class="o">(</span><span class="n">getOutputMediaFile</span><span class="o">(</span><span class="n">MEDIA_TYPE_VIDEO</span><span class="o">).</span><span class="na">toString</span><span class="o">());</span>
+
+    <span class="c1">// Step 5: Set the preview output
+</span><span class="c1"></span>    <span class="n">mMediaRecorder</span><span class="o">.</span><span class="na">setPreviewDisplay</span><span class="o">(</span><span class="n">mPreview</span><span class="o">.</span><span class="na">getHolder</span><span class="o">().</span><span class="na">getSurface</span><span class="o">());</span>
+
+    <span class="c1">// Step 6: Prepare configured MediaRecorder
+</span><span class="c1"></span>    <span class="k">try</span> <span class="o">{</span>
+        <span class="n">mMediaRecorder</span><span class="o">.</span><span class="na">prepare</span><span class="o">();</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IllegalStateException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&#34;IllegalStateException preparing MediaRecorder: &#34;</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+        <span class="n">releaseMediaRecorder</span><span class="o">();</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&#34;IOException preparing MediaRecorder: &#34;</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+        <span class="n">releaseMediaRecorder</span><span class="o">();</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>除了上面提到的之外，MediaRecorder还有以下设置录像参数的方法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="n">setVideoEncodingBitRate</span><span class="o">()</span>
+<span class="n">setVideoSize</span><span class="o">()</span>
+<span class="n">setVideoFrameRate</span><span class="o">()</span>
+<span class="n">setAudioEncodingBitRate</span><span class="o">()</span>
+<span class="n">setAudioChannels</span><span class="o">()</span>
+<span class="n">setAudioSamplingRate</span><span class="o">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="3-启动和停止mediarecorder">(3) 启动和停止MediaRecorder</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">boolean</span> <span class="n">isRecording</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+
+<span class="c1">// Add a listener to the Capture button
+</span><span class="c1"></span><span class="n">Button</span> <span class="n">captureButton</span> <span class="o">=</span> <span class="o">(</span><span class="n">Button</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">id</span><span class="o">.</span><span class="na">button_capture</span><span class="o">);</span>
+<span class="n">captureButton</span><span class="o">.</span><span class="na">setOnClickListener</span><span class="o">(</span>
+    <span class="k">new</span> <span class="n">View</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">isRecording</span><span class="o">)</span> <span class="o">{</span>
+                <span class="c1">// stop recording and release camera
+</span><span class="c1"></span>                <span class="n">mMediaRecorder</span><span class="o">.</span><span class="na">stop</span><span class="o">();</span>  <span class="c1">// stop the recording
+</span><span class="c1"></span>                <span class="n">releaseMediaRecorder</span><span class="o">();</span> <span class="c1">// release the MediaRecorder object
+</span><span class="c1"></span>                <span class="n">mCamera</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>         <span class="c1">// take camera access back from MediaRecorder
+</span><span class="c1"></span>
+                <span class="c1">// inform the user that recording has stopped
+</span><span class="c1"></span>                <span class="n">setCaptureButtonText</span><span class="o">(</span><span class="s">&#34;Capture&#34;</span><span class="o">);</span>
+                <span class="n">isRecording</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="c1">// initialize video camera
+</span><span class="c1"></span>                <span class="k">if</span> <span class="o">(</span><span class="n">prepareVideoRecorder</span><span class="o">())</span> <span class="o">{</span>
+                    <span class="c1">// Camera is available and unlocked, MediaRecorder is prepared,
+</span><span class="c1"></span>                    <span class="c1">// now you can start recording
+</span><span class="c1"></span>                    <span class="n">mMediaRecorder</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+
+                    <span class="c1">// inform the user that recording has started
+</span><span class="c1"></span>                    <span class="n">setCaptureButtonText</span><span class="o">(</span><span class="s">&#34;Stop&#34;</span><span class="o">);</span>
+                    <span class="n">isRecording</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                    <span class="c1">// prepare didn&#39;t work
+</span><span class="c1"></span>                    <span class="n">releaseMediaRecorder</span><span class="o">();</span>
+                    <span class="c1">// inform user
+</span><span class="c1"></span>                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="释放相机资源">释放相机资源</h2>
+<p>相机是被设备上众多app共享的资源，因此当不使用的时候一定要记得调用<code>Camera.release()</code>将其释放，否则之后的任何打开相机操作都将失败（无论是其他app还是当前app），这可能会造成错误和app闪退。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CameraActivity</span> <span class="kd">extends</span> <span class="n">Activity</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">Camera</span> <span class="n">mCamera</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">SurfaceView</span> <span class="n">mPreview</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">MediaRecorder</span> <span class="n">mMediaRecorder</span><span class="o">;</span>
+
+    <span class="o">...</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onPause</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onPause</span><span class="o">();</span>
+        <span class="n">releaseMediaRecorder</span><span class="o">();</span>       <span class="c1">// if you are using MediaRecorder, release it first
+</span><span class="c1"></span>        <span class="n">releaseCamera</span><span class="o">();</span>              <span class="c1">// release the camera immediately on pause event
+</span><span class="c1"></span>    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">releaseMediaRecorder</span><span class="o">(){</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mMediaRecorder</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">mMediaRecorder</span><span class="o">.</span><span class="na">reset</span><span class="o">();</span>   <span class="c1">// clear recorder configuration
+</span><span class="c1"></span>            <span class="n">mMediaRecorder</span><span class="o">.</span><span class="na">release</span><span class="o">();</span> <span class="c1">// release the recorder object
+</span><span class="c1"></span>            <span class="n">mMediaRecorder</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="n">mCamera</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>           <span class="c1">// lock camera for later use
+</span><span class="c1"></span>        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">releaseCamera</span><span class="o">(){</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mCamera</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">){</span>
+            <span class="n">mCamera</span><span class="o">.</span><span class="na">release</span><span class="o">();</span>        <span class="c1">// release the camera for other applications
+</span><span class="c1"></span>            <span class="n">mCamera</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="5-存储媒体文件">5 存储媒体文件</h1>
+<p>为了节省内部存储空间，诸如图片、视频之类的媒体文件最好是存储在手机的外部存储(sd卡)中。虽然存储在sd卡的任何位置都是可以的，但是建议使用如下两种标准的存储目录：</p>
+<ul>
+<li><code>Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)</code>——这个方法会返回一个用于存储图片和视频的、标准的、共享的目录。所谓共享就是说，其他app可以轻易的发现、读取、修改和删除此目录下的文件。当你的app被用户卸载时，此目录下的文件并不会被删除。为了避免混乱，建议在此目录下创建一个子目录来存放你app中的图片和视频。</li>
+<li><code>Context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)</code>——此目录与你的app相关联，当你的app被用户卸载时，此目录中的文件也会被删除。此外，其他app也可以读取、修改和删除此目录下的文件。</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">MEDIA_TYPE_IMAGE</span> <span class="o">=</span> <span class="n">1</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">MEDIA_TYPE_VIDEO</span> <span class="o">=</span> <span class="n">2</span><span class="o">;</span>
+
+<span class="cm">/** Create a file Uri for saving an image or video */</span>
+<span class="kd">private</span> <span class="kd">static</span> <span class="n">Uri</span> <span class="nf">getOutputMediaFileUri</span><span class="o">(</span><span class="kt">int</span> <span class="n">type</span><span class="o">){</span>
+      <span class="k">return</span> <span class="n">Uri</span><span class="o">.</span><span class="na">fromFile</span><span class="o">(</span><span class="n">getOutputMediaFile</span><span class="o">(</span><span class="n">type</span><span class="o">));</span>
+<span class="o">}</span>
+
+<span class="cm">/** Create a File for saving an image or video */</span>
+<span class="kd">private</span> <span class="kd">static</span> <span class="n">File</span> <span class="nf">getOutputMediaFile</span><span class="o">(</span><span class="kt">int</span> <span class="n">type</span><span class="o">){</span>
+    <span class="c1">// To be safe, you should check that the SDCard is mounted
+</span><span class="c1"></span>    <span class="c1">// using Environment.getExternalStorageState() before doing this.
+</span><span class="c1"></span>
+    <span class="n">File</span> <span class="n">mediaStorageDir</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">Environment</span><span class="o">.</span><span class="na">getExternalStoragePublicDirectory</span><span class="o">(</span>
+              <span class="n">Environment</span><span class="o">.</span><span class="na">DIRECTORY_PICTURES</span><span class="o">),</span> <span class="s">&#34;MyCameraApp&#34;</span><span class="o">);</span>
+    <span class="c1">// This location works best if you want the created images to be shared
+</span><span class="c1"></span>    <span class="c1">// between applications and persist after your app has been uninstalled.
+</span><span class="c1"></span>
+    <span class="c1">// Create the storage directory if it does not exist
+</span><span class="c1"></span>    <span class="k">if</span> <span class="o">(!</span> <span class="n">mediaStorageDir</span><span class="o">.</span><span class="na">exists</span><span class="o">()){</span>
+        <span class="k">if</span> <span class="o">(!</span> <span class="n">mediaStorageDir</span><span class="o">.</span><span class="na">mkdirs</span><span class="o">()){</span>
+            <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">&#34;MyCameraApp&#34;</span><span class="o">,</span> <span class="s">&#34;failed to create directory&#34;</span><span class="o">);</span>
+            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Create a media file name
+</span><span class="c1"></span>    <span class="n">String</span> <span class="n">timeStamp</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleDateFormat</span><span class="o">(</span><span class="s">&#34;yyyyMMdd_HHmmss&#34;</span><span class="o">).</span><span class="na">format</span><span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">());</span>
+    <span class="n">File</span> <span class="n">mediaFile</span><span class="o">;</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">type</span> <span class="o">==</span> <span class="n">MEDIA_TYPE_IMAGE</span><span class="o">){</span>
+        <span class="n">mediaFile</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">mediaStorageDir</span><span class="o">.</span><span class="na">getPath</span><span class="o">()</span> <span class="o">+</span> <span class="n">File</span><span class="o">.</span><span class="na">separator</span> <span class="o">+</span>
+        <span class="s">&#34;IMG_&#34;</span><span class="o">+</span> <span class="n">timeStamp</span> <span class="o">+</span> <span class="s">&#34;.jpg&#34;</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="n">type</span> <span class="o">==</span> <span class="n">MEDIA_TYPE_VIDEO</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">mediaFile</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">mediaStorageDir</span><span class="o">.</span><span class="na">getPath</span><span class="o">()</span> <span class="o">+</span> <span class="n">File</span><span class="o">.</span><span class="na">separator</span> <span class="o">+</span>
+        <span class="s">&#34;VID_&#34;</span><span class="o">+</span> <span class="n">timeStamp</span> <span class="o">+</span> <span class="s">&#34;.mp4&#34;</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="k">return</span> <span class="n">mediaFile</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="6-相机特性camera-features">6 相机特性(Camera Features)</h1>
+<p>Android支持众多的相机特性，比如图片格式、闪光灯模式、对焦设置等等。下面我们将列出常用的相机特性，并简要的讨论如何使用它们。大部分相机特性都可以通过<code>Camera.Parameters</code>来设置和使用，但也有几个重要的相机特性需要更多的操作，它们是：测光和对焦区域、面部侦测、时间推移视频。</p>
+<p>关于如何使用由<code>Camera.Parameters</code>控制的相机特性，参考下面的<code>使用相机特性</code>章节。</p>
+<p>表格1. 常用的相机特性（按API Level排序）</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>API Level</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Face Detection</td>
+<td>14</td>
+<td>侦测图像中的人脸，并将其作为对焦、测光、白平衡的依据</td>
+</tr>
+<tr>
+<td>Metering Areas</td>
+<td>14</td>
+<td>在图像中指定一个或多个区域，用来计算白平衡</td>
+</tr>
+<tr>
+<td>Focus Areas</td>
+<td>14</td>
+<td>在图像中指定一个或多个区域，用来对焦</td>
+</tr>
+<tr>
+<td>White Balance Lock</td>
+<td>14</td>
+<td>停止或开始自动白平衡修正</td>
+</tr>
+<tr>
+<td>Exposure Lock</td>
+<td>14</td>
+<td>停止或开始自动曝光修正</td>
+</tr>
+<tr>
+<td>Video Snapshot</td>
+<td>14</td>
+<td>在录像时拍一张照片(frame grab)</td>
+</tr>
+<tr>
+<td>Time Lapse Video</td>
+<td>11</td>
+<td>时间推移视频</td>
+</tr>
+<tr>
+<td>Multiple Cameras</td>
+<td>9</td>
+<td>支持设备上的多个相机</td>
+</tr>
+<tr>
+<td>Focus Distance</td>
+<td>9</td>
+<td>报告被摄物体与相机之间的距离</td>
+</tr>
+<tr>
+<td>Zoom</td>
+<td>8</td>
+<td>变焦（图像放大）</td>
+</tr>
+<tr>
+<td>Exposure Compensation</td>
+<td>8</td>
+<td>增、减闪光灯曝光级别</td>
+</tr>
+<tr>
+<td>GPS Data</td>
+<td>5</td>
+<td>包含或忽略图片的地理位置信息</td>
+</tr>
+<tr>
+<td>White Balance</td>
+<td>5</td>
+<td>设置白平衡模式，将影响图片的色值（color values）</td>
+</tr>
+<tr>
+<td>Focus Mode</td>
+<td>5</td>
+<td>设置对焦模式，比如automatic（自动对焦）, fixed（固定焦距）, macro , infinity（无限远对焦）</td>
+</tr>
+<tr>
+<td>Scene Mode</td>
+<td>5</td>
+<td>设置场景模式，如夜晚、沙滩、烛光</td>
+</tr>
+<tr>
+<td>JPEG Quality</td>
+<td>5</td>
+<td>设置图片质量</td>
+</tr>
+<tr>
+<td>Flash Mode</td>
+<td>5</td>
+<td>设置闪光灯模式，如开启、关闭、自动</td>
+</tr>
+<tr>
+<td>Color Effects</td>
+<td>5</td>
+<td>为图片加上一种色调（color effect）</td>
+</tr>
+<tr>
+<td>Anti-Banding</td>
+<td>5</td>
+<td>减轻JPEG图像中颜色过渡时出现的带状效果</td>
+</tr>
+<tr>
+<td>Picture Format</td>
+<td>1</td>
+<td>设置图片格式</td>
+</tr>
+<tr>
+<td>Picture Size</td>
+<td>1</td>
+<td>设置图片的尺寸（宽、高）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>注意，以上相机特性并非在所有的设备上都可用（取决于硬件差异和软件实现）。</p>
+</blockquote>
+<h2 id="检查相机特性是否可用">检查相机特性是否可用</h2>
+<p>首先需要明白的是，并非所有设备都支持所有的相机特性。此外，不同设备对某一特性支持的程度也不同。</p>
+<p>下面代码以对焦为例，展示了如何获取<code>Camera.Parameters</code>对象，以及如何确定当前设备是否支持自动对焦：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">// get Camera parameters
+</span><span class="c1"></span><span class="n">Camera</span><span class="o">.</span><span class="na">Parameters</span> <span class="n">params</span> <span class="o">=</span> <span class="n">mCamera</span><span class="o">.</span><span class="na">getParameters</span><span class="o">();</span>
+
+<span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">focusModes</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="na">getSupportedFocusModes</span><span class="o">();</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">focusModes</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">Camera</span><span class="o">.</span><span class="na">Parameters</span><span class="o">.</span><span class="na">FOCUS_MODE_AUTO</span><span class="o">))</span> <span class="o">{</span>
+  <span class="c1">// Autofocus mode is supported
+</span><span class="c1"></span><span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>以上检查方法对于绝大多数相机特性都适用。<code>Camera.Parameters</code>提供了<code>getSupported...()</code>, <code>is...Supported()</code> 或是 <code>getMax...()</code>之类的方法用来检查当前设备是否支持某一相机特性。</p>
+<blockquote>
+<p>你可以在清单文件中声明某一相机特性，比如闪光灯、自动对焦等，这样Google Play就会阻止你的app被安装到不支持这些特性的设备上。</p>
+</blockquote>
+<h2 id="使用相机特性">使用相机特性</h2>
+<p>以自动对焦为例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">// get Camera parameters
+</span><span class="c1"></span><span class="n">Camera</span><span class="o">.</span><span class="na">Parameters</span> <span class="n">params</span> <span class="o">=</span> <span class="n">mCamera</span><span class="o">.</span><span class="na">getParameters</span><span class="o">();</span>
+<span class="c1">// set the focus mode
+</span><span class="c1"></span><span class="n">params</span><span class="o">.</span><span class="na">setFocusMode</span><span class="o">(</span><span class="n">Camera</span><span class="o">.</span><span class="na">Parameters</span><span class="o">.</span><span class="na">FOCUS_MODE_AUTO</span><span class="o">);</span>
+<span class="c1">// set Camera parameters
+</span><span class="c1"></span><span class="n">mCamera</span><span class="o">.</span><span class="na">setParameters</span><span class="o">(</span><span class="n">params</span><span class="o">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>上面的做法适用于几乎所有相机特性。此外，大部分的参数都可以在任何时候被改变。</p>
+<h2 id="测光和对焦区域metering-and-focus-areas">测光和对焦区域（Metering and focus areas）</h2>
+<p>有时候自动对焦和测光并不能达到你想要的效果，这时不妨尝试手动指定测光和对焦区域。</p>
+<p>下面代码展示了如何为相机指定两个测光区域：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">// Create an instance of Camera
+</span><span class="c1"></span><span class="n">mCamera</span> <span class="o">=</span> <span class="n">getCameraInstance</span><span class="o">();</span>
+
+<span class="c1">// set Camera parameters
+</span><span class="c1"></span><span class="n">Camera</span><span class="o">.</span><span class="na">Parameters</span> <span class="n">params</span> <span class="o">=</span> <span class="n">mCamera</span><span class="o">.</span><span class="na">getParameters</span><span class="o">();</span>
+
+<span class="k">if</span> <span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">getMaxNumMeteringAreas</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">){</span> <span class="c1">// check that metering areas are supported
+</span><span class="c1"></span>    <span class="n">List</span><span class="o">&lt;</span><span class="n">Camera</span><span class="o">.</span><span class="na">Area</span><span class="o">&gt;</span> <span class="n">meteringAreas</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Camera</span><span class="o">.</span><span class="na">Area</span><span class="o">&gt;();</span>
+
+    <span class="n">Rect</span> <span class="n">areaRect1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Rect</span><span class="o">(-</span><span class="n">100</span><span class="o">,</span> <span class="o">-</span><span class="n">100</span><span class="o">,</span> <span class="n">100</span><span class="o">,</span> <span class="n">100</span><span class="o">);</span>    <span class="c1">// specify an area in center of image
+</span><span class="c1"></span>    <span class="n">meteringAreas</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Camera</span><span class="o">.</span><span class="na">Area</span><span class="o">(</span><span class="n">areaRect1</span><span class="o">,</span> <span class="n">600</span><span class="o">));</span> <span class="c1">// set weight to 60%
+</span><span class="c1"></span>    <span class="n">Rect</span> <span class="n">areaRect2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Rect</span><span class="o">(</span><span class="n">800</span><span class="o">,</span> <span class="o">-</span><span class="n">1000</span><span class="o">,</span> <span class="n">1000</span><span class="o">,</span> <span class="o">-</span><span class="n">800</span><span class="o">);</span>  <span class="c1">// specify an area in upper right of image
+</span><span class="c1"></span>    <span class="n">meteringAreas</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Camera</span><span class="o">.</span><span class="na">Area</span><span class="o">(</span><span class="n">areaRect2</span><span class="o">,</span> <span class="n">400</span><span class="o">));</span> <span class="c1">// set weight to 40%
+</span><span class="c1"></span>    <span class="n">params</span><span class="o">.</span><span class="na">setMeteringAreas</span><span class="o">(</span><span class="n">meteringAreas</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="n">mCamera</span><span class="o">.</span><span class="na">setParameters</span><span class="o">(</span><span class="n">params</span><span class="o">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>Camera.Area</code>的构造方法有两个参数，一个是Rect，用于指定区域，一个是权重，用于指定该区域的重要程度。</p>
+<p><code>Camera.Area</code>的Rect参数描述了一个映射到2000*2000的单元网格中的矩形。坐标<code>-1000,-1000</code>代表相机图像的左上角，坐标<code>1000,1000</code>代表相机图像的右下角，如下图所示。</p>
+<p><img src="camera-area-coordinates.png" alt=""></p>
+<blockquote>
+<p>坐标系的边界始终与相机预览图像的边界对应，不会因为变焦而缩小或者扩大。同样，使用<code>Camera.setDisplayOrientation()</code>对相机预览图像进行旋转也不会影响此坐标系。</p>
+</blockquote>
+<h2 id="面部侦测">面部侦测</h2>
+<p>对于含有人像的照片，人的面部通常是最为重要的部分，应该被作为对焦和白平衡的依据。 Android 4.0(API Level 14)提供了对面部侦测的支持。</p>
+<blockquote>
+<p>注意：当面部侦测运行时，<code>setWhiteBalance(String)</code>，<code>setFocusAreas(List)</code>和<code>setMeteringAreas(List)</code>都无效。</p>
+</blockquote>
+<p>要在app中使用面部侦测需要遵循以下步骤：</p>
+<ul>
+<li>检测当前设备是否支持面部侦测</li>
+<li>为Camera对象设置面部侦测的监听器</li>
+<li>在相机预览开始之后启动面部侦测</li>
+</ul>
+<p>并非所有设备都支持面部侦测，你可以通过调用<code>getMaxNumDetectedFaces()</code>来确定当前设备是否支持面部侦测。</p>
+<p>为了在侦测到面部时得到通知，你需要创建一个<code>Camera.FaceDetectionListener</code>对象，并将它设置给Camera对象：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">class</span> <span class="nc">MyFaceDetectionListener</span> <span class="kd">implements</span> <span class="n">Camera</span><span class="o">.</span><span class="na">FaceDetectionListener</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onFaceDetection</span><span class="o">(</span><span class="n">Face</span><span class="o">[]</span> <span class="n">faces</span><span class="o">,</span> <span class="n">Camera</span> <span class="n">camera</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">faces</span><span class="o">.</span><span class="na">length</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">){</span>
+            <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">&#34;FaceDetection&#34;</span><span class="o">,</span> <span class="s">&#34;face detected: &#34;</span><span class="o">+</span> <span class="n">faces</span><span class="o">.</span><span class="na">length</span> <span class="o">+</span>
+                    <span class="s">&#34; Face 1 Location X: &#34;</span> <span class="o">+</span> <span class="n">faces</span><span class="o">[</span><span class="n">0</span><span class="o">].</span><span class="na">rect</span><span class="o">.</span><span class="na">centerX</span><span class="o">()</span> <span class="o">+</span>
+                    <span class="s">&#34;Y: &#34;</span> <span class="o">+</span> <span class="n">faces</span><span class="o">[</span><span class="n">0</span><span class="o">].</span><span class="na">rect</span><span class="o">.</span><span class="na">centerY</span><span class="o">()</span> <span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="n">mCamera</span><span class="o">.</span><span class="na">setFaceDetectionListener</span><span class="o">(</span><span class="k">new</span> <span class="n">MyFaceDetectionListener</span><span class="o">());</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>检测设备是否支持面部侦测并启动面部侦测：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">startFaceDetection</span><span class="o">(){</span>
+    <span class="c1">// Try starting Face Detection
+</span><span class="c1"></span>    <span class="n">Camera</span><span class="o">.</span><span class="na">Parameters</span> <span class="n">params</span> <span class="o">=</span> <span class="n">mCamera</span><span class="o">.</span><span class="na">getParameters</span><span class="o">();</span>
+
+    <span class="c1">// start face detection only *after* preview has started
+</span><span class="c1"></span>    <span class="k">if</span> <span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">getMaxNumDetectedFaces</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">){</span>
+        <span class="c1">// camera supports face detection, so can start it:
+</span><span class="c1"></span>        <span class="n">mCamera</span><span class="o">.</span><span class="na">startFaceDetection</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在相机预览开始之后启动面部侦测，如下面代码所示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="o">...</span>
+
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">surfaceCreated</span><span class="o">(</span><span class="n">SurfaceHolder</span> <span class="n">holder</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="n">mCamera</span><span class="o">.</span><span class="na">setPreviewDisplay</span><span class="o">(</span><span class="n">holder</span><span class="o">);</span>
+        <span class="n">mCamera</span><span class="o">.</span><span class="na">startPreview</span><span class="o">();</span>
+
+        <span class="n">startFaceDetection</span><span class="o">();</span> <span class="c1">// start face detection feature
+</span><span class="c1"></span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&#34;Error setting camera preview: &#34;</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="o">...</span>
+
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">surfaceChanged</span><span class="o">(</span><span class="n">SurfaceHolder</span> <span class="n">holder</span><span class="o">,</span> <span class="kt">int</span> <span class="n">format</span><span class="o">,</span> <span class="kt">int</span> <span class="n">w</span><span class="o">,</span> <span class="kt">int</span> <span class="n">h</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">mHolder</span><span class="o">.</span><span class="na">getSurface</span><span class="o">()</span> <span class="o">==</span> <span class="kc">null</span><span class="o">){</span>
+        <span class="c1">// preview surface does not exist
+</span><span class="c1"></span>        <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&#34;mHolder.getSurface() == null&#34;</span><span class="o">);</span>
+        <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="n">mCamera</span><span class="o">.</span><span class="na">stopPreview</span><span class="o">();</span>
+
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">){</span>
+        <span class="c1">// ignore: tried to stop a non-existent preview
+</span><span class="c1"></span>        <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&#34;Error stopping camera preview: &#34;</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="n">mCamera</span><span class="o">.</span><span class="na">setPreviewDisplay</span><span class="o">(</span><span class="n">mHolder</span><span class="o">);</span>
+        <span class="n">mCamera</span><span class="o">.</span><span class="na">startPreview</span><span class="o">();</span>
+
+        <span class="n">startFaceDetection</span><span class="o">();</span> <span class="c1">// re-start face detection feature
+</span><span class="c1"></span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">){</span>
+        <span class="c1">// ignore: tried to stop a non-existent preview
+</span><span class="c1"></span>        <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&#34;Error starting camera preview: &#34;</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="o">...</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="时间推移视频time-lapse-video">时间推移视频（Time lapse video）</h2>
+<p>时间推移视频，其实就是延时摄影视频，即每隔一段时间拍摄一张照片，然后用这些照片生成一个视频。</p>
+<p>时间推移视频也是通过<code>MediaRecorder</code>来录制的。要录制一个时间推移视频，你需要像上面的录像章节那样去配置<code>MediaRecorder</code>、设置一个较低的帧率并设置视频的质量，就像下面这样：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">// Step 3: Set a CamcorderProfile (requires API Level 8 or higher)
+</span><span class="c1"></span><span class="n">mMediaRecorder</span><span class="o">.</span><span class="na">setProfile</span><span class="o">(</span><span class="n">CamcorderProfile</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">CamcorderProfile</span><span class="o">.</span><span class="na">QUALITY_TIME_LAPSE_HIGH</span><span class="o">));</span>
+<span class="o">...</span>
+<span class="c1">// Step 5.5: Set the video capture rate to a low number
+</span><span class="c1"></span><span class="n">mMediaRecorder</span><span class="o">.</span><span class="na">setCaptureRate</span><span class="o">(</span><span class="n">0</span><span class="o">.</span><span class="na">1</span><span class="o">);</span> <span class="c1">// capture a frame every 10 seconds
+</span></code></pre></td></tr></table>
+</div>
+</div><p>配置完MediaRecorder之后，你就可以开始录制一个时间推移视频了，就像录制一个普通视频那样。</p>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/camera/">Camera</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/20171122scanner/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">基于zbar的相机扫码性能优化实践</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/20170930childwindow/">
+            <span class="next-text nav-default">子窗口应用实战</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:al4fun@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://github.com/al4fun" class="iconfont icon-github" title="github"></a>
+  <a href="https://al4fun.gitee.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2016 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>al4fun</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Android事件传递-流程详解 - al4fun&#39;s notes</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="al4fun" /><meta name="description" content="1 完整的事件传递流程 下沉 事件从上到下（即从父级到子级），依次通过各个控件的dispatchTouchEvent方法： 在dispatchTou" /><meta name="keywords" content="android, web, flutter" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.0 with theme even" />
+
+
+<link rel="canonical" href="https://al4fun.gitee.io/post/20170712event2/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.cb68f97bc9cece255d217346d970e3c62623408634e500c330a62fadabbbe77c.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Android事件传递-流程详解" />
+<meta property="og:description" content="1 完整的事件传递流程 下沉 事件从上到下（即从父级到子级），依次通过各个控件的dispatchTouchEvent方法： 在dispatchTou" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://al4fun.gitee.io/post/20170712event2/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2017-07-12T17:45:42+00:00" />
+<meta property="article:modified_time" content="2017-07-12T17:45:42+00:00" />
+
+<meta itemprop="name" content="Android事件传递-流程详解">
+<meta itemprop="description" content="1 完整的事件传递流程 下沉 事件从上到下（即从父级到子级），依次通过各个控件的dispatchTouchEvent方法： 在dispatchTou"><meta itemprop="datePublished" content="2017-07-12T17:45:42+00:00" />
+<meta itemprop="dateModified" content="2017-07-12T17:45:42+00:00" />
+<meta itemprop="wordCount" content="2993">
+<meta itemprop="keywords" content="Android事件传递," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Android事件传递-流程详解"/>
+<meta name="twitter:description" content="1 完整的事件传递流程 下沉 事件从上到下（即从父级到子级），依次通过各个控件的dispatchTouchEvent方法： 在dispatchTou"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">al4fun&#39;s notes</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">al4fun&#39;s notes</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Android事件传递-流程详解</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2017-07-12 </span>
+        <div class="post-category">
+            <a href="/categories/android/"> Android </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-完整的事件传递流程">1 完整的事件传递流程</a>
+      <ul>
+        <li><a href="#下沉">下沉</a></li>
+        <li><a href="#上浮">上浮</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-简化的事件传递流程">2 简化的事件传递流程</a>
+      <ul>
+        <li><a href="#结论1">结论1</a></li>
+        <li><a href="#结论2">结论2</a></li>
+        <li><a href="#推论1">推论1</a></li>
+        <li><a href="#推论2了解">推论2（了解）</a></li>
+        <li><a href="#推论3了解">推论3（了解）</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="1-完整的事件传递流程">1 完整的事件传递流程</h1>
+<h2 id="下沉">下沉</h2>
+<p>事件从上到下（即从父级到子级），依次通过各个控件的dispatchTouchEvent方法：</p>
+<ul>
+<li>在dispatchTouchEvent方法中会调用onInterceptTouchEvent方法判断是否要拦截，如果拦截（onInterceptTouchEvent返回true），则将事件交给同一控件的onTouchEvent方法，如果不拦截，则将事件继续传递给子控件的dispatchTouchEvent。</li>
+<li>如果所有的父控件都没有拦截，则事件会一路往下传递直到最底层控件的dispatchTouchEvent，此dispatchTouchEvent也会先将事件传递给onInterceptTouchEvent（假设最底层控件是一个ViewGroup），但不管onInterceptTouchEvent是否拦截，事件都会被传递给同一控件的onTouchEvent，因为此控件是最底层的控件，往下已没有子控件了。（如果最底层控件是一个View，因为View没有onInterceptTouchEvent方法，事件会被直接传递给onTouchEvent）。</li>
+<li>这一过程可以形象地称之为“下沉”。</li>
+</ul>
+<h2 id="上浮">上浮</h2>
+<p>一旦某一控件的onTouchEvent获取到事件（不管是因为此控件是最底层的控件而获取到，还是因为事件被同一控件的onInterceptTouchEvent拦截而获取到），那么事件从上到下传递的流程就结束了，接下来，事件会从此onTouchEvent方法开始，从下往上依次传递给每个父控件的onTouchEvent方法————除非事件在某个onTouchEvent中被消耗掉了（onTouchEvent返回true）。这一过程可以形象地称之为“上浮”。</p>
+<p>由前面的知识我们知道，dispatchTouchEvent是负责事件分发的方法，事件的下沉就是通过调用dispatchTouchEvent方法来实现的，因此，事件的下沉过程中所经历的每一个控件，其dispatchTouchEvent方法都会被调用；而在事件上浮的过程中，任何控件的dispatchTouchEvent都不会被调用。在下面的论述中，为了简便，我们会省略对dispatchTouchEvent调用的描述。</p>
+<h1 id="2-简化的事件传递流程">2 简化的事件传递流程</h1>
+<p><strong>将事件分为两种：down事件和后续事件</strong>（主要指move、up）。<strong>只有down事件会走上述的完整事件传递流程，后续事件走的都是简化的事件传递流程。</strong></p>
+<p>我们将“事件只向下传递到控件M为止，而不会继续往下传递”的现象称为“事件在M处被截断”。</p>
+<p>假设有几个控件从上到下依次为（这里及以后的“上下”都是指的“父子”关系，而并非位置的上下关系）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">...
+A
+B
+C
+...
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="结论1">结论1</h2>
+<p>对于某控件B，onTouchEvent获取到down事件后（不管此down事件是B的onInterceptTouchEvent拦截到的，还是因其子控件未消耗而上浮上来的，或是因为B是最底层的控件），只要B消耗了down事件（onTouchEvent返回true），那么同一事件序列的后续事件（move和up）都将在B处被截断（即事件下沉过程截止到B，不会再继续往下传递），此外，后续事件也不再经过B的onInterceptTouchEvent。后续事件的下沉流程变为：从上到下依次经过B的各层父控件的onInterceptTouchEvent方法，如果父控件均不拦截，则将事件交给B的onTouchEvent。（但如果在B的dispatchTouchEvent中调用了requestDisallowInterceptTouchEvent(true)，则后续事件的下沉流程将跳过所有父控件的onInterceptTouchEvent，直接传递给B的onTouchEvent。另外需要注意：requestDisallowInterceptTouchEvent(true)不影响down事件下沉，只影响后续事件下沉。）</p>
+<hr>
+<p>对于传递给B的onTouchEvent方法的后续事件，无论B是否消耗后续事件，后续事件的下沉流程都是不变的，而对于后续事件的上浮：</p>
+<ol>
+<li>如果B消耗了某个后续事件，那么此后续事件就没有了，自然也就不会传递给其他任何控件。</li>
+<li>如果某个后续事件没有被B消耗掉，那么此后续事件经过B的onTouchEvent后，会直接传递给Activity的onTouchEvent，而不会再经过B的任何父控件的onTouchEvent。</li>
+</ol>
+<hr>
+<p>在如上所述的后续事件下沉流程中，如果B的父控件A突然拦截了某个后续事件，则无论A的onTouchEvent是否消耗后续事件，后续事件都将在A处被截断，并且后续事件也不会再经过A的onInterceptTouchEvent。后续事件的下沉流程变成：从上到下依次判断A的各层父控件是否拦截事件，如果父控件均不拦截，则直接将事件交给A的onTouchEvent。</p>
+<h2 id="结论2">结论2</h2>
+<p>如果在down事件的下沉和上浮过程中，任何控件都没有消耗down事件，那么down事件最终会上浮到Activity的onTouchEvent中。无论Activity的onTouchEvent是否消耗了down事件，此事件序列的后续事件都会直接传递给Activity的onTouchEvent，即事件在Activity处被截断了。</p>
+<h2 id="推论1">推论1</h2>
+<p><strong>由结论1、2很容易知道，影响后续事件下沉流程（或者说，后续事件在何处被截断）的因素只有两个：1.down事件在哪里被消耗；2.后续事件在哪里被拦截。而后续事件是否被消耗，在哪里被消耗，都不会影响后续事件的下沉流程。</strong> 具体来说：</p>
+<ol>
+<li>down事件：某个控件消耗了down事件（onTouchEvent返回true），则后续事件在此控件处被截断，并且此控件的onInterceptTouchEvent也不会再被调用。如果没有任何控件消耗down事件（其实最底层的控件通常默认都会消耗down），则后续事件将在Activity处被截断。</li>
+<li>后续事件：如果某个控件拦截了后续事件（onInterceptTouchEvent返回true），则后续事件将在此控件处被截断（与此控件onTouchEvent的返回值无关），并且此控件的onInterceptTouchEvent也不会再被调用。</li>
+</ol>
+<h2 id="推论2了解">推论2（了解）</h2>
+<p><strong>由结论1、2很容易知道：如果B的onTouchEvent接收到down事件却没有消耗它，那么同一事件序列中的后续事件都不会再传递给B及B的子控件了。</strong> 因为，down事件必然：1.被B的某一级父控件给消耗掉了 或 2.被传递给了Activity，这必然导致后续事件在B的上方被截断。</p>
+<h2 id="推论3了解">推论3（了解）</h2>
+<p><strong>无论B拦截了down事件还是后续事件（onInterceptTouchEvent返回true），则B的onInterceptTouchEvent都将无法再接收到此事件序列的后续事件：</strong></p>
+<p>B拦截了down事件：</p>
+<ol>
+<li>若B的onTouchEvent消耗了down，则后续事件将只经过B的父控件的onInterceptTouchEvent和B的onTouchEvent。</li>
+<li>若B的onTouchEvent没有消耗down，那么后续事件必然在B上方的某处被截断。</li>
+</ol>
+<p>B拦截了后续事件：由结论1可知，后续事件将在B处被截断，并且B的onInterceptTouchEvent不会再被调用。</p>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/android%E4%BA%8B%E4%BB%B6%E4%BC%A0%E9%80%92/">Android事件传递</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/20170930childwindow/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">子窗口应用实战</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/20170712event1/">
+            <span class="next-text nav-default">Android事件传递-概述</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:al4fun@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://github.com/al4fun" class="iconfont icon-github" title="github"></a>
+  <a href="https://al4fun.gitee.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2016 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>al4fun</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

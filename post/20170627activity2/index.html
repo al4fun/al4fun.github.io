@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Activity的启动模式（一） - al4fun&#39;s notes</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="al4fun" /><meta name="description" content="1 任务栈 Android任务栈又称为Task，它是一个栈结构，具有后进先出的特点，用于存放我们的activity组件。 我们每次打开一个新的ac" /><meta name="keywords" content="android, web, flutter" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.0 with theme even" />
+
+
+<link rel="canonical" href="https://al4fun.gitee.io/post/20170627activity2/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.cb68f97bc9cece255d217346d970e3c62623408634e500c330a62fadabbbe77c.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Activity的启动模式（一）" />
+<meta property="og:description" content="1 任务栈 Android任务栈又称为Task，它是一个栈结构，具有后进先出的特点，用于存放我们的activity组件。 我们每次打开一个新的ac" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://al4fun.gitee.io/post/20170627activity2/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2017-06-27T20:43:04+00:00" />
+<meta property="article:modified_time" content="2017-06-27T20:43:04+00:00" />
+
+<meta itemprop="name" content="Activity的启动模式（一）">
+<meta itemprop="description" content="1 任务栈 Android任务栈又称为Task，它是一个栈结构，具有后进先出的特点，用于存放我们的activity组件。 我们每次打开一个新的ac"><meta itemprop="datePublished" content="2017-06-27T20:43:04+00:00" />
+<meta itemprop="dateModified" content="2017-06-27T20:43:04+00:00" />
+<meta itemprop="wordCount" content="1824">
+<meta itemprop="keywords" content="Activity," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Activity的启动模式（一）"/>
+<meta name="twitter:description" content="1 任务栈 Android任务栈又称为Task，它是一个栈结构，具有后进先出的特点，用于存放我们的activity组件。 我们每次打开一个新的ac"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">al4fun&#39;s notes</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">al4fun&#39;s notes</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Activity的启动模式（一）</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2017-06-27 </span>
+        <div class="post-category">
+            <a href="/categories/android/"> Android </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-任务栈">1 任务栈</a></li>
+    <li><a href="#2-启动模式">2 启动模式</a>
+      <ul>
+        <li><a href="#21-概述">2.1 概述</a></li>
+        <li><a href="#22-singletask模式和taskaffinity属性">2.2 singleTask模式和TaskAffinity属性</a></li>
+        <li><a href="#23-为activity指定启动模式">2.3 为Activity指定启动模式</a></li>
+        <li><a href="#24-onnewintent">2.4 onNewIntent</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="1-任务栈">1 任务栈</h1>
+<ol>
+<li>Android任务栈又称为Task，它是一个栈结构，具有后进先出的特点，用于存放我们的activity组件。</li>
+<li>我们每次打开一个新的activity或者退出当前的activity时都会在任务栈中入栈或者出栈一个activity组件。</li>
+<li>当任务栈中的所有activity都被出栈后，任务栈才会被销毁。</li>
+<li>一个app中可能不止一个任务栈。</li>
+<li>多个app中的activity可以存在于同一个任务栈中。</li>
+</ol>
+<p>每个app都有一个默认的任务栈，该任务栈的名称与app的应用包名一样。<strong>默认情况下</strong>，该app中的所有activity都运行于此任务栈中。</p>
+<h1 id="2-启动模式">2 启动模式</h1>
+<h2 id="21-概述">2.1 概述</h2>
+<p><strong>1.standard</strong></p>
+<p>非复用模式</p>
+<p>以在activityA中启动activityB为例（activityB为standard启动模式），每次在activityA中启动activityB都会在activityA所在的任务栈中创建一个activityB的新实例。</p>
+<p><strong>2.singleTop</strong></p>
+<p>栈顶复用模式（如果栈顶有相同的activity，则复用）</p>
+<p><strong>3.singleTask</strong></p>
+<p>栈内复用模式（如果栈内有相同的activity，则复用）</p>
+<p>和前面的启动模式不同，当启动一个singleTask模式的activity时，如activityA，系统会首先寻找是否存在A需要的任务栈，如果不存在，就创建此任务栈并在其中创建A的实例；</p>
+<p>如果存在，这时要看栈中是否已有A的实例，如果有，那么系统会清除A顶部的全部activity，让A回到栈顶，如果没有，那么就创建A的实例并把A压入栈中。</p>
+<p><strong>4.singleInstance</strong></p>
+<p>单实例模式。第一次启动singleInstance模式的activityA时，会为acitivityA创建一个独占的任务栈，所谓独占就是此任务栈中只允许存在这一个activity。后面再启动activityA时，就只是复用已存在的activityA。</p>
+<p>如果在singleInstance模式的activityA中启动standard模式的actvityB，会发生什么呢？——因为activityA所在的任务栈不允许其他任何actvity存在，因此activityB的启动模式会变成singleTask。参考上面关于startdard和singleTask模式的说明。</p>
+<h2 id="22-singletask模式和taskaffinity属性">2.2 singleTask模式和TaskAffinity属性</h2>
+<p>在singleTask启动模式中，多次提到某个activity需要的任务栈，那么什么是activity需要的任务栈呢？就是TaskAffinity（affinity即倾向，喜好），这个属性表明了一个activity所需要的任务栈的名字，默认情况下，所有activity所需的任务栈的名字都是应用的包名，我们也可以自己指定该属性的值(必须是字符串，且中间必须包含包名分隔符”.”)。</p>
+<p>TaskAffinity属性主要和singleTask启动模式或allowTaskReparenting属性配对使用，在其他启动模式下没有意义。</p>
+<h2 id="23-为activity指定启动模式">2.3 为Activity指定启动模式</h2>
+<p>给activity指定启动模式有两种方式，一种是在清单文件中指定，一种是为启动activity的intent添加flag，如intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+优先级上，后一种方式更高，但两种方式其实在很多方面是有区别的。</p>
+<p>另外，介绍一个常用的flag——FLAG_ACTIVITY_NEW_TASK：在新任务栈中启动activity，如果此activity想要的任务栈已存在，则会将该任务栈转到前台，并在该任务栈中启动activity。这会产生与singleTask启动模式相同的行为。</p>
+<h2 id="24-onnewintent">2.4 onNewIntent</h2>
+<p>每当复用发生时,被复用的activity及其所在的任务栈就会被移动到前台（如果它们不在前台的话），这是显而易见的，因为只有前台activity才能与用户交互。此外，被复用的activity的onNewIntent(Intent newIntent)会被调用，在此方法中我们可以获取到本次启动的新intent。</p>
+<p>注意：当activity被复用时，如果直接使用getIntent，那么获取到的并不是此次启动的最新intent，而是最初启动时的那一个老intent。如果希望getIntent获取的是最新的intent，那么需要先在onNewIntent(Intent newIntent)方法中调用setIntent(newIntent)。</p>
+<p>An activity will always be paused before receiving a new intent, so you can count on onResume() being called after this method(摘自官方文档).</p>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/activity/">Activity</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/20170627activity3/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Activity的启动模式（二）</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/20170627activity1/">
+            <span class="next-text nav-default">Activity的非正常销毁</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:al4fun@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://github.com/al4fun" class="iconfont icon-github" title="github"></a>
+  <a href="https://al4fun.gitee.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2016 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>al4fun</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

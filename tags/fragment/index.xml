@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Fragment on al4fun&#39;s notes</title>
+    <link>https://al4fun.gitee.io/tags/fragment/</link>
+    <description>Recent content in Fragment on al4fun&#39;s notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 27 Jun 2017 20:09:50 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/tags/fragment/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Fragment使用过程中一些需要注意的点</title>
+      <link>https://al4fun.gitee.io/post/20170627fragment/</link>
+      <pubDate>Tue, 27 Jun 2017 20:09:50 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20170627fragment/</guid>
+      <description>对Fragment相关知识的一点复习和整理。 1 使用add-hide-show来显示和切换fragment add(int containerViewId, Fragment fragment)：将frag</description>
+    </item>
+    
+  </channel>
+</rss>

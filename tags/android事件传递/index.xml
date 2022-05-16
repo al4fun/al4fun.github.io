@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Android事件传递 on al4fun&#39;s notes</title>
+    <link>https://al4fun.gitee.io/tags/android%E4%BA%8B%E4%BB%B6%E4%BC%A0%E9%80%92/</link>
+    <description>Recent content in Android事件传递 on al4fun&#39;s notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 12 Jul 2017 17:45:42 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/tags/android%E4%BA%8B%E4%BB%B6%E4%BC%A0%E9%80%92/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Android事件传递-流程详解</title>
+      <link>https://al4fun.gitee.io/post/20170712event2/</link>
+      <pubDate>Wed, 12 Jul 2017 17:45:42 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20170712event2/</guid>
+      <description>1 完整的事件传递流程 下沉 事件从上到下（即从父级到子级），依次通过各个控件的dispatchTouchEvent方法： 在dispatchTou</description>
+    </item>
+    
+    <item>
+      <title>Android事件传递-概述</title>
+      <link>https://al4fun.gitee.io/post/20170712event1/</link>
+      <pubDate>Wed, 12 Jul 2017 17:43:19 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20170712event1/</guid>
+      <description>1 事件传递流程概述 事件的传递是由最顶层（即最外层）的父控件开始，一层一层向下传递，直到最底层（即最内层）的子控件。若最底层的子控件没有消耗掉</description>
+    </item>
+    
+  </channel>
+</rss>

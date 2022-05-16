@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Flutter中的路由函数 - al4fun&#39;s notes</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="al4fun" /><meta name="description" content="概述 Flutter中，路由(Router)即页面的封装，一个路由内部包含了一个页面。创建路由： 1 2 3 MaterialPageRoute route = MaterialPageRoute( builder: (BuildContext context) =&amp;gt; MyPage(), ); 类似于在Androi" /><meta name="keywords" content="android, web, flutter" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.0 with theme even" />
+
+
+<link rel="canonical" href="https://al4fun.gitee.io/post/20190921router/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.cb68f97bc9cece255d217346d970e3c62623408634e500c330a62fadabbbe77c.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Flutter中的路由函数" />
+<meta property="og:description" content="概述 Flutter中，路由(Router)即页面的封装，一个路由内部包含了一个页面。创建路由： 1 2 3 MaterialPageRoute route = MaterialPageRoute( builder: (BuildContext context) =&gt; MyPage(), ); 类似于在Androi" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://al4fun.gitee.io/post/20190921router/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-09-21T21:40:07+00:00" />
+<meta property="article:modified_time" content="2019-09-21T21:40:07+00:00" />
+
+<meta itemprop="name" content="Flutter中的路由函数">
+<meta itemprop="description" content="概述 Flutter中，路由(Router)即页面的封装，一个路由内部包含了一个页面。创建路由： 1 2 3 MaterialPageRoute route = MaterialPageRoute( builder: (BuildContext context) =&gt; MyPage(), ); 类似于在Androi"><meta itemprop="datePublished" content="2019-09-21T21:40:07+00:00" />
+<meta itemprop="dateModified" content="2019-09-21T21:40:07+00:00" />
+<meta itemprop="wordCount" content="1632">
+<meta itemprop="keywords" content="router," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Flutter中的路由函数"/>
+<meta name="twitter:description" content="概述 Flutter中，路由(Router)即页面的封装，一个路由内部包含了一个页面。创建路由： 1 2 3 MaterialPageRoute route = MaterialPageRoute( builder: (BuildContext context) =&gt; MyPage(), ); 类似于在Androi"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">al4fun&#39;s notes</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">al4fun&#39;s notes</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Flutter中的路由函数</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-09-21 </span>
+        <div class="post-category">
+            <a href="/categories/flutter/"> Flutter </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#路由函数简介">路由函数简介</a>
+      <ul>
+        <li><a href="#pushpushnamed">push、pushNamed</a></li>
+        <li><a href="#pushreplacementpushreplacementnamed">pushReplacement、pushReplacementNamed</a></li>
+        <li><a href="#pushandremoveuntilpushnamedandremoveuntil">pushAndRemoveUntil、pushNamedAndRemoveUntil</a></li>
+        <li><a href="#pop">pop</a></li>
+        <li><a href="#canpopmaybepop">canPop、maybePop</a></li>
+        <li><a href="#popuntil">popUntil</a></li>
+        <li><a href="#popandpushnamed">popAndPushNamed</a></li>
+        <li><a href="#replacereplaceroutebelow">replace、replaceRouteBelow</a></li>
+        <li><a href="#removerouteremoveroutebelow">removeRoute、removeRouteBelow</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="概述">概述</h1>
+<p>Flutter中，路由(Router)即页面的封装，一个路由内部包含了一个页面。创建路由：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dart" data-lang="dart"><span class="n">MaterialPageRoute</span> <span class="n">route</span> <span class="o">=</span> <span class="n">MaterialPageRoute</span><span class="p">(</span>
+  <span class="nl">builder:</span> <span class="p">(</span><span class="n">BuildContext</span> <span class="n">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">MyPage</span><span class="p">(),</span>
+<span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>类似于在Android原生中以任务栈来管理Activity，在Flutter中以路由栈来管理路由。跳转到一个新页面，就是将其对应的路由加入到栈顶；退出一个页面，就是将其对应的路由出栈。</p>
+<h1 id="路由函数简介">路由函数简介</h1>
+<h2 id="pushpushnamed">push、pushNamed</h2>
+<p>将一个路由加入到栈顶，即跳转到一个新页面。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dart" data-lang="dart"><span class="n">Navigator</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">MaterialPageRoute</span><span class="p">(</span><span class="nl">builder:</span> <span class="p">(</span><span class="n">BuildContext</span> <span class="n">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">Page2</span><span class="p">()));</span>
+
+<span class="n">Navigator</span><span class="p">.</span><span class="n">pushNamed</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">routerName</span><span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="pushreplacementpushreplacementnamed">pushReplacement、pushReplacementNamed</h2>
+<p>将一个路由加入到栈顶，并将当前路由出栈(pop)。（也就是以一个新页面替换当前页面。在新页面的入场动画结束时，才会调用当前页面的dispose方法。）</p>
+<h2 id="pushandremoveuntilpushnamedandremoveuntil">pushAndRemoveUntil、pushNamedAndRemoveUntil</h2>
+<p>将一个路由加入到栈顶，并将其下方的路由逐一移除(remove)，直到predicate函数返回了true。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dart" data-lang="dart"><span class="c1">//调用方式
+</span><span class="c1"></span><span class="n">Navigator</span><span class="p">.</span><span class="n">pushAndRemoveUntil</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">newRoute</span><span class="p">,</span> <span class="n">predicate</span><span class="p">);</span>
+<span class="n">Navigator</span><span class="p">.</span><span class="n">pushNamedAndRemoveUntil</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">newRouteName</span><span class="p">,</span> <span class="n">predicate</span><span class="p">);</span>
+
+<span class="c1">//下面代码将名为Page6的路由加入到栈顶，并将其下方的路由逐一出栈，直到遇到名为MyHomePage的路由：
+</span><span class="c1"></span><span class="n">Navigator</span><span class="p">.</span><span class="n">pushNamedAndRemoveUntil</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="s2">&#34;Page6&#34;</span><span class="p">,</span> <span class="n">ModalRoute</span><span class="p">.</span><span class="n">withName</span><span class="p">(</span><span class="s1">&#39;MyHomePage&#39;</span><span class="p">));</span>
+
+<span class="c1">//下面代码将名为Page6的路由加入到栈顶，并将其下方的路由全部出栈，即，使Page6成为路由栈中唯一的路由：
+</span><span class="c1"></span><span class="n">Navigator</span><span class="p">.</span><span class="n">pushNamedAndRemoveUntil</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="s2">&#34;Page6&#34;</span><span class="p">,</span> <span class="p">(</span><span class="n">route</span><span class="p">){</span><span class="k">return</span> <span class="kc">false</span><span class="p">;});</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>需要注意的是，被移除(remove)的路由将永远不会变成completed状态，也就是说将它入栈的push、pushNamed的返回值future将永远不会被complete。</p>
+</blockquote>
+<h2 id="pop">pop</h2>
+<p>将栈顶的路由出栈。</p>
+<p>被出栈的路由会变成completed状态。也就是说将其入栈的push、pushNamed的返回值future也会变成completed状态。</p>
+<p>风险：如果路由栈中只有唯一的路由，那么将此路由出栈后，app并不会像Android原生那样退出，而是会展示一个黑屏界面。（因此在Flutter中，为了避免黑屏，在调用pop方法之前，需要确定路由栈中是否只有唯一的路由。）</p>
+<p>既然将唯一的路由出栈并不能关闭app，那么如果想要关闭app的话该怎么做呢？</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dart" data-lang="dart"><span class="err">方法</span><span class="m">1</span><span class="err">：</span>
+<span class="n">SystemChannels</span><span class="p">.</span><span class="n">platform</span><span class="p">.</span><span class="n">invokeMethod</span><span class="p">(</span><span class="s1">&#39;SystemNavigator.pop&#39;</span><span class="p">);</span>
+
+<span class="err">此方法在</span><span class="n">IOS上会被忽略</span><span class="err">，因为</span><span class="n">IOS不允许应用退出自己</span><span class="err">。</span>
+  
+<span class="err">方法</span><span class="m">2</span><span class="err">：</span>
+<span class="k">import</span> <span class="s1">&#39;dart:io&#39;</span><span class="p">;</span>
+<span class="p">...</span>
+<span class="n">exit</span><span class="p">(</span><span class="m">0</span><span class="p">);</span>
+
+<span class="err">此方法会立即结束</span><span class="n">Dart虚拟机进程</span><span class="err">。副作用正如文档所说：</span><span class="n">This</span> <span class="n">does</span> <span class="n">not</span> <span class="n">wait</span> <span class="k">for</span> <span class="n">any</span> <span class="n">asynchronous</span> <span class="n">operations</span> <span class="n">to</span> <span class="n">terminate</span><span class="p">.</span> <span class="n">Using</span> <span class="n">exit</span> <span class="k">is</span> <span class="n">therefore</span> <span class="n">very</span> <span class="n">likely</span> <span class="n">to</span> <span class="n">lose</span> <span class="n">data</span><span class="p">.</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="canpopmaybepop">canPop、maybePop</h2>
+<p>上面提到，为避免黑屏，在调用pop方法之前，需要确定路由栈中是否只有唯一的路由。那么该如何确定呢？答案是通过canPop函数。当路由栈中只有唯一的一个路由时，canPop会返回false，其他情况都会返回true。因此可以这样使用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dart" data-lang="dart"><span class="k">if</span><span class="p">(</span><span class="n">Navigator</span><span class="p">.</span><span class="n">canPop</span><span class="p">(</span><span class="n">context</span><span class="p">)){</span>
+  <span class="n">Navigator</span><span class="p">.</span><span class="n">pop</span><span class="p">(</span><span class="n">context</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>maybePop函数的情况比较复杂，它的行为在大部分情况下与<code>if(Navigator.canPop(context)){Navigator.pop(context);}</code>相同，但却远不止于此。使用时需要谨慎。</p>
+<h2 id="popuntil">popUntil</h2>
+<p>重复调用pop方法使路由栈中的路由逐一出栈，直到predicate函数返回了true。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dart" data-lang="dart"><span class="n">Navigator</span><span class="p">.</span><span class="n">popUntil</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">ModalRoute</span><span class="p">.</span><span class="n">withName</span><span class="p">(</span><span class="s2">&#34;Page2&#34;</span><span class="p">));</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="popandpushnamed">popAndPushNamed</h2>
+<p>将当前路由出栈，并将一个新路由加入到栈顶。</p>
+<h2 id="replacereplaceroutebelow">replace、replaceRouteBelow</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dart" data-lang="dart"><span class="c1">//以一个新路由替换一个路由栈中已有的路由。
+</span><span class="c1"></span><span class="n">Navigator</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">oldRoute</span><span class="p">,</span> <span class="n">newRoute</span><span class="p">);</span>
+
+<span class="c1">//以一个新路由替换一个路由栈中已有的路由。被替换的路由是位于anchorRoute下的那个路由。
+</span><span class="c1"></span><span class="n">Navigator</span><span class="p">.</span><span class="n">replaceRouteBelow</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">anchorRoute</span><span class="p">,</span> <span class="n">newRoute</span><span class="p">);</span>
+
+<span class="c1">//被替换的路由永远不会变成completed状态，也就是说将其入栈的push、pushNamed的返回值future也不会变成completed状态。
+</span><span class="c1">//被替换的路由不能是可见的，因为替换过程没有任何动画过渡，看起来会比较古怪。
+</span></code></pre></td></tr></table>
+</div>
+</div><h2 id="removerouteremoveroutebelow">removeRoute、removeRouteBelow</h2>
+<p>将指定的路由从任务栈中移除。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dart" data-lang="dart"><span class="n">Navigator</span><span class="p">.</span><span class="n">removeRoute</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">route</span><span class="p">);</span>
+<span class="n">Navigator</span><span class="p">.</span><span class="n">replaceRouteBelow</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">anchorRoute</span><span class="p">);</span>
+
+<span class="c1">//被remove的路由永远不会变成completed状态，也就是说将其入栈的push、pushNamed的返回值future也不会变成completed状态。
+</span></code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/router/">router</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/20200204layout/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Flutter常用的布局组件</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/20190714key/">
+            <span class="next-text nav-default">Flutter中的Key和GlobalKey</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:al4fun@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://github.com/al4fun" class="iconfont icon-github" title="github"></a>
+  <a href="https://al4fun.gitee.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2016 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>al4fun</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

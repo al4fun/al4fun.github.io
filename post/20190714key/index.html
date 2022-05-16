@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Flutter中的Key和GlobalKey - al4fun&#39;s notes</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="al4fun" /><meta name="description" content="1.Key 参考：https://api.flutter.dev/flutter/widgets/Widget/key.html 控制一个widget该" /><meta name="keywords" content="android, web, flutter" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.0 with theme even" />
+
+
+<link rel="canonical" href="https://al4fun.gitee.io/post/20190714key/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.cb68f97bc9cece255d217346d970e3c62623408634e500c330a62fadabbbe77c.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Flutter中的Key和GlobalKey" />
+<meta property="og:description" content="1.Key 参考：https://api.flutter.dev/flutter/widgets/Widget/key.html 控制一个widget该" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://al4fun.gitee.io/post/20190714key/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-07-14T08:45:01+00:00" />
+<meta property="article:modified_time" content="2019-07-14T08:45:01+00:00" />
+
+<meta itemprop="name" content="Flutter中的Key和GlobalKey">
+<meta itemprop="description" content="1.Key 参考：https://api.flutter.dev/flutter/widgets/Widget/key.html 控制一个widget该"><meta itemprop="datePublished" content="2019-07-14T08:45:01+00:00" />
+<meta itemprop="dateModified" content="2019-07-14T08:45:01+00:00" />
+<meta itemprop="wordCount" content="2523">
+<meta itemprop="keywords" content="Key,GlobalKey," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Flutter中的Key和GlobalKey"/>
+<meta name="twitter:description" content="1.Key 参考：https://api.flutter.dev/flutter/widgets/Widget/key.html 控制一个widget该"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">al4fun&#39;s notes</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">al4fun&#39;s notes</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Flutter中的Key和GlobalKey</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-07-14 </span>
+        <div class="post-category">
+            <a href="/categories/flutter/"> Flutter </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1key">1.Key</a>
+      <ul>
+        <li><a href="#key的用途">Key的用途</a>
+          <ul>
+            <li><a href="#无状态组件">无状态组件</a></li>
+            <li><a href="#有状态组件">有状态组件</a></li>
+          </ul>
+        </li>
+        <li><a href="#key的种类">Key的种类</a></li>
+      </ul>
+    </li>
+    <li><a href="#2globalkey">2.GlobalKey</a>
+      <ul>
+        <li><a href="#用途1">用途1</a></li>
+        <li><a href="#用途2">用途2</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="1key">1.Key</h1>
+<blockquote>
+<p>参考：https://api.flutter.dev/flutter/widgets/Widget/key.html</p>
+</blockquote>
+<p>控制一个widget该如何替换掉树中的另一个widget：如果两个widget的<a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a> 和 <a href="https://api.flutter.dev/flutter/widgets/Widget/key.html">key</a>都相等（==），那么会让旧widget所对应的旧element转而指向新widget（即调用element.update）；否则，旧element会被从树中移除，然后根据新widget来生成一个新element，并将该新element插入到树中。</p>
+<h2 id="key的用途">Key的用途</h2>
+<blockquote>
+<p>参考：https://api.flutter.dev/flutter/foundation/Key-class.html</p>
+</blockquote>
+<p>大多数时候并不需要使用key。</p>
+<p>当需要在一个<strong>StatefulWidget</strong>集合中进行添加、删除、重排序等操作时，才是key登场的时候。</p>
+<h3 id="无状态组件">无状态组件</h3>
+<p>下面这段代码在一个Row中展示了两个彩色方片（StatelessColorfulTile），当点击按钮时，会交换两个方片的位置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dart" data-lang="dart"><span class="kd">class</span> <span class="nc">PositionedTiles</span> <span class="kd">extends</span> <span class="n">StatefulWidget</span> <span class="p">{</span>
+  <span class="err">@</span><span class="n">override</span>
+  <span class="n">State</span><span class="o">&lt;</span><span class="n">StatefulWidget</span><span class="o">&gt;</span> <span class="n">createState</span><span class="p">()</span> <span class="o">=&gt;</span> <span class="n">PositionedTilesState</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">PositionedTilesState</span> <span class="kd">extends</span> <span class="n">State</span><span class="o">&lt;</span><span class="n">PositionedTiles</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="n">List</span><span class="o">&lt;</span><span class="n">Widget</span><span class="o">&gt;</span> <span class="n">tiles</span><span class="p">;</span>
+
+  <span class="err">@</span><span class="n">override</span>
+  <span class="kt">void</span> <span class="n">initState</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">super</span><span class="p">.</span><span class="n">initState</span><span class="p">();</span>
+    <span class="n">tiles</span> <span class="o">=</span> <span class="p">[</span>
+      <span class="n">StatelessColorfulTile</span><span class="p">(),</span>
+      <span class="n">StatelessColorfulTile</span><span class="p">(),</span>
+    <span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="err">@</span><span class="n">override</span>
+  <span class="n">Widget</span> <span class="n">build</span><span class="p">(</span><span class="n">BuildContext</span> <span class="n">context</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">Scaffold</span><span class="p">(</span>
+      <span class="nl">body:</span> <span class="n">Center</span><span class="p">(</span>
+        <span class="nl">child:</span> <span class="n">Row</span><span class="p">(</span>
+          <span class="nl">children:</span> <span class="n">tiles</span><span class="p">,</span>
+        <span class="p">),</span>
+      <span class="p">),</span>
+      <span class="nl">floatingActionButton:</span> <span class="n">FloatingActionButton</span><span class="p">(</span>
+        <span class="nl">child:</span> <span class="n">Icon</span><span class="p">(</span><span class="n">Icons</span><span class="p">.</span><span class="n">update</span><span class="p">),</span>
+        <span class="nl">onPressed:</span> <span class="n">swapTiles</span><span class="p">,</span>
+      <span class="p">),</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span> <span class="n">swapTiles</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">setState</span><span class="p">(()</span> <span class="p">{</span>
+      <span class="n">tiles</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="n">tiles</span><span class="p">.</span><span class="n">removeAt</span><span class="p">(</span><span class="m">0</span><span class="p">));</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="c1">//...
+</span><span class="c1"></span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p><strong>基础知识</strong></p>
+<p>Widget其实并不是表示最终绘制在设备屏幕上的显示元素，而只是显示元素的一个配置数据。Flutter中真正代表屏幕上显示元素的是Element。</p>
+<p>element树决定了页面最终展示到屏幕上的样子。但element树中只存储节点的类型，更具体的信息需要去widget树中查找。每个element会通过引用指向其对应的widget。</p>
+</blockquote>
+<p><img src="1.png" alt=""></p>
+<p>当交换两个widget的位置（并调用父组件PositionedTiles的setState方法）后，flutter会从上到下逐一对比widget树和element树中的每个节点，如果左右节点的<strong>类型和key一致</strong>的话（这里没有key，因此只对比类型），那么就认为该element仍然是有效的，可用复用，于是直接让element指向左边对应位置的widget——这种element的复用提高了渲染效率。而由于无状态widget的颜色信息是存储在widget中的，因此只要交换widget，无需改变element，实际显示到屏幕上就是成功交换的效果。</p>
+<blockquote>
+<p>简言之：只要节点的类型和key一样，那么element就会被复用。</p>
+</blockquote>
+<p><img src="2.png" alt=""></p>
+<h3 id="有状态组件">有状态组件</h3>
+<p>有状态组件的状态信息（如颜色）通常是存储在state中的，而state是存储在element树中的。</p>
+<p><img src="3.png" alt=""></p>
+<p>当交换两个widget的位置（并调用父组件PositionedTiles的setState方法）后，与前面一样，flutter会从上到下逐一对比widget树和element树中的每个节点，如果左右节点的类型和key一致的话（这里没有key，因此只对比类型），那么就认为该element仍然是有效的，可用复用，于是直接让element指向左边对应位置的widget。</p>
+<p>但与之前不同的是，因为颜色信息存储在element树中，因此element树被复用的结果就是显示效果也不会有任何变化——仍然是widget未交换时的效果。</p>
+<p><img src="4.png" alt=""></p>
+<p><strong>解决办法1</strong>：给widget指定key，如下图所示。因为key不相同，因此右边的element就不会被直接复用。flutter会在右边的element树中查找与widget类型和key都相同的element，如果找到，就会移动该element并让该element指向左边的widget，如果没有找到，则会根据widget信息创建新的element。</p>
+<p><img src="5.png" alt=""></p>
+<p><img src="6.png" alt=""></p>
+<blockquote>
+<p>为了避免混淆，有必要说明一下：如果改变图中小方片（Stateful Tile）的State中的颜色，并调用小方片的setState方法的话，那么改变是可以生效的，因为是直接改变了小方片的State对象。这和上面说的改变父组件PositionedTiles的State并调用其setState是不同的情形，PositionedTiles的State就是小方片的List，setState的结果就是widget树中两个小方片的位置变了，但是因为上面所述的原因，如果不给每个小方片widget指定key的话，最后的显示效果不会改变。</p>
+</blockquote>
+<p><strong>解决办法2</strong>，覆写State的didUpdateWidget方法，当widget的配置发生变化时，手动更新state，例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dart" data-lang="dart"><span class="c1">///Called whenever the widget configuration changes.
+</span><span class="c1"></span><span class="kt">void</span> <span class="n">didUpdateWidget</span><span class="p">(</span><span class="n">TimePickerBar</span> <span class="n">oldWidget</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">super</span><span class="p">.</span><span class="n">didUpdateWidget</span><span class="p">(</span><span class="n">oldWidget</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">oldWidget</span><span class="p">.</span><span class="n">initValue</span> <span class="o">!=</span> <span class="n">widget</span><span class="p">.</span><span class="n">initValue</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">_currentTime</span> <span class="o">=</span> <span class="n">widget</span><span class="p">.</span><span class="n">initValue</span><span class="p">;</span>
+      <span class="n">_tempTime</span> <span class="o">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">fromMillisecondsSinceEpoch</span><span class="p">(</span>
+				<span class="n">_currentTime</span><span class="p">.</span><span class="n">millisecondsSinceEpoch</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="key的种类">Key的种类</h2>
+<ul>
+<li>ValueKey:以一个值为key。</li>
+<li>ObjectKey:以一个对象为key。</li>
+<li>UniqueKey:生成唯一的随机数作为key。</li>
+<li>PageStorageKey:专用于存储页面滚动位置的key。</li>
+<li>GlobalKey:见下一节。</li>
+</ul>
+<h1 id="2globalkey">2.GlobalKey</h1>
+<blockquote>
+<p>参考：https://api.flutter.dev/flutter/widgets/GlobalKey-class.html</p>
+</blockquote>
+<p>每个globalkey都是一个在整个应用内唯一的key。</p>
+<p>globalkey相对而言是比较昂贵的，如果你并不需要globalkey的某些特性，那么可以考虑使用Key、ValueKey、ObjectKey或UniqueKey。</p>
+<h2 id="用途1">用途1</h2>
+<p>允许widget在应用程序中的任何位置更改其parent而不丢失其状态。应用场景：在两个不同的屏幕上显示相同的widget，并保持状态相同。</p>
+<h2 id="用途2">用途2</h2>
+<p>globalkey唯一定义了某个element，它使你能够访问与element相关联的其他对象，例如buildContext、state等。应用场景：跨widget访问状态：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dart" data-lang="dart"><span class="kd">class</span> <span class="nc">MyHomePage</span> <span class="kd">extends</span> <span class="n">StatefulWidget</span> <span class="p">{</span>
+  <span class="n">MyHomePage</span><span class="p">({</span><span class="n">Key</span> <span class="n">key</span><span class="p">})</span> <span class="o">:</span> <span class="k">super</span><span class="p">(</span><span class="nl">key:</span> <span class="n">key</span><span class="p">);</span>
+
+  <span class="err">@</span><span class="n">override</span>
+  <span class="n">_MyHomePageState</span> <span class="n">createState</span><span class="p">()</span> <span class="o">=&gt;</span> <span class="n">_MyHomePageState</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">_MyHomePageState</span> <span class="kd">extends</span> <span class="n">State</span><span class="o">&lt;</span><span class="n">MyHomePage</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="kd">final</span> <span class="n">GlobalKey</span><span class="o">&lt;</span><span class="n">SwitcherWidgetState</span><span class="o">&gt;</span> <span class="n">key</span> <span class="o">=</span> <span class="n">GlobalKey</span><span class="p">();</span>
+  
+  <span class="err">@</span><span class="n">override</span>
+  <span class="n">Widget</span> <span class="n">build</span><span class="p">(</span><span class="n">BuildContext</span> <span class="n">context</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">Scaffold</span><span class="p">(</span>
+      <span class="nl">body:</span> <span class="n">SwitcherWidget</span><span class="p">(</span>
+        <span class="nl">key:</span> <span class="n">key</span><span class="p">,</span>
+      <span class="p">),</span>
+      <span class="nl">floatingActionButton:</span> <span class="n">FloatingActionButton</span><span class="p">(</span>
+        <span class="nl">onPressed:</span> <span class="p">()</span> <span class="p">{</span>
+          <span class="n">key</span><span class="p">.</span><span class="n">currentState</span><span class="p">.</span><span class="n">changeState</span><span class="p">();</span>
+        <span class="p">},</span>
+        <span class="nl">child:</span> <span class="n">Text</span><span class="p">(</span><span class="s1">&#39;切换&#39;</span><span class="p">),</span>
+      <span class="p">),</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在<code>SwitcherWidget</code>的<code>State</code>中有一个<code>changeState()</code>方法。在<code>SwitcherWidget</code>组件的外部，可以通过<code>key.currentState</code>拿到它的状态对象，然后就可以调用其中的<code>changeState()</code>方法。</p>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/key/">Key</a>
+          <a href="/tags/globalkey/">GlobalKey</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/20190921router/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Flutter中的路由函数</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/20180712countdownview/">
+            <span class="next-text nav-default">倒计时控件-CountdownView</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:al4fun@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://github.com/al4fun" class="iconfont icon-github" title="github"></a>
+  <a href="https://al4fun.gitee.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2016 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>al4fun</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

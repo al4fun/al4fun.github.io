@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>NestedScrolling机制-实例1 - al4fun&#39;s notes</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="al4fun" /><meta name="description" content="1 实现自己的NestedScrollingParent和NestedScrollingChild 这个示例来自：http://blog.csd" /><meta name="keywords" content="android, web, flutter" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.0 with theme even" />
+
+
+<link rel="canonical" href="https://al4fun.gitee.io/post/20161226nestedscrolling2/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.cb68f97bc9cece255d217346d970e3c62623408634e500c330a62fadabbbe77c.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="NestedScrolling机制-实例1" />
+<meta property="og:description" content="1 实现自己的NestedScrollingParent和NestedScrollingChild 这个示例来自：http://blog.csd" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://al4fun.gitee.io/post/20161226nestedscrolling2/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2016-12-26T20:43:25+00:00" />
+<meta property="article:modified_time" content="2016-12-26T20:43:25+00:00" />
+
+<meta itemprop="name" content="NestedScrolling机制-实例1">
+<meta itemprop="description" content="1 实现自己的NestedScrollingParent和NestedScrollingChild 这个示例来自：http://blog.csd"><meta itemprop="datePublished" content="2016-12-26T20:43:25+00:00" />
+<meta itemprop="dateModified" content="2016-12-26T20:43:25+00:00" />
+<meta itemprop="wordCount" content="2450">
+<meta itemprop="keywords" content="NestedScrolling," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="NestedScrolling机制-实例1"/>
+<meta name="twitter:description" content="1 实现自己的NestedScrollingParent和NestedScrollingChild 这个示例来自：http://blog.csd"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">al4fun&#39;s notes</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">al4fun&#39;s notes</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">NestedScrolling机制-实例1</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2016-12-26 </span>
+        <div class="post-category">
+            <a href="/categories/android/"> Android </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-实现自己的nestedscrollingparent和nestedscrollingchild">1 实现自己的NestedScrollingParent和NestedScrollingChild</a>
+      <ul>
+        <li><a href="#activity_mainxml">activity_main.xml</a></li>
+        <li><a href="#mainactivityjava">MainActivity.java</a></li>
+        <li><a href="#mynestedscrollchildjava">MyNestedScrollChild.java</a></li>
+        <li><a href="#mynestedscrollparentjava">MyNestedScrollParent.java</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-使用系统已有的nestedscrollingchild">2 使用系统已有的NestedScrollingChild</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="1-实现自己的nestedscrollingparent和nestedscrollingchild">1 实现自己的NestedScrollingParent和NestedScrollingChild</h1>
+<p>这个示例来自：<a href="http://blog.csdn.net/lmj121212/article/details/52974427">http://blog.csdn.net/lmj121212/article/details/52974427</a></p>
+<p>此项目中的NestedScrollingParent和NestedScrollingChild都是自定义view，理解这个项目有助于我们理清NestedScrolling机制的工作原理。项目效果如下：</p>
+<p><img src="2.gif" alt=""></p>
+<p>直接说代码吧：</p>
+<h2 id="activity_mainxml">activity_main.xml</h2>
+<p>布局文件很简单，MyNestedScrollParent是一个自定义的LinearLayout，实现了NestedScrollingParent接口，其子元素从上到下依次为一个ImageView、一个TextView和一个MyNestedScrollChild，其中MyNestedScrollChild实现了NestedScrollingChild接口。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="o">&lt;?</span><span class="n">xml</span> <span class="n">version</span><span class="o">=</span><span class="s">&#34;1.0&#34;</span> <span class="n">encoding</span><span class="o">=</span><span class="s">&#34;utf-8&#34;</span><span class="o">?&gt;</span>
+<span class="o">&lt;</span><span class="n">RelativeLayout</span> <span class="n">xmlns</span><span class="o">:</span><span class="n">android</span><span class="o">=</span><span class="s">&#34;http://schemas.android.com/apk/res/android&#34;</span>
+    <span class="n">xmlns</span><span class="o">:</span><span class="n">tools</span><span class="o">=</span><span class="s">&#34;http://schemas.android.com/tools&#34;</span>
+    <span class="n">android</span><span class="o">:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">&#34;match_parent&#34;</span>
+    <span class="n">android</span><span class="o">:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">&#34;match_parent&#34;</span>
+    <span class="n">tools</span><span class="o">:</span><span class="n">context</span><span class="o">=</span><span class="s">&#34;com.lmj.com.mynestscroll.MainActivity&#34;</span><span class="o">&gt;</span>
+
+    <span class="o">&lt;</span><span class="n">com</span><span class="o">.</span><span class="na">lmj</span><span class="o">.</span><span class="na">com</span><span class="o">.</span><span class="na">mynestscroll</span><span class="o">.</span><span class="na">view</span><span class="o">.</span><span class="na">MyNestedScrollParent</span>
+        <span class="n">android</span><span class="o">:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">&#34;match_parent&#34;</span>
+        <span class="n">android</span><span class="o">:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">&#34;match_parent&#34;</span>
+        <span class="n">android</span><span class="o">:</span><span class="n">orientation</span><span class="o">=</span><span class="s">&#34;vertical&#34;</span><span class="o">&gt;</span>
+
+        <span class="o">&lt;</span><span class="n">ImageView</span>
+            <span class="n">android</span><span class="o">:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">&#34;match_parent&#34;</span>
+            <span class="n">android</span><span class="o">:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">&#34;wrap_content&#34;</span>
+            <span class="n">android</span><span class="o">:</span><span class="n">src</span><span class="o">=</span><span class="s">&#34;@mipmap/ic_launcher&#34;</span> <span class="o">/&gt;</span>
+
+        <span class="o">&lt;</span><span class="n">TextView</span>
+            <span class="n">android</span><span class="o">:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">&#34;match_parent&#34;</span>
+            <span class="n">android</span><span class="o">:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">&#34;wrap_content&#34;</span>
+            <span class="n">android</span><span class="o">:</span><span class="n">background</span><span class="o">=</span><span class="s">&#34;#f0f&#34;</span>
+            <span class="n">android</span><span class="o">:</span><span class="n">text</span><span class="o">=</span><span class="s">&#34;@string/topStr&#34;</span> <span class="o">/&gt;</span>
+
+        <span class="o">&lt;</span><span class="n">com</span><span class="o">.</span><span class="na">lmj</span><span class="o">.</span><span class="na">com</span><span class="o">.</span><span class="na">mynestscroll</span><span class="o">.</span><span class="na">view</span><span class="o">.</span><span class="na">MyNestedScrollChild</span>
+            <span class="n">android</span><span class="o">:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">&#34;match_parent&#34;</span>
+            <span class="n">android</span><span class="o">:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">&#34;wrap_content&#34;</span>
+            <span class="n">android</span><span class="o">:</span><span class="n">orientation</span><span class="o">=</span><span class="s">&#34;vertical&#34;</span><span class="o">&gt;</span>
+
+            <span class="o">&lt;</span><span class="n">TextView</span>
+                <span class="n">android</span><span class="o">:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">&#34;match_parent&#34;</span>
+                <span class="n">android</span><span class="o">:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">&#34;wrap_content&#34;</span>
+                <span class="n">android</span><span class="o">:</span><span class="n">text</span><span class="o">=</span><span class="s">&#34;@string/contenttv&#34;</span>
+                <span class="n">android</span><span class="o">:</span><span class="n">textColor</span><span class="o">=</span><span class="s">&#34;#f0f&#34;</span> <span class="o">/&gt;</span>
+        <span class="o">&lt;/</span><span class="n">com</span><span class="o">.</span><span class="na">lmj</span><span class="o">.</span><span class="na">com</span><span class="o">.</span><span class="na">mynestscroll</span><span class="o">.</span><span class="na">view</span><span class="o">.</span><span class="na">MyNestedScrollChild</span><span class="o">&gt;</span>
+    <span class="o">&lt;/</span><span class="n">com</span><span class="o">.</span><span class="na">lmj</span><span class="o">.</span><span class="na">com</span><span class="o">.</span><span class="na">mynestscroll</span><span class="o">.</span><span class="na">view</span><span class="o">.</span><span class="na">MyNestedScrollParent</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">RelativeLayout</span><span class="o">&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="mainactivityjava">MainActivity.java</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainActivity</span> <span class="kd">extends</span> <span class="n">AppCompatActivity</span> <span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+        <span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_main</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="mynestedscrollchildjava">MyNestedScrollChild.java</h2>
+<ul>
+<li>在<code>onTouchEvent()</code>中先后调用了<code>startNestedScroll()</code>和<code>dispatchNestedPreScroll()</code>方法，具体逻辑在注释中已经说的很清楚。</li>
+<li>至于NestedScrollingChild接口的实现则是完全借助了NestedScrollingChildHelper帮助类。</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyNestedScrollChild</span> <span class="kd">extends</span> <span class="n">LinearLayout</span> <span class="kd">implements</span> <span class="n">NestedScrollingChild</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">NestedScrollingChildHelper</span> <span class="n">mScrollingChildHelper</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">offset</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">2</span><span class="o">];</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">consumed</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">2</span><span class="o">];</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">lastY</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">showHeight</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">MyNestedScrollChild</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nf">MyNestedScrollChild</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">AttributeSet</span> <span class="n">attrs</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">attrs</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onMeasure</span><span class="o">(</span><span class="kt">int</span> <span class="n">widthMeasureSpec</span><span class="o">,</span> <span class="kt">int</span> <span class="n">heightMeasureSpec</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//第一次测量，因为布局文件中高度是wrap_content，因此测量模式为ATMOST，即高度不能超过父控件的剩余空间
+</span><span class="c1"></span>        <span class="kd">super</span><span class="o">.</span><span class="na">onMeasure</span><span class="o">(</span><span class="n">widthMeasureSpec</span><span class="o">,</span> <span class="n">heightMeasureSpec</span><span class="o">);</span>
+        <span class="n">showHeight</span> <span class="o">=</span> <span class="n">getMeasuredHeight</span><span class="o">();</span>
+
+        <span class="c1">//第二次测量，对高度没有任何限制，那么测量出来的就是完全展示内容所需要的高度
+</span><span class="c1"></span>        <span class="n">heightMeasureSpec</span> <span class="o">=</span> <span class="n">MeasureSpec</span><span class="o">.</span><span class="na">makeMeasureSpec</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="n">MeasureSpec</span><span class="o">.</span><span class="na">UNSPECIFIED</span><span class="o">);</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onMeasure</span><span class="o">(</span><span class="n">widthMeasureSpec</span><span class="o">,</span> <span class="n">heightMeasureSpec</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">onTouchEvent</span><span class="o">(</span><span class="n">MotionEvent</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">switch</span> <span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getAction</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">case</span> <span class="n">MotionEvent</span><span class="o">.</span><span class="na">ACTION_DOWN</span><span class="o">:</span>
+                <span class="n">lastY</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">e</span><span class="o">.</span><span class="na">getRawY</span><span class="o">();</span>
+                <span class="k">break</span><span class="o">;</span>
+            <span class="k">case</span> <span class="n">MotionEvent</span><span class="o">.</span><span class="na">ACTION_MOVE</span><span class="o">:</span>
+                <span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getRawY</span><span class="o">());</span>
+                <span class="kt">int</span> <span class="n">dy</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">lastY</span><span class="o">;</span>
+                <span class="n">lastY</span> <span class="o">=</span> <span class="n">y</span><span class="o">;</span>
+
+                <span class="k">if</span> <span class="o">(</span><span class="n">startNestedScroll</span><span class="o">(</span><span class="n">ViewCompat</span><span class="o">.</span><span class="na">SCROLL_AXIS_VERTICAL</span><span class="o">)</span> <span class="c1">//如果找到了支持嵌套滚动的父类
+</span><span class="c1"></span>                        <span class="o">&amp;&amp;</span> <span class="n">dispatchNestedPreScroll</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="n">dy</span><span class="o">,</span> <span class="n">consumed</span><span class="o">,</span> <span class="n">offset</span><span class="o">))</span> <span class="o">{</span><span class="c1">//父类进行了一部分滚动
+</span><span class="c1"></span>
+                    <span class="kt">int</span> <span class="n">remain</span> <span class="o">=</span> <span class="n">dy</span> <span class="o">-</span> <span class="n">consumed</span><span class="o">[</span><span class="n">1</span><span class="o">];</span><span class="c1">//获取滚动的剩余距离
+</span><span class="c1"></span>                    <span class="k">if</span> <span class="o">(</span><span class="n">remain</span> <span class="o">!=</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">scrollBy</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="o">-</span><span class="n">remain</span><span class="o">);</span>
+                    <span class="o">}</span>
+
+                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                    <span class="n">scrollBy</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="o">-</span><span class="n">dy</span><span class="o">);</span>
+                <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">//scrollBy内部会调用scrollTo
+</span><span class="c1"></span>    <span class="c1">//限制滚动范围
+</span><span class="c1"></span>    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">scrollTo</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">MaxY</span> <span class="o">=</span> <span class="n">getMeasuredHeight</span><span class="o">()</span> <span class="o">-</span> <span class="n">showHeight</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">y</span> <span class="o">&gt;</span> <span class="n">MaxY</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">MaxY</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">scrollTo</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="n">NestedScrollingChildHelper</span> <span class="nf">getScrollingChildHelper</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mScrollingChildHelper</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">mScrollingChildHelper</span> <span class="o">=</span> <span class="k">new</span> <span class="n">NestedScrollingChildHelper</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+            <span class="n">mScrollingChildHelper</span><span class="o">.</span><span class="na">setNestedScrollingEnabled</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">mScrollingChildHelper</span><span class="o">;</span>
+    <span class="o">}</span>
+
+<span class="c1">//以下为接口实现--------------------------------------------------
+</span><span class="c1"></span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setNestedScrollingEnabled</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">enabled</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">getScrollingChildHelper</span><span class="o">().</span><span class="na">setNestedScrollingEnabled</span><span class="o">(</span><span class="n">enabled</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isNestedScrollingEnabled</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">getScrollingChildHelper</span><span class="o">().</span><span class="na">isNestedScrollingEnabled</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">startNestedScroll</span><span class="o">(</span><span class="kt">int</span> <span class="n">axes</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">getScrollingChildHelper</span><span class="o">().</span><span class="na">startNestedScroll</span><span class="o">(</span><span class="n">axes</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">stopNestedScroll</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">getScrollingChildHelper</span><span class="o">().</span><span class="na">stopNestedScroll</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasNestedScrollingParent</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">getScrollingChildHelper</span><span class="o">().</span><span class="na">hasNestedScrollingParent</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">dispatchNestedScroll</span><span class="o">(</span><span class="kt">int</span> <span class="n">dxConsumed</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dyConsumed</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dxUnconsumed</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dyUnconsumed</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">offsetInWindow</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">getScrollingChildHelper</span><span class="o">().</span><span class="na">dispatchNestedScroll</span><span class="o">(</span><span class="n">dxConsumed</span><span class="o">,</span> <span class="n">dyConsumed</span><span class="o">,</span> <span class="n">dxUnconsumed</span><span class="o">,</span> <span class="n">dyUnconsumed</span><span class="o">,</span> <span class="n">offsetInWindow</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">dispatchNestedPreScroll</span><span class="o">(</span><span class="kt">int</span> <span class="n">dx</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dy</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">consumed</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">offsetInWindow</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">getScrollingChildHelper</span><span class="o">().</span><span class="na">dispatchNestedPreScroll</span><span class="o">(</span><span class="n">dx</span><span class="o">,</span> <span class="n">dy</span><span class="o">,</span> <span class="n">consumed</span><span class="o">,</span> <span class="n">offsetInWindow</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">dispatchNestedFling</span><span class="o">(</span><span class="kt">float</span> <span class="n">velocityX</span><span class="o">,</span> <span class="kt">float</span> <span class="n">velocityY</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">consumed</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">getScrollingChildHelper</span><span class="o">().</span><span class="na">dispatchNestedFling</span><span class="o">(</span><span class="n">velocityX</span><span class="o">,</span> <span class="n">velocityY</span><span class="o">,</span> <span class="n">consumed</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">dispatchNestedPreFling</span><span class="o">(</span><span class="kt">float</span> <span class="n">velocityX</span><span class="o">,</span> <span class="kt">float</span> <span class="n">velocityY</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">getScrollingChildHelper</span><span class="o">().</span><span class="na">dispatchNestedPreFling</span><span class="o">(</span><span class="n">velocityX</span><span class="o">,</span> <span class="n">velocityY</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="mynestedscrollparentjava">MyNestedScrollParent.java</h2>
+<ul>
+<li>在<code>onStartNestedScroll()</code>中判断参数target是哪一个子view以及滚动的方向，然后决定是否要配合其进行嵌套滚动</li>
+<li>在<code>onNestedPreScroll()</code>中获取需要滚动的距离，根据情况决定自己是否要进行滚动，最后还要将自己滚动消费掉的距离存储在consumed数组中回传给child</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyNestedScrollParent</span> <span class="kd">extends</span> <span class="n">LinearLayout</span> <span class="kd">implements</span> <span class="n">NestedScrollingParent</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">ImageView</span> <span class="n">img</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">TextView</span> <span class="n">tv</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">MyNestedScrollChild</span> <span class="n">nsc</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">NestedScrollingParentHelper</span> <span class="n">mParentHelper</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">imgHeight</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">tvHeight</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">MyNestedScrollParent</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">AttributeSet</span> <span class="n">attrs</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">attrs</span><span class="o">);</span>
+        <span class="n">init</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nf">MyNestedScrollParent</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+        <span class="n">init</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">mParentHelper</span> <span class="o">=</span> <span class="k">new</span> <span class="n">NestedScrollingParentHelper</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">//获取子view
+</span><span class="c1"></span>    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onFinishInflate</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="o">(</span><span class="n">ImageView</span><span class="o">)</span> <span class="n">getChildAt</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+        <span class="n">tv</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span> <span class="n">getChildAt</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
+        <span class="n">nsc</span> <span class="o">=</span> <span class="o">(</span><span class="n">MyNestedScrollChild</span><span class="o">)</span> <span class="n">getChildAt</span><span class="o">(</span><span class="n">2</span><span class="o">);</span>
+
+        <span class="n">img</span><span class="o">.</span><span class="na">getViewTreeObserver</span><span class="o">().</span><span class="na">addOnGlobalLayoutListener</span><span class="o">(</span><span class="k">new</span> <span class="n">ViewTreeObserver</span><span class="o">.</span><span class="na">OnGlobalLayoutListener</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onGlobalLayout</span><span class="o">()</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">imgHeight</span> <span class="o">&lt;=</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">imgHeight</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="na">getMeasuredHeight</span><span class="o">();</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">});</span>
+        <span class="n">tv</span><span class="o">.</span><span class="na">getViewTreeObserver</span><span class="o">().</span><span class="na">addOnGlobalLayoutListener</span><span class="o">(</span><span class="k">new</span> <span class="n">ViewTreeObserver</span><span class="o">.</span><span class="na">OnGlobalLayoutListener</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onGlobalLayout</span><span class="o">()</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">tvHeight</span> <span class="o">&lt;=</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">tvHeight</span> <span class="o">=</span> <span class="n">tv</span><span class="o">.</span><span class="na">getMeasuredHeight</span><span class="o">();</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">});</span>
+    <span class="o">}</span>
+
+<span class="c1">//接口实现--------------------------------------------------
+</span><span class="c1"></span>
+    <span class="c1">//在此可以判断参数target是哪一个子view以及滚动的方向，然后决定是否要配合其进行嵌套滚动
+</span><span class="c1"></span>    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">onStartNestedScroll</span><span class="o">(</span><span class="n">View</span> <span class="n">child</span><span class="o">,</span> <span class="n">View</span> <span class="n">target</span><span class="o">,</span> <span class="kt">int</span> <span class="n">nestedScrollAxes</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">target</span> <span class="k">instanceof</span> <span class="n">MyNestedScrollChild</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onNestedScrollAccepted</span><span class="o">(</span><span class="n">View</span> <span class="n">child</span><span class="o">,</span> <span class="n">View</span> <span class="n">target</span><span class="o">,</span> <span class="kt">int</span> <span class="n">nestedScrollAxes</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">mParentHelper</span><span class="o">.</span><span class="na">onNestedScrollAccepted</span><span class="o">(</span><span class="n">child</span><span class="o">,</span> <span class="n">target</span><span class="o">,</span> <span class="n">nestedScrollAxes</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onStopNestedScroll</span><span class="o">(</span><span class="n">View</span> <span class="n">target</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">mParentHelper</span><span class="o">.</span><span class="na">onStopNestedScroll</span><span class="o">(</span><span class="n">target</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">//先于child滚动
+</span><span class="c1"></span>    <span class="c1">//前3个为输入参数，最后一个是输出参数
+</span><span class="c1"></span>    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onNestedPreScroll</span><span class="o">(</span><span class="n">View</span> <span class="n">target</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dx</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dy</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">consumed</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">showImg</span><span class="o">(</span><span class="n">dy</span><span class="o">)</span> <span class="o">||</span> <span class="n">hideImg</span><span class="o">(</span><span class="n">dy</span><span class="o">))</span> <span class="o">{</span><span class="c1">//如果需要显示或隐藏图片，即需要自己(parent)滚动
+</span><span class="c1"></span>            <span class="n">scrollBy</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="o">-</span><span class="n">dy</span><span class="o">);</span><span class="c1">//滚动
+</span><span class="c1"></span>            <span class="n">consumed</span><span class="o">[</span><span class="n">1</span><span class="o">]</span> <span class="o">=</span> <span class="n">dy</span><span class="o">;</span><span class="c1">//告诉child我消费了多少
+</span><span class="c1"></span>        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">//后于child滚动
+</span><span class="c1"></span>    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onNestedScroll</span><span class="o">(</span><span class="n">View</span> <span class="n">target</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dxConsumed</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dyConsumed</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dxUnconsumed</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dyUnconsumed</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="o">}</span>
+
+    <span class="c1">//返回值：是否消费了fling
+</span><span class="c1"></span>    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">onNestedPreFling</span><span class="o">(</span><span class="n">View</span> <span class="n">target</span><span class="o">,</span> <span class="kt">float</span> <span class="n">velocityX</span><span class="o">,</span> <span class="kt">float</span> <span class="n">velocityY</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">//返回值：是否消费了fling
+</span><span class="c1"></span>    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">onNestedFling</span><span class="o">(</span><span class="n">View</span> <span class="n">target</span><span class="o">,</span> <span class="kt">float</span> <span class="n">velocityX</span><span class="o">,</span> <span class="kt">float</span> <span class="n">velocityY</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">consumed</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getNestedScrollAxes</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">mParentHelper</span><span class="o">.</span><span class="na">getNestedScrollAxes</span><span class="o">();</span>
+    <span class="o">}</span>
+
+<span class="c1">//--------------------------------------------------
+</span><span class="c1"></span>
+    <span class="c1">//下拉的时候是否要向下滚动以显示图片
+</span><span class="c1"></span>    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">showImg</span><span class="o">(</span><span class="kt">int</span> <span class="n">dy</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">dy</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">getScrollY</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">0</span> <span class="o">&amp;&amp;</span> <span class="n">nsc</span><span class="o">.</span><span class="na">getScrollY</span><span class="o">()</span> <span class="o">==</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">//上拉的时候，是否要向上滚动，隐藏图片
+</span><span class="c1"></span>    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hideImg</span><span class="o">(</span><span class="kt">int</span> <span class="n">dy</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">dy</span> <span class="o">&lt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">getScrollY</span><span class="o">()</span> <span class="o">&lt;</span> <span class="n">imgHeight</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">//scrollBy内部会调用scrollTo
+</span><span class="c1"></span>    <span class="c1">//限制滚动范围
+</span><span class="c1"></span>    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">scrollTo</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">y</span> <span class="o">&gt;</span> <span class="n">imgHeight</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">imgHeight</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">super</span><span class="o">.</span><span class="na">scrollTo</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="2-使用系统已有的nestedscrollingchild">2 使用系统已有的NestedScrollingChild</h1>
+<p>这个示例来自：<a href="http://blog.csdn.net/lmj623565791/article/details/43649913">http://blog.csdn.net/lmj623565791/article/details/43649913</a></p>
+<p>与第一个项目相比，此项目：</p>
+<ol>
+<li>使用了系统已有的NestedScrollingChild，即RecyclerView</li>
+<li>NestedScrollingChild和NestedScrollingParent并不是直接的父子关系，中间隔了一个ViewPager</li>
+</ol>
+<p>主要代码逻辑与第一个项目大同小异，因此不再赘述了。项目效果如下：</p>
+<p><img src="3.gif" alt=""></p>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/nestedscrolling/">NestedScrolling</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/20161226nestedscrolling3/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">NestedScrolling机制-本质&amp;源码解析</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/20161226nestedscrolling1/">
+            <span class="next-text nav-default">NestedScrolling机制-概述</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:al4fun@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://github.com/al4fun" class="iconfont icon-github" title="github"></a>
+  <a href="https://al4fun.gitee.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2016 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>al4fun</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

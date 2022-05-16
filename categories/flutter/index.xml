@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Flutter on al4fun&#39;s notes</title>
+    <link>https://al4fun.gitee.io/categories/flutter/</link>
+    <description>Recent content in Flutter on al4fun&#39;s notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 02 Jun 2020 17:20:21 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/categories/flutter/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Flutter App性能优化关注点</title>
+      <link>https://al4fun.gitee.io/post/20200602flutter/</link>
+      <pubDate>Tue, 02 Jun 2020 17:20:21 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20200602flutter/</guid>
+      <description>参考：官方文档 控制build()消耗 避免在build方法中进行重复和高消耗的工作，因为build方法可能会被频繁的调用（当父组件、祖先组件r</description>
+    </item>
+    
+    <item>
+      <title>Flutter实现3D球</title>
+      <link>https://al4fun.gitee.io/post/20200212ball/</link>
+      <pubDate>Wed, 12 Feb 2020 17:39:41 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20200212ball/</guid>
+      <description>简介 这是之前项目中用到的一个3D球控件，实现了文字元素在球面上的分布以及球体滚动时文字外形和运动轨迹的透视效果。 因为没有实现丰富的可定制性和</description>
+    </item>
+    
+    <item>
+      <title>水平滚动的数字选择标尺</title>
+      <link>https://al4fun.gitee.io/post/20200211selector/</link>
+      <pubDate>Tue, 11 Feb 2020 20:27:02 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20200211selector/</guid>
+      <description>功能 水平滚动的数字选择标尺。支持： 选取整数、小数。不同的步进。 自定义刻度样式。 自定义数字显示的格式、单位。 惯性滚动。手指离开后自动对齐。 为了</description>
+    </item>
+    
+    <item>
+      <title>didUpdateWidget详解</title>
+      <link>https://al4fun.gitee.io/post/20200204didupdatewidget/</link>
+      <pubDate>Tue, 04 Feb 2020 17:49:48 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20200204didupdatewidget/</guid>
+      <description>概述 只要在父widget中调用setState，子widget的didUpdateWidget就一定会被调用，不管父widget传递给子wi</description>
+    </item>
+    
+    <item>
+      <title>Flutter常用的布局组件</title>
+      <link>https://al4fun.gitee.io/post/20200204layout/</link>
+      <pubDate>Tue, 04 Feb 2020 15:57:40 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20200204layout/</guid>
+      <description>Flutter中有很多布局组件，看起来纷繁复杂，而实际上其中有很多布局组件都是“过时”的，也就是说它们都有更好更简单的替代品。下面就将我最近</description>
+    </item>
+    
+    <item>
+      <title>Flutter中的路由函数</title>
+      <link>https://al4fun.gitee.io/post/20190921router/</link>
+      <pubDate>Sat, 21 Sep 2019 21:40:07 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20190921router/</guid>
+      <description>概述 Flutter中，路由(Router)即页面的封装，一个路由内部包含了一个页面。创建路由： 1 2 3 MaterialPageRoute route = MaterialPageRoute( builder: (BuildContext context) =&amp;gt; MyPage(), ); 类似于在Androi</description>
+    </item>
+    
+    <item>
+      <title>Flutter中的Key和GlobalKey</title>
+      <link>https://al4fun.gitee.io/post/20190714key/</link>
+      <pubDate>Sun, 14 Jul 2019 08:45:01 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20190714key/</guid>
+      <description>1.Key 参考：https://api.flutter.dev/flutter/widgets/Widget/key.html 控制一个widget该</description>
+    </item>
+    
+  </channel>
+</rss>

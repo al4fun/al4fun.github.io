@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>布局 on al4fun&#39;s notes</title>
+    <link>https://al4fun.gitee.io/tags/%E5%B8%83%E5%B1%80/</link>
+    <description>Recent content in 布局 on al4fun&#39;s notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 04 Feb 2020 15:57:40 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/tags/%E5%B8%83%E5%B1%80/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Flutter常用的布局组件</title>
+      <link>https://al4fun.gitee.io/post/20200204layout/</link>
+      <pubDate>Tue, 04 Feb 2020 15:57:40 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20200204layout/</guid>
+      <description>Flutter中有很多布局组件，看起来纷繁复杂，而实际上其中有很多布局组件都是“过时”的，也就是说它们都有更好更简单的替代品。下面就将我最近</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>countdown on al4fun&#39;s notes</title>
+    <link>https://al4fun.gitee.io/tags/countdown/</link>
+    <description>Recent content in countdown on al4fun&#39;s notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 12 Jul 2018 21:40:11 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/tags/countdown/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>倒计时控件-CountdownView</title>
+      <link>https://al4fun.gitee.io/post/20180712countdownview/</link>
+      <pubDate>Thu, 12 Jul 2018 21:40:11 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20180712countdownview/</guid>
+      <description>这是新项目中用到的一个倒计时控件，可以通过addView(&amp;hellip;)添加到任意布局中。计时长短可调；各种颜色、尺寸可调；可以传入一个</description>
+    </item>
+    
+  </channel>
+</rss>

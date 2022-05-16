@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>子窗口应用实战 - al4fun&#39;s notes</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="al4fun" /><meta name="description" content="1 在页面任意位置展示一个漂浮view 1.1 需求背景 前几天接到一个小需求，要在app某页面中显示一个漂浮的文字提示。本来想就弹个Toast的，但P" /><meta name="keywords" content="android, web, flutter" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.0 with theme even" />
+
+
+<link rel="canonical" href="https://al4fun.gitee.io/post/20170930childwindow/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.cb68f97bc9cece255d217346d970e3c62623408634e500c330a62fadabbbe77c.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="子窗口应用实战" />
+<meta property="og:description" content="1 在页面任意位置展示一个漂浮view 1.1 需求背景 前几天接到一个小需求，要在app某页面中显示一个漂浮的文字提示。本来想就弹个Toast的，但P" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://al4fun.gitee.io/post/20170930childwindow/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2017-09-30T17:44:57+00:00" />
+<meta property="article:modified_time" content="2017-09-30T17:44:57+00:00" />
+
+<meta itemprop="name" content="子窗口应用实战">
+<meta itemprop="description" content="1 在页面任意位置展示一个漂浮view 1.1 需求背景 前几天接到一个小需求，要在app某页面中显示一个漂浮的文字提示。本来想就弹个Toast的，但P"><meta itemprop="datePublished" content="2017-09-30T17:44:57+00:00" />
+<meta itemprop="dateModified" content="2017-09-30T17:44:57+00:00" />
+<meta itemprop="wordCount" content="6026">
+<meta itemprop="keywords" content="Android窗口," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="子窗口应用实战"/>
+<meta name="twitter:description" content="1 在页面任意位置展示一个漂浮view 1.1 需求背景 前几天接到一个小需求，要在app某页面中显示一个漂浮的文字提示。本来想就弹个Toast的，但P"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">al4fun&#39;s notes</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">al4fun&#39;s notes</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">子窗口应用实战</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2017-09-30 </span>
+        <div class="post-category">
+            <a href="/categories/android/"> Android </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-在页面任意位置展示一个漂浮view">1 在页面任意位置展示一个漂浮view</a>
+      <ul>
+        <li><a href="#11-需求背景">1.1 需求背景</a></li>
+        <li><a href="#12-使用方式">1.2 使用方式</a></li>
+        <li><a href="#13-代码实现">1.3 代码实现</a></li>
+        <li><a href="#14-globaltip">1.4 GlobalTip</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-由服务器灵活配置的浮动广告">2 由服务器灵活配置的浮动广告</a>
+      <ul>
+        <li><a href="#21-需求背景">2.1 需求背景</a></li>
+        <li><a href="#22-代码实现">2.2 代码实现</a></li>
+        <li><a href="#23-使用示例">2.3 使用示例</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="1-在页面任意位置展示一个漂浮view">1 在页面任意位置展示一个漂浮view</h1>
+<h2 id="11-需求背景">1.1 需求背景</h2>
+<p>前几天接到一个小需求，要在app某页面中显示一个漂浮的文字提示。本来想就弹个Toast的，但PM还要求文字提示支持手动关闭(比如触摸屏幕任意位置关闭，或者点击文字提示后关闭)，那么系统的Toast就不能用了。另一方面，因为需要弹出文字提示的页面无论页面展示逻辑还是业务逻辑都异常复杂，所以不太希望去它的布局文件中添加view，也不希望对其代码逻辑有过多的修改——最好是能够一行代码展示文字提示，一行代码移除文字提示。</p>
+<p>最终确定的方案是使用子窗口。为什么使用子窗口而不是顶级窗口(系统级窗口)呢？因为子窗口有与父窗口相同的生命周期。当文字提示以页面的子窗口的形式存在时，当用户按下返回键关闭页面，文字提示也会跟着页面一起消失，而不是继续留在屏幕上。</p>
+<p>写了一个单独的Tip类来实现这个功能，效果如下：</p>
+<p><img src="tip.gif" alt=""></p>
+<p>demo代码: <a href="http://download.csdn.net/download/al4fun/10004088">http://download.csdn.net/download/al4fun/10004088</a></p>
+<h2 id="12-使用方式">1.2 使用方式</h2>
+<p>基本使用方式：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">//展示tip
+</span><span class="c1"></span><span class="n">Tip</span> <span class="n">tip</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tip</span><span class="o">(</span><span class="n">view</span><span class="o">)</span> <span class="c1">//view：需要展示tip的页面中的任意一个view，用来获取父窗口的windowToken
+</span><span class="c1"></span>        <span class="o">.</span><span class="na">content</span><span class="o">(</span><span class="s">&#34;文字提示&#34;</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">show</span><span class="o">();</span>
+
+<span class="c1">//关闭tip
+</span><span class="c1"></span><span class="n">tip</span><span class="o">.</span><span class="na">remove</span><span class="o">();</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>可选项：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="n">Tip</span> <span class="n">tip</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tip</span><span class="o">(</span><span class="n">view</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">content</span><span class="o">(</span><span class="s">&#34;文字提示&#34;</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">location</span><span class="o">(</span><span class="n">Gravity</span><span class="o">.</span><span class="na">LEFT</span> <span class="o">|</span> <span class="n">Gravity</span><span class="o">.</span><span class="na">TOP</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">0</span><span class="o">)</span> <span class="c1">//指定tip在父窗口中的位置，若不指定，则居中显示
+</span><span class="c1"></span>        <span class="o">.</span><span class="na">clickToRemove</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="c1">//点击tip时tip消失
+</span><span class="c1"></span>        <span class="o">.</span><span class="na">show</span><span class="o">();</span>
+
+<span class="n">tip</span><span class="o">.</span><span class="na">updateContent</span><span class="o">(</span><span class="s">&#34;新文字提示&#34;</span><span class="o">);</span> <span class="c1">//更新tip的显示内容
+</span><span class="c1"></span><span class="n">tip</span><span class="o">.</span><span class="na">updateLocation</span><span class="o">(</span><span class="n">Gravity</span><span class="o">.</span><span class="na">CENTER</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">0</span><span class="o">);</span> <span class="c1">//更新tip的位置
+</span></code></pre></td></tr></table>
+</div>
+</div><p>自定义tip的视图：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="n">View</span> <span class="n">contentView</span> <span class="o">=</span> <span class="n">View</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">MainActivity</span><span class="o">.</span><span class="na">this</span><span class="o">,</span> <span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">view_tip</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+<span class="n">Tip</span> <span class="n">tip</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tip</span><span class="o">(</span><span class="n">view</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">content</span><span class="o">(</span><span class="n">contentView</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">show</span><span class="o">();</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="13-代码实现">1.3 代码实现</h2>
+<p>Tip类的实现很简单，仅有200来行代码，对WindowManager稍有了解的朋友应该很容易理解。有两个地方需要稍微解释一下：</p>
+<p><strong>1 获取不到windowToken</strong></p>
+<p>要展示一个子窗口，需要获取父窗口的windowToken。我们获取windowToken的方式是，在show()方法中调用viewInParentWindow的getWindowToken方法(viewInParentWindow就是创建Tip对象时传递给构造方法的那个view)。这里可能会出现一种情况，就是如果show()方法被调用得过早的话，比如在Activity的onCreate方法中，此时viewInParentWindow尚未被attach到父窗口中，那么viewInParentWindow.getWindowToken()会返回null，使用这个空的windowToken来显示tip会导致程序抛出异常并崩溃。如何解决这个问题呢？这里采用了一种简单粗暴的方式，就是使用一个定时器去检查<code>viewInParentWindow.getWindowToken()</code>的返回值，如果为null的话，就0.5s后再去检查，如果不为null，则使用这个windowToken来展示tip：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">//如果show()调用得太早，比如在Activity的onCreate方法中，此时viewInParentWindow尚未被attach到父窗口中，
+</span><span class="c1">//那么viewInParentWindow.getWindowToken()会返回null
+</span><span class="c1">//因此在后面操作开始之前必须确保getWindowToken()已有非null值，每0.5s检查一次
+</span><span class="c1"></span><span class="kd">final</span> <span class="n">Timer</span> <span class="n">timer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Timer</span><span class="o">();</span>
+<span class="n">timer</span><span class="o">.</span><span class="na">scheduleAtFixedRate</span><span class="o">(</span><span class="k">new</span> <span class="n">TimerTask</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">viewInParentWindow</span><span class="o">.</span><span class="na">getWindowToken</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">timer</span><span class="o">.</span><span class="na">cancel</span><span class="o">();</span>
+
+            <span class="k">new</span> <span class="n">Handler</span><span class="o">(</span><span class="n">applicationContext</span><span class="o">.</span><span class="na">getMainLooper</span><span class="o">()).</span><span class="na">post</span><span class="o">(</span><span class="k">new</span> <span class="n">Runnable</span><span class="o">()</span> <span class="o">{</span><span class="c1">//切换到主线程
+</span><span class="c1"></span>                <span class="nd">@Override</span>
+                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+                    <span class="c1">//tip展示逻辑
+</span><span class="c1"></span>                <span class="o">}</span>
+            <span class="o">});</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">},</span> <span class="n">0</span><span class="o">,</span> <span class="n">500</span><span class="o">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>2 窗体泄露(WindowLeaked)</strong></p>
+<p>当用户关闭页面时，如果此页面中有子窗口（也就是tip）正在展示的话，那么子窗口会被自动关闭，同时会抛出一个WindowLeaked异常。虽然这个异常并不会造成程序崩溃之类的严重后果，但logcat里鲜红的异常日志看着也是很不爽的。解决窗体泄露的办法是在页面关闭之前，先将页面中展示的tip移除，比如在activity的onDestroy方法中调用tip的remove方法。但实际开发中的情况是比较复杂的，有时候要想确保在页面关闭前调用tip的remove方法并不太容易。那么不妨换个角度：能不能让tip自己去监听页面的关闭，并在页面关闭前将自己移除呢？其实这很容易做到：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="n">viewInParentWindow</span><span class="o">.</span><span class="na">addOnAttachStateChangeListener</span><span class="o">(</span><span class="k">new</span> <span class="n">View</span><span class="o">.</span><span class="na">OnAttachStateChangeListener</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onViewAttachedToWindow</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onViewDetachedFromWindow</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">remove</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">});</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>当页面关闭时，页面中所有的view(包括viewInParentWindow)都会被从页面所在的窗口中detach掉，那么onViewDetachedFromWindow就会被调用，此时调用tip的remove方法将其移除就可以避免窗体泄露(windowLeaked)。</p>
+<p><strong>完整代码</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span><span class="lnt">174
+</span><span class="lnt">175
+</span><span class="lnt">176
+</span><span class="lnt">177
+</span><span class="lnt">178
+</span><span class="lnt">179
+</span><span class="lnt">180
+</span><span class="lnt">181
+</span><span class="lnt">182
+</span><span class="lnt">183
+</span><span class="lnt">184
+</span><span class="lnt">185
+</span><span class="lnt">186
+</span><span class="lnt">187
+</span><span class="lnt">188
+</span><span class="lnt">189
+</span><span class="lnt">190
+</span><span class="lnt">191
+</span><span class="lnt">192
+</span><span class="lnt">193
+</span><span class="lnt">194
+</span><span class="lnt">195
+</span><span class="lnt">196
+</span><span class="lnt">197
+</span><span class="lnt">198
+</span><span class="lnt">199
+</span><span class="lnt">200
+</span><span class="lnt">201
+</span><span class="lnt">202
+</span><span class="lnt">203
+</span><span class="lnt">204
+</span><span class="lnt">205
+</span><span class="lnt">206
+</span><span class="lnt">207
+</span><span class="lnt">208
+</span><span class="lnt">209
+</span><span class="lnt">210
+</span><span class="lnt">211
+</span><span class="lnt">212
+</span><span class="lnt">213
+</span><span class="lnt">214
+</span><span class="lnt">215
+</span><span class="lnt">216
+</span><span class="lnt">217
+</span><span class="lnt">218
+</span><span class="lnt">219
+</span><span class="lnt">220
+</span><span class="lnt">221
+</span><span class="lnt">222
+</span><span class="lnt">223
+</span><span class="lnt">224
+</span><span class="lnt">225
+</span><span class="lnt">226
+</span><span class="lnt">227
+</span><span class="lnt">228
+</span><span class="lnt">229
+</span><span class="lnt">230
+</span><span class="lnt">231
+</span><span class="lnt">232
+</span><span class="lnt">233
+</span><span class="lnt">234
+</span><span class="lnt">235
+</span><span class="lnt">236
+</span><span class="lnt">237
+</span><span class="lnt">238
+</span><span class="lnt">239
+</span><span class="lnt">240
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm"> * 作为子窗口存在的tip，依附于父窗口，当父窗口不可见时，tip也不可见。
+</span><span class="cm"> */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Tip</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">TAG</span> <span class="o">=</span> <span class="s">&#34;Tip&#34;</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="n">Context</span> <span class="n">applicationContext</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">WindowManager</span> <span class="n">wm</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">View</span> <span class="n">viewInParentWindow</span><span class="o">;</span><span class="c1">//父窗口中的一个view，通过此view来获取父窗口的各种信息
+</span><span class="c1"></span>
+    <span class="kd">private</span> <span class="n">View</span> <span class="n">content</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">Size</span> <span class="n">size</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">Location</span> <span class="n">location</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">clickToRemove</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Size</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">width</span><span class="o">,</span> <span class="n">height</span><span class="o">;</span>
+
+        <span class="kd">public</span> <span class="nf">Size</span><span class="o">(</span><span class="kt">int</span> <span class="n">width</span><span class="o">,</span> <span class="kt">int</span> <span class="n">height</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">width</span> <span class="o">=</span> <span class="n">width</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">height</span> <span class="o">=</span> <span class="n">height</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Location</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">gravity</span><span class="o">,</span> <span class="n">offsetX</span><span class="o">,</span> <span class="n">offsetY</span><span class="o">;</span>
+
+        <span class="n">Location</span><span class="o">(</span><span class="kt">int</span> <span class="n">gravity</span><span class="o">,</span> <span class="kt">int</span> <span class="n">offsetX</span><span class="o">,</span> <span class="kt">int</span> <span class="n">offsetY</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">gravity</span> <span class="o">=</span> <span class="n">gravity</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">offsetX</span> <span class="o">=</span> <span class="n">offsetX</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">offsetY</span> <span class="o">=</span> <span class="n">offsetY</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+</span><span class="cm">     * @param viewInParentWindow:父窗口中的一个view。因为tip是作为子窗口而存在的，因此必须传入一个父窗口中的view，用以获取父窗口的各种信息。
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="nf">Tip</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">View</span> <span class="n">viewInParentWindow</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">applicationContext</span> <span class="o">=</span> <span class="n">viewInParentWindow</span><span class="o">.</span><span class="na">getContext</span><span class="o">().</span><span class="na">getApplicationContext</span><span class="o">();</span>
+        <span class="n">wm</span> <span class="o">=</span> <span class="o">(</span><span class="n">WindowManager</span><span class="o">)</span> <span class="n">applicationContext</span><span class="o">.</span><span class="na">getSystemService</span><span class="o">(</span><span class="n">Context</span><span class="o">.</span><span class="na">WINDOW_SERVICE</span><span class="o">);</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">viewInParentWindow</span> <span class="o">=</span> <span class="n">viewInParentWindow</span><span class="o">;</span>
+
+        <span class="k">this</span><span class="o">.</span><span class="na">viewInParentWindow</span><span class="o">.</span><span class="na">addOnAttachStateChangeListener</span><span class="o">(</span><span class="k">new</span> <span class="n">View</span><span class="o">.</span><span class="na">OnAttachStateChangeListener</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onViewAttachedToWindow</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+
+            <span class="o">}</span>
+
+            <span class="c1">//当父窗口被关闭时，父窗口中的view会被detach，那么此方法就会被调用，
+</span><span class="c1"></span>            <span class="c1">//此时需要移除tip，防止窗口泄露(windowLeaked)。
+</span><span class="c1"></span>            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onViewDetachedFromWindow</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">remove</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">});</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+</span><span class="cm">     * 以默认的textView作为tip的内容
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="n">Tip</span> <span class="nf">content</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">String</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">content</span> <span class="o">=</span> <span class="n">buildDefaultView</span><span class="o">(</span><span class="n">message</span><span class="o">);</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="n">View</span> <span class="nf">buildDefaultView</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">String</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">TextView</span> <span class="n">textView</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TextView</span><span class="o">(</span><span class="n">applicationContext</span><span class="o">);</span>
+        <span class="n">textView</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">message</span><span class="o">);</span>
+        <span class="n">textView</span><span class="o">.</span><span class="na">setTextSize</span><span class="o">(</span><span class="n">TypedValue</span><span class="o">.</span><span class="na">COMPLEX_UNIT_DIP</span><span class="o">,</span> <span class="n">16</span><span class="o">);</span>
+        <span class="n">textView</span><span class="o">.</span><span class="na">setTextColor</span><span class="o">(</span><span class="n">Color</span><span class="o">.</span><span class="na">parseColor</span><span class="o">(</span><span class="s">&#34;#FFFFFF&#34;</span><span class="o">));</span>
+        <span class="n">textView</span><span class="o">.</span><span class="na">setBackgroundColor</span><span class="o">(</span><span class="n">Color</span><span class="o">.</span><span class="na">parseColor</span><span class="o">(</span><span class="s">&#34;#000000&#34;</span><span class="o">));</span>
+        <span class="kt">float</span> <span class="n">density</span> <span class="o">=</span> <span class="n">applicationContext</span><span class="o">.</span><span class="na">getResources</span><span class="o">().</span><span class="na">getDisplayMetrics</span><span class="o">().</span><span class="na">density</span><span class="o">;</span>
+        <span class="n">textView</span><span class="o">.</span><span class="na">setPadding</span><span class="o">((</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="n">20</span> <span class="o">*</span> <span class="n">density</span><span class="o">),</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="n">10</span> <span class="o">*</span> <span class="n">density</span><span class="o">),</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="n">20</span> <span class="o">*</span> <span class="n">density</span><span class="o">),</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="n">10</span> <span class="o">*</span> <span class="n">density</span><span class="o">));</span>
+        <span class="k">return</span> <span class="n">textView</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+</span><span class="cm">     * 以参数view作为tip的内容
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="n">Tip</span> <span class="nf">content</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">View</span> <span class="n">view</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">content</span> <span class="o">=</span> <span class="n">view</span><span class="o">;</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+</span><span class="cm">     * 设置Tip的尺寸
+</span><span class="cm">     * &lt;p&gt;
+</span><span class="cm">     * 注意：
+</span><span class="cm">     * 1.一般情况下不需要调用此方法，Tip的默认尺寸为wrap_content
+</span><span class="cm">     * 2.极少数情况下,当通过content(View)传入的view尺寸过大时，可能会出现显示异常(原因暂不明确，可能与系统对子窗口的限制有关)，此时调用此方法可能会解决问题
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="n">Tip</span> <span class="nf">size</span><span class="o">(</span><span class="kt">int</span> <span class="n">width</span><span class="o">,</span> <span class="kt">int</span> <span class="n">height</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">size</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Size</span><span class="o">(</span><span class="n">width</span><span class="o">,</span> <span class="n">height</span><span class="o">);</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+</span><span class="cm">     * 设置tip的显示位置，若不调用此方法，那tip的默认位置就是居中
+</span><span class="cm">     *
+</span><span class="cm">     * @param gravity:对齐方式，如&#34;Gravity.LEFT|Gravity.TOP&#34;
+</span><span class="cm">     * @param offsetX:在对齐方式基础上的横向偏移量，单位为像素
+</span><span class="cm">     * @param offsetY:在对齐方式基础上的纵向偏移量，单位为像素
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="n">Tip</span> <span class="nf">location</span><span class="o">(</span><span class="kt">int</span> <span class="n">gravity</span><span class="o">,</span> <span class="kt">int</span> <span class="n">offsetX</span><span class="o">,</span> <span class="kt">int</span> <span class="n">offsetY</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">location</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Location</span><span class="o">(</span><span class="n">gravity</span><span class="o">,</span> <span class="n">offsetX</span><span class="o">,</span> <span class="n">offsetY</span><span class="o">);</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+</span><span class="cm">     * 是否要点击移除（默认否）
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="n">Tip</span> <span class="nf">clickToRemove</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">clickToRemove</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">clickToRemove</span> <span class="o">=</span> <span class="n">clickToRemove</span><span class="o">;</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+    <span class="o">}</span>
+
+<span class="c1">//-----------------------------------------------------------------------------
+</span><span class="c1"></span>
+    <span class="cm">/**
+</span><span class="cm">     * 展示tip
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="n">Tip</span> <span class="nf">show</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">content</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">Log</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&#34;尚未设置显示内容，请先调用content(String)或content(View)&#34;</span><span class="o">);</span>
+            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="c1">//如果show()调用得太早，比如在Activity的onCreate方法中，此时viewInParentWindow尚未被attach到父窗口中，
+</span><span class="c1"></span>        <span class="c1">//那么viewInParentWindow.getWindowToken()会返回null
+</span><span class="c1"></span>        <span class="c1">//因此在后面操作开始之前必须确保getWindowToken()已有非null值，每0.5s检查一次
+</span><span class="c1"></span>        <span class="kd">final</span> <span class="n">Timer</span> <span class="n">timer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Timer</span><span class="o">();</span>
+        <span class="n">timer</span><span class="o">.</span><span class="na">scheduleAtFixedRate</span><span class="o">(</span><span class="k">new</span> <span class="n">TimerTask</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">viewInParentWindow</span><span class="o">.</span><span class="na">getWindowToken</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">timer</span><span class="o">.</span><span class="na">cancel</span><span class="o">();</span>
+
+                    <span class="k">new</span> <span class="n">Handler</span><span class="o">(</span><span class="n">applicationContext</span><span class="o">.</span><span class="na">getMainLooper</span><span class="o">()).</span><span class="na">post</span><span class="o">(</span><span class="k">new</span> <span class="n">Runnable</span><span class="o">()</span> <span class="o">{</span><span class="c1">//切换到主线程
+</span><span class="c1"></span>                        <span class="nd">@Override</span>
+                        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+                            <span class="n">WindowManager</span><span class="o">.</span><span class="na">LayoutParams</span> <span class="n">layoutParams</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WindowManager</span><span class="o">.</span><span class="na">LayoutParams</span><span class="o">(</span>
+                                    <span class="n">WindowManager</span><span class="o">.</span><span class="na">LayoutParams</span><span class="o">.</span><span class="na">WRAP_CONTENT</span><span class="o">,</span> <span class="n">WindowManager</span><span class="o">.</span><span class="na">LayoutParams</span><span class="o">.</span><span class="na">WRAP_CONTENT</span><span class="o">,</span>
+                                    <span class="n">0</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">PixelFormat</span><span class="o">.</span><span class="na">TRANSPARENT</span><span class="o">);</span>
+                            <span class="n">layoutParams</span><span class="o">.</span><span class="na">flags</span> <span class="o">=</span> <span class="n">WindowManager</span><span class="o">.</span><span class="na">LayoutParams</span><span class="o">.</span><span class="na">FLAG_NOT_TOUCH_MODAL</span> <span class="o">|</span> <span class="n">WindowManager</span><span class="o">.</span><span class="na">LayoutParams</span><span class="o">.</span><span class="na">FLAG_NOT_FOCUSABLE</span><span class="o">;</span>
+                            <span class="n">layoutParams</span><span class="o">.</span><span class="na">type</span> <span class="o">=</span> <span class="n">WindowManager</span><span class="o">.</span><span class="na">LayoutParams</span><span class="o">.</span><span class="na">TYPE_APPLICATION_PANEL</span><span class="o">;</span><span class="c1">//子窗口
+</span><span class="c1"></span>                            <span class="n">layoutParams</span><span class="o">.</span><span class="na">token</span> <span class="o">=</span> <span class="n">viewInParentWindow</span><span class="o">.</span><span class="na">getWindowToken</span><span class="o">();</span><span class="c1">//必须给子窗口设置token，即其父窗口的token
+</span><span class="c1"></span>                            <span class="k">if</span> <span class="o">(</span><span class="n">size</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                                <span class="n">layoutParams</span><span class="o">.</span><span class="na">width</span> <span class="o">=</span> <span class="n">size</span><span class="o">.</span><span class="na">width</span><span class="o">;</span>
+                                <span class="n">layoutParams</span><span class="o">.</span><span class="na">height</span> <span class="o">=</span> <span class="n">size</span><span class="o">.</span><span class="na">height</span><span class="o">;</span>
+                            <span class="o">}</span>
+                            <span class="k">if</span> <span class="o">(</span><span class="n">location</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                                <span class="n">layoutParams</span><span class="o">.</span><span class="na">gravity</span> <span class="o">=</span> <span class="n">location</span><span class="o">.</span><span class="na">gravity</span><span class="o">;</span>
+                                <span class="n">layoutParams</span><span class="o">.</span><span class="na">x</span> <span class="o">=</span> <span class="n">location</span><span class="o">.</span><span class="na">offsetX</span><span class="o">;</span>
+                                <span class="n">layoutParams</span><span class="o">.</span><span class="na">y</span> <span class="o">=</span> <span class="n">location</span><span class="o">.</span><span class="na">offsetY</span><span class="o">;</span>
+                            <span class="o">}</span>
+                            <span class="n">wm</span><span class="o">.</span><span class="na">addView</span><span class="o">(</span><span class="n">content</span><span class="o">,</span> <span class="n">layoutParams</span><span class="o">);</span>
+
+                            <span class="k">if</span> <span class="o">(</span><span class="n">clickToRemove</span><span class="o">)</span> <span class="o">{</span>
+                                <span class="n">content</span><span class="o">.</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">new</span> <span class="n">View</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
+                                    <span class="nd">@Override</span>
+                                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+                                        <span class="n">remove</span><span class="o">();</span>
+                                    <span class="o">}</span>
+                                <span class="o">});</span>
+                            <span class="o">}</span>
+                        <span class="o">}</span>
+                    <span class="o">});</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">},</span> <span class="n">0</span><span class="o">,</span> <span class="n">500</span><span class="o">);</span>
+
+        <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+</span><span class="cm">     * tip是否正在被显示
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isShowing</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">ViewCompat</span><span class="o">.</span><span class="na">isAttachedToWindow</span><span class="o">(</span><span class="n">content</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+</span><span class="cm">     * 更新tip的内容
+</span><span class="cm">     * &lt;p&gt;
+</span><span class="cm">     * 仅适用于通过content(String)创建的tip
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateContent</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">String</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">content</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">Log</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&#34;content为null&#34;</span><span class="o">);</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="k">if</span> <span class="o">(!</span><span class="n">ViewCompat</span><span class="o">.</span><span class="na">isAttachedToWindow</span><span class="o">(</span><span class="n">content</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">Log</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&#34;content并未显示在任何窗口中&#34;</span><span class="o">);</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="k">if</span> <span class="o">(!(</span><span class="n">content</span> <span class="k">instanceof</span> <span class="n">TextView</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">Log</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&#34;content不是TextView&#34;</span><span class="o">);</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="n">TextView</span> <span class="n">tv</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span> <span class="n">content</span><span class="o">;</span>
+        <span class="n">tv</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">message</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+</span><span class="cm">     * 更新tip的显示位置
+</span><span class="cm">     *
+</span><span class="cm">     * @param gravity:对齐方式，如&#34;Gravity.LEFT|Gravity.TOP&#34;
+</span><span class="cm">     * @param offsetX:在对齐方式基础上的横向偏移量，单位为像素
+</span><span class="cm">     * @param offsetY:在对齐方式基础上的纵向偏移量，单位为像素
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateLocation</span><span class="o">(</span><span class="kt">int</span> <span class="n">gravity</span><span class="o">,</span> <span class="kt">int</span> <span class="n">offsetX</span><span class="o">,</span> <span class="kt">int</span> <span class="n">offsetY</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">content</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">Log</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&#34;content为null&#34;</span><span class="o">);</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="k">if</span> <span class="o">(!</span><span class="n">ViewCompat</span><span class="o">.</span><span class="na">isAttachedToWindow</span><span class="o">(</span><span class="n">content</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">Log</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&#34;content并未显示在任何窗口中&#34;</span><span class="o">);</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="n">WindowManager</span><span class="o">.</span><span class="na">LayoutParams</span> <span class="n">layoutParams</span> <span class="o">=</span> <span class="o">(</span><span class="n">WindowManager</span><span class="o">.</span><span class="na">LayoutParams</span><span class="o">)</span> <span class="n">content</span><span class="o">.</span><span class="na">getLayoutParams</span><span class="o">();</span>
+        <span class="n">layoutParams</span><span class="o">.</span><span class="na">gravity</span> <span class="o">=</span> <span class="n">gravity</span><span class="o">;</span>
+        <span class="n">layoutParams</span><span class="o">.</span><span class="na">x</span> <span class="o">=</span> <span class="n">offsetX</span><span class="o">;</span>
+        <span class="n">layoutParams</span><span class="o">.</span><span class="na">y</span> <span class="o">=</span> <span class="n">offsetY</span><span class="o">;</span>
+        <span class="n">wm</span><span class="o">.</span><span class="na">updateViewLayout</span><span class="o">(</span><span class="n">content</span><span class="o">,</span> <span class="n">layoutParams</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+</span><span class="cm">     * 移除tip
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">remove</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">content</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">ViewCompat</span><span class="o">.</span><span class="na">isAttachedToWindow</span><span class="o">(</span><span class="n">content</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">wm</span><span class="o">.</span><span class="na">removeViewImmediate</span><span class="o">(</span><span class="n">content</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="14-globaltip">1.4 GlobalTip</h2>
+<p>在最开始提供的demo代码中，除了通过子窗口实现漂浮view的Tip类之外，还有一个通过顶级窗口来实现漂浮view的GlobalTip类。顶级窗口和子窗口的区别在于，顶级窗口不依赖于app中的任何页面，它的生命周期等于app的生命周期，也就是说只有当整个app关闭时，顶级窗口才会被自动关闭。GlobalTip类的实现与Tip类大同小异，就不另作说明了。</p>
+<h1 id="2-由服务器灵活配置的浮动广告">2 由服务器灵活配置的浮动广告</h1>
+<h2 id="21-需求背景">2.1 需求背景</h2>
+<p>这是几个月以前team leader给的一个小任务，要求写一个工具类，能够在app中方便地展示浮动广告（其实就是一些活动信息，比如节日活动之类的），浮动广告的展示逻辑要求与app自身的逻辑良好解耦，以便在多个app中进行复用，此外，浮动广告的内容、尺寸、展示位置等信息均通过服务器来配置，这样可以做到随时更新，而无需app发版。</p>
+<p>最终的效果：</p>
+<p><img src="admanager.gif" alt=""></p>
+<p>demo代码见: <a href="http://download.csdn.net/download/al4fun/10004094">http://download.csdn.net/download/al4fun/10004094</a></p>
+<h2 id="22-代码实现">2.2 代码实现</h2>
+<p>这大概只能算是一个草稿，没有在项目中实际使用过（因为需求很快就被砍掉了），也没有考虑性能、兼容性等问题，仅供参考：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">BaseAdManager</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">TAG</span> <span class="o">=</span> <span class="s">&#34;BaseAdManager&#34;</span><span class="o">;</span>
+
+    <span class="kd">protected</span> <span class="n">View</span> <span class="n">viewInParentWindow</span><span class="o">;</span>
+    <span class="n">OnContentClickListener</span> <span class="n">listener</span><span class="o">;</span>
+    <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">AdInfo</span><span class="o">&gt;</span> <span class="n">adInfos</span><span class="o">;</span><span class="c1">//从服务器获取的广告配置信息
+</span><span class="c1"></span>    <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Tip</span><span class="o">&gt;</span> <span class="n">tips</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span><span class="c1">//正在展示的广告列表
+</span><span class="c1"></span>
+    <span class="cm">/**
+</span><span class="cm">     * 展示广告
+</span><span class="cm">     *
+</span><span class="cm">     * @param viewInParentWindow 展示广告的页面中的一个view
+</span><span class="cm">     * @param listener           广告图片的点击监听
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">showAds</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="kd">final</span> <span class="n">View</span> <span class="n">viewInParentWindow</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="n">OnContentClickListener</span> <span class="n">listener</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">viewInParentWindow</span> <span class="o">=</span> <span class="n">viewInParentWindow</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">listener</span> <span class="o">=</span> <span class="n">listener</span><span class="o">;</span>
+
+        <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="k">new</span> <span class="n">Runnable</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+                <span class="n">adInfos</span> <span class="o">=</span> <span class="n">getAdInfos</span><span class="o">();</span><span class="c1">//getAdInfos():同步从服务器获取广告配置信息，耗时操作
+</span><span class="c1"></span>                <span class="k">new</span> <span class="n">Handler</span><span class="o">(</span><span class="n">viewInParentWindow</span><span class="o">.</span><span class="na">getContext</span><span class="o">().</span><span class="na">getMainLooper</span><span class="o">()).</span><span class="na">post</span><span class="o">(</span><span class="k">new</span> <span class="n">Runnable</span><span class="o">()</span> <span class="o">{</span><span class="c1">//切换到主线程
+</span><span class="c1"></span>                    <span class="nd">@Override</span>
+                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+                        <span class="n">show</span><span class="o">();</span>
+                    <span class="o">}</span>
+                <span class="o">});</span>
+            <span class="o">}</span>
+        <span class="o">}).</span><span class="na">start</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">show</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">adInfos</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">removeAll</span><span class="o">();</span><span class="c1">//若已有正在展示的广告，则先移除
+</span><span class="c1"></span>
+            <span class="k">for</span> <span class="o">(</span><span class="kd">final</span> <span class="n">AdInfo</span> <span class="n">adInfo</span> <span class="o">:</span> <span class="n">adInfos</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">View</span> <span class="n">adView</span> <span class="o">=</span> <span class="n">View</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">viewInParentWindow</span><span class="o">.</span><span class="na">getContext</span><span class="o">().</span><span class="na">getApplicationContext</span><span class="o">(),</span> <span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">view_ad</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+
+                <span class="c1">//加载广告图片
+</span><span class="c1"></span>                <span class="n">ImageView</span> <span class="n">iv_content</span> <span class="o">=</span> <span class="o">(</span><span class="n">ImageView</span><span class="o">)</span> <span class="n">adView</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">iv_content</span><span class="o">);</span>
+                <span class="n">Picasso</span><span class="o">.</span><span class="na">with</span><span class="o">(</span><span class="n">viewInParentWindow</span><span class="o">.</span><span class="na">getContext</span><span class="o">().</span><span class="na">getApplicationContext</span><span class="o">())</span>
+                        <span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="n">adInfo</span><span class="o">.</span><span class="na">imageUrl</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">resize</span><span class="o">(</span><span class="n">adInfo</span><span class="o">.</span><span class="na">width</span><span class="o">,</span> <span class="n">adInfo</span><span class="o">.</span><span class="na">height</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">into</span><span class="o">(</span><span class="n">iv_content</span><span class="o">);</span>
+
+                <span class="c1">//展示广告
+</span><span class="c1"></span>                <span class="kd">final</span> <span class="n">Tip</span> <span class="n">tip</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tip</span><span class="o">(</span><span class="n">viewInParentWindow</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">content</span><span class="o">(</span><span class="n">adView</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">size</span><span class="o">(</span><span class="n">adInfo</span><span class="o">.</span><span class="na">width</span><span class="o">,</span> <span class="n">adInfo</span><span class="o">.</span><span class="na">height</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">location</span><span class="o">(</span><span class="n">adInfo</span><span class="o">.</span><span class="na">gravity</span><span class="o">,</span> <span class="n">adInfo</span><span class="o">.</span><span class="na">offsetX</span><span class="o">,</span> <span class="n">adInfo</span><span class="o">.</span><span class="na">offsetY</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">show</span><span class="o">();</span>
+                <span class="n">tips</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">tip</span><span class="o">);</span><span class="c1">//将广告加入广告列表，removeAll()方法会遍历这个广告列表
+</span><span class="c1"></span>
+                <span class="n">iv_content</span><span class="o">.</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">new</span> <span class="n">View</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
+                    <span class="nd">@Override</span>
+                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="n">listener</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                            <span class="n">listener</span><span class="o">.</span><span class="na">onAdContentClick</span><span class="o">(</span><span class="n">adInfo</span><span class="o">.</span><span class="na">detail</span><span class="o">);</span>
+                        <span class="o">}</span>
+                    <span class="o">}</span>
+                <span class="o">});</span>
+
+                <span class="c1">//广告图片右上角的x按钮
+</span><span class="c1"></span>                <span class="n">adView</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">iv_close</span><span class="o">).</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">new</span> <span class="n">View</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
+                    <span class="nd">@Override</span>
+                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">tip</span><span class="o">.</span><span class="na">remove</span><span class="o">();</span>
+                        <span class="n">tips</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">tip</span><span class="o">);</span>
+                    <span class="o">}</span>
+                <span class="o">});</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+</span><span class="cm">     * 移除全部广告
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">removeAll</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">Tip</span> <span class="n">tip</span> <span class="o">:</span> <span class="n">tips</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">tip</span><span class="o">.</span><span class="na">remove</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="n">tips</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+    <span class="o">}</span>
+
+<span class="c1">//---------------------------------------------------------------------------
+</span><span class="c1"></span>
+    <span class="cm">/**
+</span><span class="cm">     * 广告图片的点击监听
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">OnContentClickListener</span> <span class="o">{</span>
+        <span class="kt">void</span> <span class="nf">onAdContentClick</span><span class="o">(</span><span class="n">String</span> <span class="n">detail</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+</span><span class="cm">     * 广告配置信息
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">AdInfo</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">imageUrl</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">detail</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">width</span><span class="o">,</span> <span class="n">height</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">gravity</span><span class="o">,</span> <span class="n">offsetX</span><span class="o">,</span> <span class="n">offsetY</span><span class="o">;</span>
+
+        <span class="cm">/**
+</span><span class="cm">         * 广告配置信息
+</span><span class="cm">         *
+</span><span class="cm">         * @param imageUrl:广告图片的url
+</span><span class="cm">         * @param detail:广告详情。通常是一个url，指向广告详情页面
+</span><span class="cm">         * @param width:广告图片展示的宽度，单位为px
+</span><span class="cm">         * @param height:广告图片展示的高度，单位为px
+</span><span class="cm">         * @param gravity:广告图片在页面中的位置，例如&#34;Gravity.LEFT|Gravity.TOP&#34;
+</span><span class="cm">         * @param offsetX:广告图片位置的横向偏移量，单位为px
+</span><span class="cm">         * @param offsetY:广告图片位置的纵向偏移量，单位为px
+</span><span class="cm">         */</span>
+        <span class="kd">public</span> <span class="nf">AdInfo</span><span class="o">(</span><span class="n">String</span> <span class="n">imageUrl</span><span class="o">,</span> <span class="n">String</span> <span class="n">detail</span><span class="o">,</span> <span class="kt">int</span> <span class="n">width</span><span class="o">,</span> <span class="kt">int</span> <span class="n">height</span><span class="o">,</span> <span class="kt">int</span> <span class="n">gravity</span><span class="o">,</span> <span class="kt">int</span> <span class="n">offsetX</span><span class="o">,</span> <span class="kt">int</span> <span class="n">offsetY</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">imageUrl</span> <span class="o">=</span> <span class="n">imageUrl</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">detail</span> <span class="o">=</span> <span class="n">detail</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">width</span> <span class="o">=</span> <span class="n">width</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">height</span> <span class="o">=</span> <span class="n">height</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">gravity</span> <span class="o">=</span> <span class="n">gravity</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">offsetX</span> <span class="o">=</span> <span class="n">offsetX</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">offsetY</span> <span class="o">=</span> <span class="n">offsetY</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+</span><span class="cm">     * 同步从服务器获取广告配置信息
+</span><span class="cm">     * &lt;p&gt;
+</span><span class="cm">     * 以okhttp为例，使用call.execute(...)而不是call.enque(...)
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kd">abstract</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">AdInfo</span><span class="o">&gt;</span> <span class="nf">getAdInfos</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>BaseAdManager是一个抽象类，其中包含抽象方法<code>getAdInfos()</code>，子类需要覆写这个方法并返回需要展示的广告的配置信息，即<code>ArrayList&lt;AdInfo&gt;</code>。通常的做法是，在<code>getAdInfos()</code>方法中直接使用网络框架的同步方法从服务器获取广告配置信息（比如okhttp的call.execute）。</p>
+<p>广告配置信息AdInfo中，除了广告的尺寸和位置信息之外，还包含<code>String imageUrl</code>和<code>String detail</code>这两个字段：imageUrl是广告图片的url；而detail是该广告的详细信息，通常它是一个指向广告详情页的url，当广告图片被用户点击时，detail会被传递给BaseAdManager的使用者，BaseAdManager的使用者可以使用浏览器或webView打开这个url，以便向用户展示广告的详细信息。</p>
+<p>BaseAdManager的工作流程：当用户通过BaseAdManager的子类实例调用其<code>showAds(...)</code>方法时，BaseAdManager会通过子类实现的<code>getAdInfos()</code>从服务器获取广告配置信息，然后根据广告配置信息创建一系列Tip对象并展示出来。</p>
+<h2 id="23-使用示例">2.3 使用示例</h2>
+<p>首先是写一个子类实现BaseAdManager。在下面的代码中，因为没有服务器支持，所以直接手写了一个<code>ArrayList&lt;AdInfo&gt;</code>，而实际使用的话，<code>ArrayList&lt;AdInfo&gt;</code>应该是从服务器同步获取的：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AdManager1</span> <span class="kd">extends</span> <span class="n">BaseAdManager</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">TAG</span> <span class="o">=</span> <span class="s">&#34;AdManager1&#34;</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">AdInfo</span><span class="o">&gt;</span> <span class="nf">getAdInfos</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">AdInfo</span><span class="o">&gt;</span> <span class="n">adInfos</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+        <span class="n">adInfos</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">AdInfo</span><span class="o">(</span>
+                <span class="s">&#34;https://s1.ax1x.com/2017/09/27/lyHYR.png&#34;</span><span class="o">,</span>
+                <span class="s">&#34;跳转到详情页1&#34;</span><span class="o">,</span>
+                <span class="n">300</span><span class="o">,</span>
+                <span class="n">300</span><span class="o">,</span>
+                <span class="n">Gravity</span><span class="o">.</span><span class="na">RIGHT</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">0</span>
+        <span class="o">));</span>
+        <span class="n">adInfos</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">AdInfo</span><span class="o">(</span>
+                <span class="s">&#34;https://s1.ax1x.com/2017/09/27/ly7k9.jpg&#34;</span><span class="o">,</span>
+                <span class="s">&#34;跳转到详情页2&#34;</span><span class="o">,</span>
+                <span class="n">1080</span><span class="o">,</span>
+                <span class="n">567</span><span class="o">,</span>
+                <span class="n">Gravity</span><span class="o">.</span><span class="na">BOTTOM</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">0</span>
+        <span class="o">));</span>
+        <span class="k">return</span> <span class="n">adInfos</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>创建子类实例并调用<code>showAds(...)</code>方法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">//展示广告
+</span><span class="c1"></span><span class="n">AdManager1</span> <span class="n">adManager1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AdManager1</span><span class="o">();</span>
+<span class="n">adManager1</span><span class="o">.</span><span class="na">showAds</span><span class="o">(</span><span class="n">anyView</span><span class="o">,</span> <span class="k">new</span> <span class="n">BaseAdManager</span><span class="o">.</span><span class="na">OnContentClickListener</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onAdContentClick</span><span class="o">(</span><span class="n">String</span> <span class="n">detail</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="n">MainActivity</span><span class="o">.</span><span class="na">this</span><span class="o">,</span> <span class="n">detail</span><span class="o">,</span> <span class="n">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">});</span>
+
+<span class="c1">//隐藏广告
+</span><span class="c1"></span><span class="n">adManager1</span><span class="o">.</span><span class="na">removeAll</span><span class="o">();</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/android%E7%AA%97%E5%8F%A3/">Android窗口</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/20171113camera/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Android Camera详解</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/20170712event2/">
+            <span class="next-text nav-default">Android事件传递-流程详解</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:al4fun@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://github.com/al4fun" class="iconfont icon-github" title="github"></a>
+  <a href="https://al4fun.gitee.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2016 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>al4fun</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

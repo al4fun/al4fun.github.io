@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>axios源码阅读 - al4fun&#39;s notes</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="al4fun" /><meta name="description" content="代码版本：0.21.1 打包 axios源码使用webpack进行打包，webpack.config.js文件内容如下： 1 2 3 4 5 6 7 8 9 10 11 12" /><meta name="keywords" content="android, web, flutter" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.0 with theme even" />
+
+
+<link rel="canonical" href="https://al4fun.gitee.io/post/20210713axios/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.cb68f97bc9cece255d217346d970e3c62623408634e500c330a62fadabbbe77c.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="axios源码阅读" />
+<meta property="og:description" content="代码版本：0.21.1 打包 axios源码使用webpack进行打包，webpack.config.js文件内容如下： 1 2 3 4 5 6 7 8 9 10 11 12" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://al4fun.gitee.io/post/20210713axios/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-07-13T17:54:00+00:00" />
+<meta property="article:modified_time" content="2021-07-13T17:54:00+00:00" />
+
+<meta itemprop="name" content="axios源码阅读">
+<meta itemprop="description" content="代码版本：0.21.1 打包 axios源码使用webpack进行打包，webpack.config.js文件内容如下： 1 2 3 4 5 6 7 8 9 10 11 12"><meta itemprop="datePublished" content="2021-07-13T17:54:00+00:00" />
+<meta itemprop="dateModified" content="2021-07-13T17:54:00+00:00" />
+<meta itemprop="wordCount" content="1788">
+<meta itemprop="keywords" content="axios," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="axios源码阅读"/>
+<meta name="twitter:description" content="代码版本：0.21.1 打包 axios源码使用webpack进行打包，webpack.config.js文件内容如下： 1 2 3 4 5 6 7 8 9 10 11 12"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">al4fun&#39;s notes</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">al4fun&#39;s notes</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">axios源码阅读</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-07-13 </span>
+        <div class="post-category">
+            <a href="/categories/web/"> Web </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#打包">打包</a></li>
+        <li><a href="#主要结构">主要结构</a></li>
+        <li><a href="#axiosjs文件">Axios.js文件</a></li>
+        <li><a href="#发起请求">发起请求</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p>代码版本：0.21.1</p>
+</blockquote>
+<h2 id="打包">打包</h2>
+<p>axios源码使用webpack进行打包，<code>webpack.config.js</code>文件内容如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">TerserPlugin</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;terser-webpack-plugin&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">webpack</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;webpack&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{};</span>
+
+<span class="c1">// 生成配置
+</span><span class="c1">// name为&#39;axios&#39;和&#39;axios.min&#39;
+</span><span class="c1"></span><span class="kd">function</span> <span class="nx">generateConfig</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">compress</span> <span class="o">=</span> <span class="nx">name</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;min&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="c1">// 是否进行代码压缩
+</span><span class="c1"></span>  <span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">entry</span><span class="o">:</span> <span class="s1">&#39;./index.js&#39;</span><span class="p">,</span> <span class="c1">// 打包起点
+</span><span class="c1"></span>    <span class="nx">output</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">path</span><span class="o">:</span> <span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">&#39;/dist/&#39;</span><span class="p">,</span>
+      <span class="nx">filename</span><span class="o">:</span> <span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;.js&#39;</span><span class="p">,</span>
+      <span class="nx">sourceMapFilename</span><span class="o">:</span> <span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;.map&#39;</span><span class="p">,</span>
+      <span class="nx">library</span><span class="o">:</span> <span class="s1">&#39;axios&#39;</span><span class="p">,</span> <span class="c1">// 库的名称，参考https://webpack.docschina.org/configuration/output/#outputlibrary
+</span><span class="c1"></span>      <span class="nx">libraryTarget</span><span class="o">:</span> <span class="s1">&#39;umd&#39;</span> <span class="c1">// 打umd包
+</span><span class="c1"></span>    <span class="p">},</span>
+    <span class="nx">node</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">process</span><span class="o">:</span> <span class="kc">false</span>
+    <span class="p">},</span>
+    <span class="nx">devtool</span><span class="o">:</span> <span class="s1">&#39;source-map&#39;</span><span class="p">,</span>
+    <span class="nx">mode</span><span class="o">:</span> <span class="nx">compress</span> <span class="o">?</span> <span class="s1">&#39;production&#39;</span> <span class="o">:</span> <span class="s1">&#39;development&#39;</span> <span class="c1">// production打包模式下，webpack会自动进行代码压缩等操作
+</span><span class="c1"></span>  <span class="p">};</span>
+  <span class="k">return</span> <span class="nx">config</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="p">[</span><span class="s1">&#39;axios&#39;</span><span class="p">,</span> <span class="s1">&#39;axios.min&#39;</span><span class="p">].</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">config</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nx">generateConfig</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">config</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="主要结构">主要结构</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="c1">// axios.js
+</span><span class="c1"></span>
+<span class="c1">// Create the default instance to be exported
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">createInstance</span><span class="p">(</span><span class="nx">defaults</span><span class="p">);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="k">default</span> <span class="o">=</span> <span class="nx">axios</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="c1">// axios.js
+</span><span class="c1"></span>
+<span class="c1">// 创建axios实例
+</span><span class="c1">// axios既是函数，也是对象，既可以axios(config)，也可以axios.get(config)。很多流行的库都有类似的实现
+</span><span class="c1"></span><span class="kd">function</span> <span class="nx">createInstance</span><span class="p">(</span><span class="nx">defaultConfig</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// 创建context
+</span><span class="c1"></span>  <span class="kd">var</span> <span class="nx">context</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Axios</span><span class="p">(</span><span class="nx">defaultConfig</span><span class="p">);</span>
+  <span class="c1">// 创建instance，实际是Axios.prototype.request函数
+</span><span class="c1"></span>  <span class="c1">// 将Axios.prototype.request中的this设置为context
+</span><span class="c1"></span>  <span class="kd">var</span> <span class="nx">instance</span> <span class="o">=</span> <span class="nx">bind</span><span class="p">(</span><span class="nx">Axios</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">request</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
+
+  <span class="c1">// 将Axios.prototype对象自有的属性和方法拷贝到instance中，方法的this指定为context
+</span><span class="c1"></span>  <span class="nx">utils</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">instance</span><span class="p">,</span> <span class="nx">Axios</span><span class="p">.</span><span class="nx">prototype</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
+  <span class="c1">// 将context对象自有的属性和方法拷贝到instance中
+</span><span class="c1"></span>  <span class="nx">utils</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">instance</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="nx">instance</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>可见<code>axios</code>本质上就是request函数，只是将Axios实例的属性和方法拷贝到了<code>axios</code>中。</p>
+<h2 id="axiosjs文件">Axios.js文件</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="c1">// Axios.js
+</span><span class="c1"></span>
+<span class="c1">// 构造函数
+</span><span class="c1"></span><span class="kd">function</span> <span class="nx">Axios</span><span class="p">(</span><span class="nx">instanceConfig</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">defaults</span> <span class="o">=</span> <span class="nx">instanceConfig</span><span class="p">;</span>
+
+  <span class="c1">// 拦截器
+</span><span class="c1"></span>  <span class="k">this</span><span class="p">.</span><span class="nx">interceptors</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">request</span><span class="o">:</span> <span class="k">new</span> <span class="nx">InterceptorManager</span><span class="p">(),</span>
+    <span class="nx">response</span><span class="o">:</span> <span class="k">new</span> <span class="nx">InterceptorManager</span><span class="p">()</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="c1">// request函数
+</span><span class="c1"></span><span class="nx">Axios</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">request</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">request</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// 处理axios(url[,config])
+</span><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">config</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">config</span> <span class="o">=</span> <span class="nx">arguments</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">||</span> <span class="p">{};</span>
+    <span class="nx">config</span><span class="p">.</span><span class="nx">url</span> <span class="o">=</span> <span class="nx">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">config</span> <span class="o">=</span> <span class="nx">config</span> <span class="o">||</span> <span class="p">{};</span>
+  <span class="p">}</span>
+
+  <span class="c1">// 合并config和默认配置
+</span><span class="c1"></span>  <span class="nx">config</span> <span class="o">=</span> <span class="nx">mergeConfig</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">defaults</span><span class="p">,</span> <span class="nx">config</span><span class="p">);</span>
+
+  <span class="c1">// 处理请求方式
+</span><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">method</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">config</span><span class="p">.</span><span class="nx">method</span> <span class="o">=</span> <span class="nx">config</span><span class="p">.</span><span class="nx">method</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">();</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">defaults</span><span class="p">.</span><span class="nx">method</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">config</span><span class="p">.</span><span class="nx">method</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">defaults</span><span class="p">.</span><span class="nx">method</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">();</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">config</span><span class="p">.</span><span class="nx">method</span> <span class="o">=</span> <span class="s1">&#39;get&#39;</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// 响应转换器(略)
+</span><span class="c1"></span>  <span class="kd">var</span> <span class="nx">transitional</span> <span class="o">=</span> <span class="nx">config</span><span class="p">.</span><span class="nx">transitional</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">transitional</span> <span class="o">!==</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">validator</span><span class="p">.</span><span class="nx">assertOptions</span><span class="p">(</span><span class="nx">transitional</span><span class="p">,</span> <span class="p">{</span>
+      <span class="nx">silentJSONParsing</span><span class="o">:</span> <span class="nx">validators</span><span class="p">.</span><span class="nx">transitional</span><span class="p">(</span><span class="nx">validators</span><span class="p">.</span><span class="kr">boolean</span><span class="p">,</span> <span class="s1">&#39;1.0.0&#39;</span><span class="p">),</span>
+      <span class="nx">forcedJSONParsing</span><span class="o">:</span> <span class="nx">validators</span><span class="p">.</span><span class="nx">transitional</span><span class="p">(</span><span class="nx">validators</span><span class="p">.</span><span class="kr">boolean</span><span class="p">,</span> <span class="s1">&#39;1.0.0&#39;</span><span class="p">),</span>
+      <span class="nx">clarifyTimeoutError</span><span class="o">:</span> <span class="nx">validators</span><span class="p">.</span><span class="nx">transitional</span><span class="p">(</span><span class="nx">validators</span><span class="p">.</span><span class="kr">boolean</span><span class="p">,</span> <span class="s1">&#39;1.0.0&#39;</span><span class="p">)</span>
+    <span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="c1">// 将满足执行条件的请求拦截器加入到requestInterceptorChain中
+</span><span class="c1"></span>  <span class="kd">var</span> <span class="nx">requestInterceptorChain</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="kd">var</span> <span class="nx">synchronousRequestInterceptors</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span> <span class="c1">// 是否全部请求拦截器都是synchronous的
+</span><span class="c1"></span>  <span class="k">this</span><span class="p">.</span><span class="nx">interceptors</span><span class="p">.</span><span class="nx">request</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span> <span class="nx">unshiftRequestInterceptors</span><span class="p">(</span><span class="nx">interceptor</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">interceptor</span><span class="p">.</span><span class="nx">runWhen</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">interceptor</span><span class="p">.</span><span class="nx">runWhen</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="o">===</span> <span class="kc">false</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="nx">synchronousRequestInterceptors</span> <span class="o">=</span> <span class="nx">synchronousRequestInterceptors</span> <span class="o">&amp;&amp;</span> <span class="nx">interceptor</span><span class="p">.</span><span class="nx">synchronous</span><span class="p">;</span>
+    <span class="nx">requestInterceptorChain</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span><span class="nx">interceptor</span><span class="p">.</span><span class="nx">fulfilled</span><span class="p">,</span> <span class="nx">interceptor</span><span class="p">.</span><span class="nx">rejected</span><span class="p">);</span>
+  <span class="p">});</span>
+  <span class="c1">// 将响应拦截器加入到responseInterceptorChain中
+</span><span class="c1"></span>  <span class="kd">var</span> <span class="nx">responseInterceptorChain</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">interceptors</span><span class="p">.</span><span class="nx">response</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span> <span class="nx">pushResponseInterceptors</span><span class="p">(</span><span class="nx">interceptor</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">responseInterceptorChain</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">interceptor</span><span class="p">.</span><span class="nx">fulfilled</span><span class="p">,</span> <span class="nx">interceptor</span><span class="p">.</span><span class="nx">rejected</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="kd">var</span> <span class="nx">promise</span><span class="p">;</span>
+
+  <span class="c1">// 分支1：有异步执行的请求拦截器
+</span><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">synchronousRequestInterceptors</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 创建执行链chain
+</span><span class="c1"></span>    <span class="c1">// dispatchRequest是真正执行网络请求的函数
+</span><span class="c1"></span>    <span class="kd">var</span> <span class="nx">chain</span> <span class="o">=</span> <span class="p">[</span><span class="nx">dispatchRequest</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">];</span>
+
+    <span class="c1">// 将requestInterceptorChain和responseInterceptorChain分别连接到chain的首尾
+</span><span class="c1"></span>    <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">unshift</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">chain</span><span class="p">,</span> <span class="nx">requestInterceptorChain</span><span class="p">);</span>
+    <span class="nx">chain</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">responseInterceptorChain</span><span class="p">);</span>
+
+    <span class="c1">// 遍历执行chain
+</span><span class="c1"></span>    <span class="nx">promise</span> <span class="o">=</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">config</span><span class="p">);</span>
+    <span class="k">while</span> <span class="p">(</span><span class="nx">chain</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">promise</span> <span class="o">=</span> <span class="nx">promise</span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">chain</span><span class="p">.</span><span class="nx">shift</span><span class="p">(),</span> <span class="nx">chain</span><span class="p">.</span><span class="nx">shift</span><span class="p">());</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nx">promise</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// 分支2：全部请求拦截器都是同步执行的(略)
+</span><span class="c1"></span>  <span class="c1">// 遍历执行请求拦截器
+</span><span class="c1"></span>  <span class="kd">var</span> <span class="nx">newConfig</span> <span class="o">=</span> <span class="nx">config</span><span class="p">;</span>
+  <span class="k">while</span> <span class="p">(</span><span class="nx">requestInterceptorChain</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">onFulfilled</span> <span class="o">=</span> <span class="nx">requestInterceptorChain</span><span class="p">.</span><span class="nx">shift</span><span class="p">();</span>
+    <span class="kd">var</span> <span class="nx">onRejected</span> <span class="o">=</span> <span class="nx">requestInterceptorChain</span><span class="p">.</span><span class="nx">shift</span><span class="p">();</span>
+    <span class="k">try</span> <span class="p">{</span>
+      <span class="nx">newConfig</span> <span class="o">=</span> <span class="nx">onFulfilled</span><span class="p">(</span><span class="nx">newConfig</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">onRejected</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+      <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="c1">// 执行dispatchRequest
+</span><span class="c1"></span>  <span class="k">try</span> <span class="p">{</span>
+    <span class="nx">promise</span> <span class="o">=</span> <span class="nx">dispatchRequest</span><span class="p">(</span><span class="nx">newConfig</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="c1">// 遍历执行响应拦截器
+</span><span class="c1"></span>  <span class="k">while</span> <span class="p">(</span><span class="nx">responseInterceptorChain</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">promise</span> <span class="o">=</span> <span class="nx">promise</span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">responseInterceptorChain</span><span class="p">.</span><span class="nx">shift</span><span class="p">(),</span> <span class="nx">responseInterceptorChain</span><span class="p">.</span><span class="nx">shift</span><span class="p">());</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">promise</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="发起请求">发起请求</h2>
+<p>dispatchRequest函数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kd">function</span> <span class="nx">dispatchRequest</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">...</span>
+  <span class="c1">// 真正的网络请求是通过adapter来进行的
+</span><span class="c1"></span>  <span class="c1">// 如果用户没有传入adapter，就使用默认的adapter
+</span><span class="c1"></span>  <span class="kd">var</span> <span class="nx">adapter</span> <span class="o">=</span> <span class="nx">config</span><span class="p">.</span><span class="nx">adapter</span> <span class="o">||</span> <span class="nx">defaults</span><span class="p">.</span><span class="nx">adapter</span><span class="p">;</span>
+  <span class="k">return</span> <span class="nx">adapter</span><span class="p">(</span><span class="nx">config</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="nx">onAdapterResolution</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">...</span>
+    <span class="k">return</span> <span class="nx">response</span><span class="p">;</span>
+  <span class="p">},</span> <span class="kd">function</span> <span class="nx">onAdapterRejection</span><span class="p">(</span><span class="nx">reason</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">...</span>
+    <span class="k">return</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="nx">reason</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>获取默认的adapter：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kd">function</span> <span class="nx">getDefaultAdapter</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">adapter</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">XMLHttpRequest</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 浏览器环境，使用XHR adapter
+</span><span class="c1"></span>    <span class="nx">adapter</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./adapters/xhr&#39;</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">process</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">&amp;&amp;</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">toString</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">process</span><span class="p">)</span> <span class="o">===</span> <span class="s1">&#39;[object process]&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// node环境，使用HTTP adapter
+</span><span class="c1"></span>    <span class="nx">adapter</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./adapters/http&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">adapter</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>真正发起请求的是adapter函数，以<code>adapters/xhr</code>为例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">xhrAdapter</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">(</span><span class="kd">function</span> <span class="nx">dispatchXhrRequest</span><span class="p">(</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">...</span>
+
+    <span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XMLHttpRequest</span><span class="p">();</span>
+    <span class="kd">var</span> <span class="nx">fullPath</span> <span class="o">=</span> <span class="nx">buildFullPath</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">baseURL</span><span class="p">,</span> <span class="nx">config</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">method</span><span class="p">.</span><span class="nx">toUpperCase</span><span class="p">(),</span> <span class="nx">buildURL</span><span class="p">(</span><span class="nx">fullPath</span><span class="p">,</span> <span class="nx">config</span><span class="p">.</span><span class="nx">params</span><span class="p">,</span> <span class="nx">config</span><span class="p">.</span><span class="nx">paramsSerializer</span><span class="p">),</span> <span class="kc">true</span><span class="p">);</span>
+
+    <span class="c1">// Handle browser request cancellation (as opposed to a manual cancellation)
+</span><span class="c1"></span>    <span class="nx">request</span><span class="p">.</span><span class="nx">onabort</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">handleAbort</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nx">reject</span><span class="p">(</span><span class="nx">createError</span><span class="p">(</span><span class="s1">&#39;Request aborted&#39;</span><span class="p">,</span> <span class="nx">config</span><span class="p">,</span> <span class="s1">&#39;ECONNABORTED&#39;</span><span class="p">,</span> <span class="nx">request</span><span class="p">));</span>
+      <span class="nx">request</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+    <span class="p">};</span>
+
+    <span class="c1">// Handle low level network errors
+</span><span class="c1"></span>    <span class="nx">request</span><span class="p">.</span><span class="nx">onerror</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">handleError</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nx">reject</span><span class="p">(</span><span class="nx">createError</span><span class="p">(</span><span class="s1">&#39;Network Error&#39;</span><span class="p">,</span> <span class="nx">config</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">request</span><span class="p">));</span>
+      <span class="nx">request</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+    <span class="p">};</span>
+
+    <span class="p">...</span>
+
+    <span class="c1">// 处理cancelToken(用户取消请求)
+</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">cancelToken</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">config</span><span class="p">.</span><span class="nx">cancelToken</span><span class="p">.</span><span class="nx">promise</span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="nx">onCanceled</span><span class="p">(</span><span class="nx">cancel</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">request</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+        <span class="nx">request</span><span class="p">.</span><span class="nx">abort</span><span class="p">();</span>
+        <span class="nx">reject</span><span class="p">(</span><span class="nx">cancel</span><span class="p">);</span>
+        <span class="nx">request</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+      <span class="p">});</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Send the request
+</span><span class="c1"></span>    <span class="nx">request</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">requestData</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/axios/">axios</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/20210729refreshtoken/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">前端无感知刷新token</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/20200602flutter/">
+            <span class="next-text nav-default">Flutter App性能优化关注点</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:al4fun@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://github.com/al4fun" class="iconfont icon-github" title="github"></a>
+  <a href="https://al4fun.gitee.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2016 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>al4fun</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

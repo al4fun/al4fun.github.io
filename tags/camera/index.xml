@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Camera on al4fun&#39;s notes</title>
+    <link>https://al4fun.gitee.io/tags/camera/</link>
+    <description>Recent content in Camera on al4fun&#39;s notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 13 Nov 2017 10:21:04 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/tags/camera/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Android Camera详解</title>
+      <link>https://al4fun.gitee.io/post/20171113camera/</link>
+      <pubDate>Mon, 13 Nov 2017 10:21:04 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20171113camera/</guid>
+      <description>本文译自官方文档：https://developer.android.com/guide/topics/media/camera.html A</description>
+    </item>
+    
+  </channel>
+</rss>

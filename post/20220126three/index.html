@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>three.js源码阅读 - al4fun&#39;s notes</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="al4fun" /><meta name="description" content="源码版本: three.js v0.135.0 如何查看源码 创建一个空白npm项目，在项目中执行npm install three之后，在项目中的node_modules/three目录中就" /><meta name="keywords" content="android, web, flutter" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.0 with theme even" />
+
+
+<link rel="canonical" href="https://al4fun.gitee.io/post/20220126three/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.cb68f97bc9cece255d217346d970e3c62623408634e500c330a62fadabbbe77c.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="three.js源码阅读" />
+<meta property="og:description" content="源码版本: three.js v0.135.0 如何查看源码 创建一个空白npm项目，在项目中执行npm install three之后，在项目中的node_modules/three目录中就" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://al4fun.gitee.io/post/20220126three/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-01-26T16:10:02+00:00" />
+<meta property="article:modified_time" content="2022-01-26T16:10:02+00:00" />
+
+<meta itemprop="name" content="three.js源码阅读">
+<meta itemprop="description" content="源码版本: three.js v0.135.0 如何查看源码 创建一个空白npm项目，在项目中执行npm install three之后，在项目中的node_modules/three目录中就"><meta itemprop="datePublished" content="2022-01-26T16:10:02+00:00" />
+<meta itemprop="dateModified" content="2022-01-26T16:10:02+00:00" />
+<meta itemprop="wordCount" content="4480">
+<meta itemprop="keywords" content="three.js," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="three.js源码阅读"/>
+<meta name="twitter:description" content="源码版本: three.js v0.135.0 如何查看源码 创建一个空白npm项目，在项目中执行npm install three之后，在项目中的node_modules/three目录中就"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">al4fun&#39;s notes</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">al4fun&#39;s notes</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">three.js源码阅读</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2022-01-26 </span>
+        <div class="post-category">
+            <a href="/categories/3d%E5%9B%BE%E5%BD%A2%E6%8A%80%E6%9C%AF/"> 3D图形技术 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#如何查看源码">如何查看源码</a></li>
+    <li><a href="#基本工具类">基本工具类</a>
+      <ul>
+        <li><a href="#vector2">Vector2</a></li>
+        <li><a href="#vector3">Vector3</a></li>
+        <li><a href="#vector4">Vector4</a></li>
+        <li><a href="#quaternion">Quaternion</a></li>
+        <li><a href="#matrix3">Matrix3</a></li>
+        <li><a href="#matrix4">Matrix4</a></li>
+      </ul>
+    </li>
+    <li><a href="#object3d类">Object3D类</a>
+      <ul>
+        <li><a href="#object3d">Object3D</a></li>
+        <li><a href="#scene">Scene</a></li>
+        <li><a href="#camera--perspectivecamera">Camera &amp; PerspectiveCamera</a></li>
+        <li><a href="#mesh">Mesh</a></li>
+      </ul>
+    </li>
+    <li><a href="#几何类">几何类</a>
+      <ul>
+        <li><a href="#buffergeometry">BufferGeometry</a></li>
+        <li><a href="#boxgeometry">BoxGeometry</a></li>
+      </ul>
+    </li>
+    <li><a href="#材质类">材质类</a>
+      <ul>
+        <li><a href="#material">Material</a></li>
+        <li><a href="#meshbasicmaterial">MeshBasicMaterial</a></li>
+      </ul>
+    </li>
+    <li><a href="#渲染器">渲染器</a>
+      <ul>
+        <li><a href="#webglrenderer">WebGLRenderer</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p>源码版本: three.js v0.135.0</p>
+</blockquote>
+<h1 id="如何查看源码">如何查看源码</h1>
+<p>创建一个空白npm项目，在项目中执行<code>npm install three</code>之后，在项目中的<code>node_modules/three</code>目录中就是three.js的代码。</p>
+<p>build目录：打包后的three.js代码。其中：</p>
+<ul>
+<li>three.js：three.js的JS脚本版本</li>
+<li>three.module.js：three.js的ES Module版本</li>
+</ul>
+<p>src目录：three.js源码</p>
+<p>建议先通过API文档熟悉类的基本功能和用法，然后再去阅读类的源码。</p>
+<h1 id="基本工具类">基本工具类</h1>
+<h2 id="vector2">Vector2</h2>
+<p>二维向量。可用来表示很多事物，例如：</p>
+<ul>
+<li>一个在平面上的点：(x,y)</li>
+<li>一个在平面上的方向与长度：从(0,0)到(x,y)</li>
+</ul>
+<p>基本用法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">a</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector2</span><span class="p">(</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="p">);</span>
+<span class="kr">const</span> <span class="nx">b</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector2</span><span class="p">(</span> <span class="p">);</span><span class="c1">//no arguments; will be initialised to (0, 0)
+</span><span class="c1"></span><span class="kr">const</span> <span class="nx">d</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="nx">distanceTo</span><span class="p">(</span> <span class="nx">b</span> <span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>源码概览：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">class</span> <span class="nx">Vector2</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">(</span><span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="nx">x</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="nx">y</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// ...
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="vector3">Vector3</h2>
+<p>三维向量。可用来表示很多事物，例如：</p>
+<ul>
+<li>一个在空间中的点：(x,y,z)</li>
+<li>一个在空间中的方向与长度：从(0,0,0)到(x,y,z)</li>
+</ul>
+<p>基本用法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">a</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector3</span><span class="p">(</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span> <span class="p">);</span>
+<span class="kr">const</span> <span class="nx">b</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector3</span><span class="p">(</span> <span class="p">);</span><span class="c1">//no arguments; will be initialised to (0, 0, 0)
+</span><span class="c1"></span><span class="kr">const</span> <span class="nx">d</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="nx">distanceTo</span><span class="p">(</span> <span class="nx">b</span> <span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="vector4">Vector4</h2>
+<p>四维向量。常用来表示齐次坐标。</p>
+<p>源码概览：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">class</span> <span class="nx">Vector4</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">(</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">z</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">w</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="nx">x</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="nx">y</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">z</span> <span class="o">=</span> <span class="nx">z</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">w</span> <span class="o">=</span> <span class="nx">w</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// ...
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="quaternion">Quaternion</h2>
+<p>四元数，在three.js中用于表示旋转。</p>
+<p>基本用法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">quaternion</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Quaternion</span><span class="p">();</span>
+<span class="c1">// setFromAxisAngle(axis, angle)
+</span><span class="c1"></span><span class="nx">quaternion</span><span class="p">.</span><span class="nx">setFromAxisAngle</span><span class="p">(</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector3</span><span class="p">(</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span> <span class="p">),</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">/</span> <span class="mi">2</span> <span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">vector</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector3</span><span class="p">(</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">);</span>
+<span class="nx">vector</span><span class="p">.</span><span class="nx">applyQuaternion</span><span class="p">(</span> <span class="nx">quaternion</span> <span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="matrix3">Matrix3</h2>
+<p>三维矩阵。</p>
+<p>基本用法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">m</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Matrix3</span><span class="p">();</span> <span class="c1">// 创建一个单位矩阵(identity matrix)
+</span></code></pre></td></tr></table>
+</div>
+</div><p>源码概览：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">class</span> <span class="nx">Matrix3</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">elements</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+        <span class="p">];</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 当前矩阵 = 当前矩阵 乘以 matrix
+</span><span class="c1"></span>    <span class="nx">multiply</span><span class="p">(</span><span class="nx">matrix</span><span class="p">)</span> <span class="p">{...}</span>
+    <span class="c1">// 当前矩阵 = matrix 乘以 当前矩阵
+</span><span class="c1"></span>    <span class="nx">premultiply</span><span class="p">(</span><span class="nx">matrix</span><span class="p">)</span> <span class="p">{...}</span>
+    <span class="c1">// 当前矩阵 = 当前矩阵的逆矩阵
+</span><span class="c1"></span>    <span class="nx">invert</span><span class="p">(){...}</span>
+    <span class="c1">// 当前矩阵 = 4维矩阵matrix4左上角3阶矩阵的逆转置矩阵
+</span><span class="c1"></span>    <span class="nx">getNormalMatrix</span><span class="p">(</span><span class="nx">matrix4</span><span class="p">){}</span>
+    <span class="c1">// 当前矩阵 = 当前矩阵的单位矩阵
+</span><span class="c1"></span>    <span class="nx">identity</span><span class="p">(){...}</span>
+    <span class="c1">// 当前矩阵 = 当前矩阵的转置矩阵
+</span><span class="c1"></span>    <span class="nx">transpose</span><span class="p">(){...}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>注意行优先列优先的顺序：</p>
+<p>set()方法参数采用行优先(row-major)， 而它们在内部是用列优先(column-major)顺序存储在数组当中，这意味着：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="nx">m</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span>
+       <span class="mi">21</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span>
+       <span class="mi">31</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">33</span> <span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>元素数组elements将存储为:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="nx">m</span><span class="p">.</span><span class="nx">elements</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span>
+              <span class="mi">12</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span>
+              <span class="mi">13</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">33</span> <span class="p">];</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在内部，所有的计算都是使用列优先顺序进行的。</p>
+<h2 id="matrix4">Matrix4</h2>
+<p>4维矩阵。4x4矩阵最常见的用法是作为一个变换矩阵。</p>
+<p>任何3D物体(Object3D)都有三个关联的矩阵：</p>
+<ul>
+<li>
+<p>Object3D.matrix：物体的局部变换矩阵(也称为本地变换矩阵。变换矩阵，也就是模型矩阵)。这是物体相对于其父物体的变换矩阵。</p>
+</li>
+<li>
+<p>Object3D.matrixWorld：物体的全局变换矩阵(或称世界变换矩阵)。如果物体没有父物体，那么就与其局部变换矩阵matrix相同。(个人理解：比如物体A中有个物体B，物体A没有父物体。物体A的matrix是向左平移30m，而物体B的matrix是向左平移10m。那么物体A的matrixWorld就是向左平移30m，而物体B的matrixWorld就是向左平移40m)</p>
+</li>
+<li>
+<p>Object3D.modelViewMatrix：表示物体相对于摄像机坐标系的变换矩阵(换一种说法就是，通过这个矩阵，可以将物体变换到摄像机坐标系中，这和WebGL中对modelViewMatrix的定义相同)。一个物体的modelViewMatrix等于 <em>摄像机的世界变换矩阵的逆矩阵</em> 乘以 <em>物体的世界变换矩阵</em>。(个人理解：因为物体和摄像机的相对关系，摄像机的matrixWorld的逆矩阵应该就等价于物体的viewMatrix，而物体的matrixWorld实际上就是物体的modelMatrix，因此物体的modelViewMatrix就等于二者相乘)</p>
+</li>
+</ul>
+<p>摄像机Camera是Object3D的子类，除了上面几个矩阵之外，它有几个额外的四维矩阵：</p>
+<ul>
+<li>Camera.projectionMatrix: 投影矩阵。</li>
+<li>Camera.matrixWorldInverse: 视矩阵(viewMatrix)，也就是Camara的matrixWorld的逆矩阵。</li>
+</ul>
+<blockquote>
+<p>回顾一下WebGL体系的三大矩阵：物体的matrixWorld就是modelMatrix，Camera.matrixWorldInverse就是viewMatrix，而Camera.projectionMatrix就是projectionMatrix。</p>
+</blockquote>
+<p>有多种选项可用于从 Matrix4 中提取位置(平移)、旋转和缩放。</p>
+<ul>
+<li>Vector3.setFromMatrixPosition：提取位置相关的分量。</li>
+<li>Vector3.setFromMatrixScale：提取缩放相关的分量。</li>
+<li>Quaternion.setFromRotationMatrix，Euler.setFromRotationMatrix或extractRotation：从纯(未缩放)矩阵中提取旋转相关分量。</li>
+<li>decompose：可用于一次性提取位置、旋转和缩放分量。</li>
+</ul>
+<h1 id="object3d类">Object3D类</h1>
+<h2 id="object3d">Object3D</h2>
+<p>这是three.js中大部分对象的基类，提供了一系列的属性和方法来对三维空间中的物体进行操纵。</p>
+<p>源码概览：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kd">let</span> <span class="nx">_object3DId</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="kr">class</span> <span class="nx">Object3D</span> <span class="kr">extends</span> <span class="nx">EventDispatcher</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kr">super</span><span class="p">();</span>
+
+        <span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">value</span><span class="o">:</span> <span class="nx">_object3DId</span><span class="o">++</span> <span class="p">});</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;Object3D&#39;</span><span class="p">;</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">parent</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">children</span> <span class="o">=</span> <span class="p">[];</span> <span class="c1">// 一个Object3D中可以包含多个子Object3D
+</span><span class="c1"></span>
+        <span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperties</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="p">{</span>
+            <span class="c1">// 局部位置(平移。初始位置:(0,0,0))
+</span><span class="c1"></span>            <span class="nx">position</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">configurable</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                <span class="nx">enumerable</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                <span class="nx">value</span><span class="o">:</span> <span class="k">new</span> <span class="nx">Vector3</span><span class="p">()</span>
+            <span class="p">},</span>
+            <span class="c1">// 局部旋转
+</span><span class="c1"></span>            <span class="c1">// Quaternions are used in three.js to represent rotations
+</span><span class="c1"></span>            <span class="nx">quaternion</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">configurable</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                <span class="nx">enumerable</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                <span class="nx">value</span><span class="o">:</span> <span class="k">new</span> <span class="nx">Quaternion</span><span class="p">()</span>
+            <span class="p">},</span>
+            <span class="c1">// 局部缩放
+</span><span class="c1"></span>            <span class="nx">scale</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">configurable</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                <span class="nx">enumerable</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                <span class="nx">value</span><span class="o">:</span> <span class="k">new</span> <span class="nx">Vector3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="p">},</span>
+            <span class="c1">// modelViewMatrix
+</span><span class="c1"></span>            <span class="c1">// 等于 摄像机的世界模型矩阵的逆矩阵 乘以 物体的世界模型矩阵，详见Matrix4中的解释
+</span><span class="c1"></span>            <span class="nx">modelViewMatrix</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">value</span><span class="o">:</span> <span class="k">new</span> <span class="nx">Matrix4</span><span class="p">()</span>
+            <span class="p">},</span>
+            <span class="c1">// 用于变换顶点法向量的”魔法矩阵“，modelViewMatrix的逆转置矩阵。参考“《WebGL编程指南》摘要.md”
+</span><span class="c1"></span>            <span class="nx">normalMatrix</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">value</span><span class="o">:</span> <span class="k">new</span> <span class="nx">Matrix3</span><span class="p">()</span>
+            <span class="p">}</span>
+        <span class="p">});</span>
+
+        <span class="c1">// 局部模型矩阵
+</span><span class="c1"></span>        <span class="c1">// 包含了this.position, this.quaternion, this.scale信息，即位置(平移)、旋转、缩放
+</span><span class="c1"></span>        <span class="k">this</span><span class="p">.</span><span class="nx">matrix</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Matrix4</span><span class="p">();</span>
+        <span class="c1">// 世界模型矩阵
+</span><span class="c1"></span>        <span class="k">this</span><span class="p">.</span><span class="nx">matrixWorld</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Matrix4</span><span class="p">();</span>
+
+        <span class="c1">// ...
+</span><span class="c1"></span>    <span class="p">}</span>
+
+    <span class="c1">// 根据this.position, this.quaternion, this.scale更新this.matrix
+</span><span class="c1"></span>    <span class="nx">updateMatrix</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// 由this.position, this.quaternion, this.scale生成this.matrix
+</span><span class="c1"></span>        <span class="k">this</span><span class="p">.</span><span class="nx">matrix</span><span class="p">.</span><span class="nx">compose</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">position</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">quaternion</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">scale</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">matrixWorldNeedsUpdate</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="c1">// 根据this.matrix更新this.matrixWorld，并更新所有child的matrixWorld
+</span><span class="c1"></span>    <span class="nx">updateMatrixWorld</span><span class="p">(</span><span class="nx">force</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+
+    <span class="c1">// 局部旋转
+</span><span class="c1"></span>    <span class="nx">rotateOnAxis</span><span class="p">(</span><span class="nx">axis</span><span class="p">,</span> <span class="nx">angle</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+    <span class="c1">// 局部平移
+</span><span class="c1"></span>    <span class="nx">translateOnAxis</span><span class="p">(</span><span class="nx">axis</span><span class="p">,</span> <span class="nx">distance</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+    <span class="c1">// 通过一个矩阵来进行局部旋转、局部平移、局部缩放
+</span><span class="c1"></span>    <span class="nx">applyMatrix4</span><span class="p">(</span><span class="nx">matrix</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">matrix</span><span class="p">.</span><span class="nx">premultiply</span><span class="p">(</span><span class="nx">matrix</span><span class="p">);</span>
+        <span class="c1">// 将this.matrix中的位置、旋转、缩放分量分别提取this.position, this.quaternion, this.scale中
+</span><span class="c1"></span>        <span class="k">this</span><span class="p">.</span><span class="nx">matrix</span><span class="p">.</span><span class="nx">decompose</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">position</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">quaternion</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">scale</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 增删子Object3D
+</span><span class="c1"></span>    <span class="nx">add</span><span class="p">(</span><span class="nx">object</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+    <span class="nx">remove</span><span class="p">(</span><span class="nx">object</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+
+    <span class="c1">// ...
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>Object3D的平移、旋转、缩放方法并不会去修改顶点的位置坐标(Object3D及其子类对象并不存储顶点的位置坐标)，而是通过间接的修改局部模型矩阵matrix来实现平移、旋转、缩放。</p>
+<p>对比：BufferGeometry及其子类对象存储了每一个顶点的位置坐标，对它们的平移、旋转、缩放是通过修改顶点的位置坐标来实现的。</p>
+</blockquote>
+<h2 id="scene">Scene</h2>
+<p>场景。这是你放置物体、灯光和摄像机的地方。</p>
+<p>源码概览：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">class</span> <span class="nx">Scene</span> <span class="kr">extends</span> <span class="nx">Object3D</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kr">super</span><span class="p">();</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;Scene&#39;</span><span class="p">;</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">background</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">environment</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">fog</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// ...
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="camera--perspectivecamera">Camera &amp; PerspectiveCamera</h2>
+<p><strong>Camera</strong></p>
+<p>源码概览：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">class</span> <span class="nx">Camera</span> <span class="kr">extends</span> <span class="nx">Object3D</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kr">super</span><span class="p">();</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;Camera&#39;</span><span class="p">;</span>
+
+        <span class="c1">// 相机的世界模型矩阵的逆矩阵，也就是视矩阵(viewMatrix)，详见上面Matrix4中的讲解
+</span><span class="c1"></span>        <span class="k">this</span><span class="p">.</span><span class="nx">matrixWorldInverse</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Matrix4</span><span class="p">();</span>
+        <span class="c1">// 投影矩阵
+</span><span class="c1"></span>        <span class="k">this</span><span class="p">.</span><span class="nx">projectionMatrix</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Matrix4</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="c1">// ...
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>PerspectiveCamera</strong></p>
+<p>源码概览：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">class</span> <span class="nx">PerspectiveCamera</span> <span class="kr">extends</span> <span class="nx">Camera</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">(</span><span class="nx">fov</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="nx">aspect</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">near</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="nx">far</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kr">super</span><span class="p">();</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;PerspectiveCamera&#39;</span><span class="p">;</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">fov</span> <span class="o">=</span> <span class="nx">fov</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">aspect</span> <span class="o">=</span> <span class="nx">aspect</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">near</span> <span class="o">=</span> <span class="nx">near</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">far</span> <span class="o">=</span> <span class="nx">far</span><span class="p">;</span>
+
+        <span class="c1">// 根据上面的参数来更新投影矩阵
+</span><span class="c1"></span>        <span class="k">this</span><span class="p">.</span><span class="nx">updateProjectionMatrix</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="c1">// ...
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="mesh">Mesh</h2>
+<p>表示基于三角形网格的物体。</p>
+<p>源码概览：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">class</span> <span class="nx">Mesh</span> <span class="kr">extends</span> <span class="nx">Object3D</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">(</span><span class="nx">geometry</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BufferGeometry</span><span class="p">(),</span> <span class="nx">material</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MeshBasicMaterial</span><span class="p">())</span> <span class="p">{</span>
+        <span class="kr">super</span><span class="p">();</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;Mesh&#39;</span><span class="p">;</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">geometry</span> <span class="o">=</span> <span class="nx">geometry</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">material</span> <span class="o">=</span> <span class="nx">material</span><span class="p">;</span>
+
+        <span class="c1">// ...
+</span><span class="c1"></span>    <span class="p">}</span>
+
+    <span class="c1">// ...
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="几何类">几何类</h1>
+<h2 id="buffergeometry">BufferGeometry</h2>
+<p>存储构成一个几何体(geometry)的顶点信息，包括顶点坐标、顶点法向量、顶点纹理坐标、顶点索引等。</p>
+<p>基本用法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">geometry</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">BufferGeometry</span><span class="p">();</span>
+<span class="c1">// 创建一个简单的矩形. 由两个三角形组成
+</span><span class="c1"></span><span class="kr">const</span> <span class="nx">vertices</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span> <span class="p">[</span>
+    <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span>  <span class="mf">1.0</span><span class="p">,</span>
+     <span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span>  <span class="mf">1.0</span><span class="p">,</span>
+     <span class="mf">1.0</span><span class="p">,</span>  <span class="mf">1.0</span><span class="p">,</span>  <span class="mf">1.0</span><span class="p">,</span>
+
+     <span class="mf">1.0</span><span class="p">,</span>  <span class="mf">1.0</span><span class="p">,</span>  <span class="mf">1.0</span><span class="p">,</span>
+    <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span>  <span class="mf">1.0</span><span class="p">,</span>  <span class="mf">1.0</span><span class="p">,</span>
+    <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span>  <span class="mf">1.0</span>
+<span class="p">]</span> <span class="p">);</span>
+<span class="nx">geometry</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span> <span class="s1">&#39;position&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">BufferAttribute</span><span class="p">(</span> <span class="nx">vertices</span><span class="p">,</span> <span class="mi">3</span> <span class="p">)</span> <span class="p">);</span>
+<span class="kr">const</span> <span class="nx">material</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshBasicMaterial</span><span class="p">(</span> <span class="p">{</span> <span class="nx">color</span><span class="o">:</span> <span class="mh">0xff0000</span> <span class="p">}</span> <span class="p">);</span>
+<span class="kr">const</span> <span class="nx">mesh</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Mesh</span><span class="p">(</span> <span class="nx">geometry</span><span class="p">,</span> <span class="nx">material</span> <span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>源码概览：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kd">let</span> <span class="nx">_id</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="kr">class</span> <span class="nx">BufferGeometry</span> <span class="kr">extends</span> <span class="nx">EventDispatcher</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kr">super</span><span class="p">();</span>
+
+        <span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">value</span><span class="o">:</span> <span class="nx">_id</span><span class="o">++</span> <span class="p">});</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;BufferGeometry&#39;</span><span class="p">;</span>
+
+        <span class="c1">// 顶点属性，包括顶点坐标、顶点法向量、顶点纹理坐标、顶点索引等
+</span><span class="c1"></span>        <span class="k">this</span><span class="p">.</span><span class="nx">attributes</span> <span class="o">=</span> <span class="p">{};</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 将matrix应用于顶点坐标、顶点法向量等顶点属性，效果：旋转、平移、缩放
+</span><span class="c1"></span>    <span class="nx">applyMatrix4</span><span class="p">(</span><span class="nx">matrix</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+    <span class="c1">// 旋转、平移、缩放。内部通过调用applyMatrix4来实现
+</span><span class="c1"></span>    <span class="nx">rotateX</span><span class="p">(</span><span class="nx">angle</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+    <span class="nx">rotateY</span><span class="p">(</span><span class="nx">angle</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+    <span class="nx">rotateZ</span><span class="p">(</span><span class="nx">angle</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+    <span class="nx">translate</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">z</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+    <span class="nx">scale</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">z</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+
+    <span class="c1">// 设置顶点属性(this.attributes[name])
+</span><span class="c1"></span>    <span class="nx">setAttribute</span><span class="p">(</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">attribute</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">attributes</span><span class="p">[</span> <span class="nx">name</span> <span class="p">]</span> <span class="o">=</span> <span class="nx">attribute</span><span class="p">;</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="c1">// 设置顶点坐标(this.attributes[&#39;position&#39;])
+</span><span class="c1"></span>    <span class="nx">setFromPoints</span><span class="p">(</span><span class="nx">points</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kr">const</span> <span class="nx">position</span> <span class="o">=</span> <span class="p">[];</span>
+        <span class="k">for</span> <span class="p">(</span> <span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">l</span> <span class="o">=</span> <span class="nx">points</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">l</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+            <span class="kr">const</span> <span class="nx">point</span> <span class="o">=</span> <span class="nx">points</span><span class="p">[</span> <span class="nx">i</span> <span class="p">];</span>
+            <span class="nx">position</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="nx">point</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="nx">point</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span> <span class="nx">point</span><span class="p">.</span><span class="nx">z</span> <span class="o">||</span> <span class="mi">0</span> <span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span> <span class="s1">&#39;position&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Float32BufferAttribute</span><span class="p">(</span> <span class="nx">position</span><span class="p">,</span> <span class="mi">3</span> <span class="p">)</span> <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// ...
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="boxgeometry">BoxGeometry</h2>
+<p>以BoxGeometry为代表的具体几何体，都是对基础几何体BufferGeometry的简单封装。</p>
+<p>BufferGeometry需要我们自己手动传入各种顶点属性，而BoxGeometry等具体几何体会根据构造函数的参数，自动计算各种顶点属性。</p>
+<p>源码概览：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="c1">// 立方体
+</span><span class="c1"></span><span class="kr">class</span> <span class="nx">BoxGeometry</span> <span class="kr">extends</span> <span class="nx">BufferGeometry</span> <span class="p">{</span>
+    <span class="c1">// 参数：宽度，高度，深度，宽度分割片段，高度分割片段，深度分割片段
+</span><span class="c1"></span>    <span class="nx">constructor</span><span class="p">(</span><span class="nx">width</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">height</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">depth</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">widthSegments</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">heightSegments</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">depthSegments</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kr">super</span><span class="p">();</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;BoxGeometry&#39;</span><span class="p">;</span>
+
+        <span class="kr">const</span> <span class="nx">indices</span> <span class="o">=</span> <span class="p">[];</span> <span class="c1">// 顶点索引
+</span><span class="c1"></span>        <span class="kr">const</span> <span class="nx">vertices</span> <span class="o">=</span> <span class="p">[];</span> <span class="c1">// 顶点坐标
+</span><span class="c1"></span>        <span class="kr">const</span> <span class="nx">normals</span> <span class="o">=</span> <span class="p">[];</span> <span class="c1">// 顶点法向量
+</span><span class="c1"></span>        <span class="kr">const</span> <span class="nx">uvs</span> <span class="o">=</span> <span class="p">[];</span> <span class="c1">// 顶点纹理坐标
+</span><span class="c1"></span>
+        <span class="c1">// 根据构造函数参数，计算立方体每个面的顶点坐标、顶点法向量、顶点纹理坐标、顶点索引
+</span><span class="c1"></span>        <span class="c1">// build each side of the box geometry
+</span><span class="c1"></span>        <span class="nx">buildPlane</span><span class="p">(</span><span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">depth</span><span class="p">,</span> <span class="nx">height</span><span class="p">,</span> <span class="nx">width</span><span class="p">,</span> <span class="nx">depthSegments</span><span class="p">,</span> <span class="nx">heightSegments</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span> <span class="c1">// px
+</span><span class="c1"></span>        <span class="nx">buildPlane</span><span class="p">(</span><span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">depth</span><span class="p">,</span> <span class="nx">height</span><span class="p">,</span> <span class="o">-</span> <span class="nx">width</span><span class="p">,</span> <span class="nx">depthSegments</span><span class="p">,</span> <span class="nx">heightSegments</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// nx
+</span><span class="c1"></span>        <span class="nx">buildPlane</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">width</span><span class="p">,</span> <span class="nx">depth</span><span class="p">,</span> <span class="nx">height</span><span class="p">,</span> <span class="nx">widthSegments</span><span class="p">,</span> <span class="nx">depthSegments</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span> <span class="c1">// py
+</span><span class="c1"></span>        <span class="nx">buildPlane</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">width</span><span class="p">,</span> <span class="nx">depth</span><span class="p">,</span> <span class="o">-</span> <span class="nx">height</span><span class="p">,</span> <span class="nx">widthSegments</span><span class="p">,</span> <span class="nx">depthSegments</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span> <span class="c1">// ny
+</span><span class="c1"></span>        <span class="nx">buildPlane</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">width</span><span class="p">,</span> <span class="nx">height</span><span class="p">,</span> <span class="nx">depth</span><span class="p">,</span> <span class="nx">widthSegments</span><span class="p">,</span> <span class="nx">heightSegments</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span> <span class="c1">// pz
+</span><span class="c1"></span>        <span class="nx">buildPlane</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">width</span><span class="p">,</span> <span class="nx">height</span><span class="p">,</span> <span class="o">-</span> <span class="nx">depth</span><span class="p">,</span> <span class="nx">widthSegments</span><span class="p">,</span> <span class="nx">heightSegments</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span> <span class="c1">// nz
+</span><span class="c1"></span>
+        <span class="c1">// 存储顶点坐标、顶点法向量、顶点纹理坐标、顶点索引
+</span><span class="c1"></span>        <span class="k">this</span><span class="p">.</span><span class="nx">setIndex</span><span class="p">(</span><span class="nx">indices</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;position&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Float32BufferAttribute</span><span class="p">(</span><span class="nx">vertices</span><span class="p">,</span> <span class="mi">3</span><span class="p">));</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Float32BufferAttribute</span><span class="p">(</span><span class="nx">normals</span><span class="p">,</span> <span class="mi">3</span><span class="p">));</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;uv&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Float32BufferAttribute</span><span class="p">(</span><span class="nx">uvs</span><span class="p">,</span> <span class="mi">2</span><span class="p">));</span>
+
+        <span class="kd">function</span> <span class="nx">buildPlane</span><span class="p">(</span><span class="nx">u</span><span class="p">,</span> <span class="nx">v</span><span class="p">,</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">udir</span><span class="p">,</span> <span class="nx">vdir</span><span class="p">,</span> <span class="nx">width</span><span class="p">,</span> <span class="nx">height</span><span class="p">,</span> <span class="nx">depth</span><span class="p">,</span> <span class="nx">gridX</span><span class="p">,</span> <span class="nx">gridY</span><span class="p">,</span> <span class="nx">materialIndex</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">// ...
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="材质类">材质类</h1>
+<h2 id="material">Material</h2>
+<p>各种材质的基类。</p>
+<p>源码概览：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kd">let</span> <span class="nx">materialId</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="kr">class</span> <span class="nx">Material</span> <span class="kr">extends</span> <span class="nx">EventDispatcher</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kr">super</span><span class="p">();</span>
+
+        <span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">value</span><span class="o">:</span> <span class="nx">materialId</span><span class="o">++</span> <span class="p">});</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;Material&#39;</span><span class="p">;</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">vertexColors</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span> <span class="c1">// 是否使用顶点颜色
+</span><span class="c1"></span>        <span class="k">this</span><span class="p">.</span><span class="nx">format</span> <span class="o">=</span> <span class="nx">RGBAFormat</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">opacity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">// 透明度
+</span><span class="c1"></span>        <span class="k">this</span><span class="p">.</span><span class="nx">transparent</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span> <span class="c1">// 是否要使用透明度
+</span><span class="c1"></span>
+        <span class="c1">// 混合
+</span><span class="c1"></span>        <span class="k">this</span><span class="p">.</span><span class="nx">blending</span> <span class="o">=</span> <span class="nx">NormalBlending</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">blendSrc</span> <span class="o">=</span> <span class="nx">SrcAlphaFactor</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">blendDst</span> <span class="o">=</span> <span class="nx">OneMinusSrcAlphaFactor</span><span class="p">;</span>
+
+        <span class="c1">// 深度检测
+</span><span class="c1"></span>        <span class="k">this</span><span class="p">.</span><span class="nx">depthFunc</span> <span class="o">=</span> <span class="nx">LessEqualDepth</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">depthTest</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+
+        <span class="c1">// 多边形偏移
+</span><span class="c1"></span>        <span class="k">this</span><span class="p">.</span><span class="nx">polygonOffset</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">polygonOffsetFactor</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">polygonOffsetUnits</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+        <span class="c1">// ...
+</span><span class="c1"></span>    <span class="p">}</span>
+
+    <span class="c1">// ...
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="meshbasicmaterial">MeshBasicMaterial</h2>
+<p>基础网格材质。</p>
+<p>源码概览：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="cm">/**
+</span><span class="cm"> * parameters = {
+</span><span class="cm"> *  color: &lt;hex&gt;,
+</span><span class="cm"> *  opacity: &lt;float&gt;,
+</span><span class="cm"> *  map: new THREE.Texture( &lt;Image&gt; ),
+</span><span class="cm"> *
+</span><span class="cm"> *  lightMap: new THREE.Texture( &lt;Image&gt; ),
+</span><span class="cm"> *  lightMapIntensity: &lt;float&gt;
+</span><span class="cm"> *
+</span><span class="cm"> *  aoMap: new THREE.Texture( &lt;Image&gt; ),
+</span><span class="cm"> *  aoMapIntensity: &lt;float&gt;
+</span><span class="cm"> *
+</span><span class="cm"> *  specularMap: new THREE.Texture( &lt;Image&gt; ),
+</span><span class="cm"> *
+</span><span class="cm"> *  alphaMap: new THREE.Texture( &lt;Image&gt; ),
+</span><span class="cm"> *
+</span><span class="cm"> *  envMap: new THREE.CubeTexture( [posx, negx, posy, negy, posz, negz] ),
+</span><span class="cm"> *  combine: THREE.Multiply,
+</span><span class="cm"> *  reflectivity: &lt;float&gt;,
+</span><span class="cm"> *  refractionRatio: &lt;float&gt;,
+</span><span class="cm"> *
+</span><span class="cm"> *  depthTest: &lt;bool&gt;,
+</span><span class="cm"> *  depthWrite: &lt;bool&gt;,
+</span><span class="cm"> *
+</span><span class="cm"> *  wireframe: &lt;boolean&gt;,
+</span><span class="cm"> *  wireframeLinewidth: &lt;float&gt;,
+</span><span class="cm"> * }
+</span><span class="cm"> */</span>
+<span class="kr">class</span> <span class="nx">MeshBasicMaterial</span> <span class="kr">extends</span> <span class="nx">Material</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">(</span><span class="nx">parameters</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kr">super</span><span class="p">();</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;MeshBasicMaterial&#39;</span><span class="p">;</span>
+
+        <span class="c1">// ...
+</span><span class="c1"></span>    <span class="p">}</span>
+
+    <span class="c1">// ...
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="渲染器">渲染器</h1>
+<h2 id="webglrenderer">WebGLRenderer</h2>
+<p>源码概览：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kd">function</span> <span class="nx">WebGLRenderer</span><span class="p">(</span><span class="nx">parameters</span> <span class="o">=</span> <span class="p">{})</span> <span class="p">{</span>
+    <span class="c1">// 画布dom与画布尺寸
+</span><span class="c1"></span>    <span class="k">this</span><span class="p">.</span><span class="nx">domElement</span> <span class="o">=</span> <span class="nx">_canvas</span><span class="p">;</span>
+    <span class="kd">let</span> <span class="nx">_width</span> <span class="o">=</span> <span class="nx">_canvas</span><span class="p">.</span><span class="nx">width</span><span class="p">;</span>
+    <span class="kd">let</span> <span class="nx">_height</span> <span class="o">=</span> <span class="nx">_canvas</span><span class="p">.</span><span class="nx">height</span><span class="p">;</span>
+
+    <span class="nx">_canvas</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;webglcontextlost&#39;</span><span class="p">,</span> <span class="nx">onContextLost</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+    <span class="nx">_canvas</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;webglcontextrestored&#39;</span><span class="p">,</span> <span class="nx">onContextRestore</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+
+    <span class="c1">// render函数内部代码非常复杂，以后如有需要再看
+</span><span class="c1"></span>    <span class="k">this</span><span class="p">.</span><span class="nx">render</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">scene</span><span class="p">,</span> <span class="nx">camera</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// ...
+</span><span class="c1"></span>    <span class="p">}</span>
+
+    <span class="c1">// ...
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/three.js/">three.js</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/20220126gltf/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">glTF详解</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/20220122webgl3/">
+            <span class="next-text nav-default">《WebGL编程指南》阅读笔记</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:al4fun@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://github.com/al4fun" class="iconfont icon-github" title="github"></a>
+  <a href="https://al4fun.gitee.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2016 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>al4fun</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

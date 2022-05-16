@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>didUpdateWidget on al4fun&#39;s notes</title>
+    <link>https://al4fun.gitee.io/tags/didupdatewidget/</link>
+    <description>Recent content in didUpdateWidget on al4fun&#39;s notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 04 Feb 2020 17:49:48 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/tags/didupdatewidget/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>didUpdateWidget详解</title>
+      <link>https://al4fun.gitee.io/post/20200204didupdatewidget/</link>
+      <pubDate>Tue, 04 Feb 2020 17:49:48 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20200204didupdatewidget/</guid>
+      <description>概述 只要在父widget中调用setState，子widget的didUpdateWidget就一定会被调用，不管父widget传递给子wi</description>
+    </item>
+    
+  </channel>
+</rss>

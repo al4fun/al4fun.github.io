@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Activity on al4fun&#39;s notes</title>
+    <link>https://al4fun.gitee.io/tags/activity/</link>
+    <description>Recent content in Activity on al4fun&#39;s notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 27 Jun 2017 20:49:27 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/tags/activity/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Activity的启动模式（二）</title>
+      <link>https://al4fun.gitee.io/post/20170627activity3/</link>
+      <pubDate>Tue, 27 Jun 2017 20:49:27 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20170627activity3/</guid>
+      <description>这里就是做了一个关于启动模式的小实验，实验代码可以在此处下载：http://download.csdn.net/detail/al4fun/</description>
+    </item>
+    
+    <item>
+      <title>Activity的启动模式（一）</title>
+      <link>https://al4fun.gitee.io/post/20170627activity2/</link>
+      <pubDate>Tue, 27 Jun 2017 20:43:04 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20170627activity2/</guid>
+      <description>1 任务栈 Android任务栈又称为Task，它是一个栈结构，具有后进先出的特点，用于存放我们的activity组件。 我们每次打开一个新的ac</description>
+    </item>
+    
+    <item>
+      <title>Activity的非正常销毁</title>
+      <link>https://al4fun.gitee.io/post/20170627activity1/</link>
+      <pubDate>Tue, 27 Jun 2017 20:37:43 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20170627activity1/</guid>
+      <description>1 不同情况下activity的生命周期 为了方便描述，我们将activity的销毁分为正常销毁和非正常销毁： 正常销毁：被销毁之后不会被自动重建</description>
+    </item>
+    
+  </channel>
+</rss>

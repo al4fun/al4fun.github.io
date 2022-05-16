@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>FFmpeg on al4fun&#39;s notes</title>
+    <link>https://al4fun.gitee.io/categories/ffmpeg/</link>
+    <description>Recent content in FFmpeg on al4fun&#39;s notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 14 Feb 2020 16:43:34 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/categories/ffmpeg/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>FFmpeg解码视频流</title>
+      <link>https://al4fun.gitee.io/post/20200214ffmpeg4/</link>
+      <pubDate>Fri, 14 Feb 2020 16:43:34 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20200214ffmpeg4/</guid>
+      <description>项目代码: demo 下面代码展示了如何将H264视频流解码为YUV原始图像文件。 关于从文件中获取数据包，这里采取的做法是通过fread直接读文件，并</description>
+    </item>
+    
+    <item>
+      <title>FFmpeg转换文件封装格式</title>
+      <link>https://al4fun.gitee.io/post/20200214ffmpeg3/</link>
+      <pubDate>Fri, 14 Feb 2020 16:42:39 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20200214ffmpeg3/</guid>
+      <description>项目代码: demo 下面代码展示了如何将mp4文件转换为flv文件。 因为mp4和flv都只是封装格式，底层音视频编码可以保持不变，因此这里的做法是直</description>
+    </item>
+    
+    <item>
+      <title>FFmpeg提取音视频流</title>
+      <link>https://al4fun.gitee.io/post/20200214ffmpeg2/</link>
+      <pubDate>Fri, 14 Feb 2020 16:41:25 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20200214ffmpeg2/</guid>
+      <description>项目代码: demo 下面代码展示了如何从mp4文件中提取aac音频流。而提取视频流的操作方法与提取音频流基本一致，详情可以参考项目代码。 其中一个主要</description>
+    </item>
+    
+    <item>
+      <title>demo:在Android中使用FFmpeg进行音视频编解码及处理</title>
+      <link>https://al4fun.gitee.io/post/20200213ffmpeg1/</link>
+      <pubDate>Thu, 13 Feb 2020 12:38:43 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20200213ffmpeg1/</guid>
+      <description>本项目展示如何在Android App中通过JNI调用FFmpeg动态库，以及如何使用FFmpeg进行基本音视频处理和编解码。主要包含： 音视频</description>
+    </item>
+    
+  </channel>
+</rss>
