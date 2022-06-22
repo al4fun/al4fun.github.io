@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>算法 on al4fun&#39;s notes</title>
+    <link>https://al4fun.gitee.io/tags/%E7%AE%97%E6%B3%95/</link>
+    <description>Recent content in 算法 on al4fun&#39;s notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 01 Dec 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/tags/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>《算法第4版》笔记</title>
+      <link>https://al4fun.gitee.io/post/20171201algorithm4/</link>
+      <pubDate>Fri, 01 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20171201algorithm4/</guid>
+      <description>1 基础 1.1 数学基础回顾 等差数列求和 等比数列求和 排列 从n个不同的元素中，取m个不重复的元素，按次序排列。 组合 从n个不同的元素中，取m个不重复的元</description>
+    </item>
+    
+  </channel>
+</rss>

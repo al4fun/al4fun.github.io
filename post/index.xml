@@ -206,6 +206,15 @@
     </item>
     
     <item>
+      <title>《算法第4版》笔记</title>
+      <link>https://al4fun.gitee.io/post/20171201algorithm4/</link>
+      <pubDate>Fri, 01 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20171201algorithm4/</guid>
+      <description>1 基础 1.1 数学基础回顾 等差数列求和 等比数列求和 排列 从n个不同的元素中，取m个不重复的元素，按次序排列。 组合 从n个不同的元素中，取m个不重复的元</description>
+    </item>
+    
+    <item>
       <title>基于zbar的相机扫码性能优化实践</title>
       <link>https://al4fun.gitee.io/post/20171122scanner/</link>
       <pubDate>Wed, 22 Nov 2017 16:02:56 +0000</pubDate>

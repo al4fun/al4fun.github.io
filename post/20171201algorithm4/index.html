@@ -1,0 +1,2914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>《算法第4版》笔记 - al4fun&#39;s notes</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="al4fun" /><meta name="description" content="1 基础 1.1 数学基础回顾 等差数列求和 等比数列求和 排列 从n个不同的元素中，取m个不重复的元素，按次序排列。 组合 从n个不同的元素中，取m个不重复的元" /><meta name="keywords" content="android, web, flutter" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.0 with theme even" />
+
+
+<link rel="canonical" href="https://al4fun.gitee.io/post/20171201algorithm4/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.cb68f97bc9cece255d217346d970e3c62623408634e500c330a62fadabbbe77c.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="《算法第4版》笔记" />
+<meta property="og:description" content="1 基础 1.1 数学基础回顾 等差数列求和 等比数列求和 排列 从n个不同的元素中，取m个不重复的元素，按次序排列。 组合 从n个不同的元素中，取m个不重复的元" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://al4fun.gitee.io/post/20171201algorithm4/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2017-12-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2017-12-01T00:00:00+00:00" />
+
+<meta itemprop="name" content="《算法第4版》笔记">
+<meta itemprop="description" content="1 基础 1.1 数学基础回顾 等差数列求和 等比数列求和 排列 从n个不同的元素中，取m个不重复的元素，按次序排列。 组合 从n个不同的元素中，取m个不重复的元"><meta itemprop="datePublished" content="2017-12-01T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2017-12-01T00:00:00+00:00" />
+<meta itemprop="wordCount" content="21056">
+<meta itemprop="keywords" content="算法," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="《算法第4版》笔记"/>
+<meta name="twitter:description" content="1 基础 1.1 数学基础回顾 等差数列求和 等比数列求和 排列 从n个不同的元素中，取m个不重复的元素，按次序排列。 组合 从n个不同的元素中，取m个不重复的元"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">al4fun&#39;s notes</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">al4fun&#39;s notes</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">《算法第4版》笔记</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2017-12-01 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-基础">1 基础</a>
+      <ul>
+        <li><a href="#11-数学基础回顾">1.1 数学基础回顾</a></li>
+        <li><a href="#12-背包队列栈">1.2 背包、队列、栈</a></li>
+        <li><a href="#13-动态连通性问题union-find算法">1.3 动态连通性问题（union-find算法）▲</a>
+          <ul>
+            <li><a href="#131-quick-find算法">1.3.1 quick-find算法</a></li>
+            <li><a href="#132-quick-union算法">1.3.2 quick-union算法</a></li>
+            <li><a href="#133-动态连通性问题的应用场景">1.3.3 动态连通性问题的应用场景</a></li>
+          </ul>
+        </li>
+        <li><a href="#14总结">1.4总结</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-排序">2 排序</a>
+      <ul>
+        <li><a href="#21-选择排序">2.1 选择排序</a></li>
+        <li><a href="#22-插入排序">2.2 插入排序▲</a></li>
+        <li><a href="#23-希尔排序">2.3 希尔排序</a></li>
+        <li><a href="#24-归并排序">2.4 归并排序▲</a></li>
+        <li><a href="#25-快速排序">2.5 快速排序▲</a></li>
+        <li><a href="#26-三向切分的快速排序了解">2.6 三向切分的快速排序（了解）</a></li>
+        <li><a href="#27-优先队列">2.7 优先队列▲</a>
+          <ul>
+            <li><a href="#271-概念">2.7.1 概念</a></li>
+            <li><a href="#272-堆">2.7.2 堆</a></li>
+            <li><a href="#273-以堆实现的优先队列">2.7.3 以堆实现的优先队列</a></li>
+            <li><a href="#274-堆排序">2.7.4 堆排序</a></li>
+          </ul>
+        </li>
+        <li><a href="#28-总结">2.8 总结</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-查找">3 查找</a>
+      <ul>
+        <li><a href="#31-两种最简单的符号表实现">3.1 两种最简单的符号表实现</a>
+          <ul>
+            <li><a href="#311-无序链表">3.1.1 无序链表</a></li>
+            <li><a href="#312-有序数组">3.1.2 有序数组</a></li>
+          </ul>
+        </li>
+        <li><a href="#32-二叉查找树">3.2 二叉查找树▲</a></li>
+        <li><a href="#33-平衡查找树">3.3 平衡查找树▲</a>
+          <ul>
+            <li><a href="#2-3查找树">2-3查找树</a></li>
+            <li><a href="#红黑树">红黑树</a></li>
+          </ul>
+        </li>
+        <li><a href="#34-散列表">3.4 散列表▲</a>
+          <ul>
+            <li><a href="#341-散列函数的实现">3.4.1 散列函数的实现</a></li>
+            <li><a href="#342-处理碰撞">3.4.2 处理碰撞</a></li>
+          </ul>
+        </li>
+        <li><a href="#35-总结">3.5 总结</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-图">4 图</a>
+      <ul>
+        <li><a href="#41-无向图">4.1 无向图</a>
+          <ul>
+            <li><a href="#411-概念">4.1.1 概念</a></li>
+            <li><a href="#412-数据结构">4.1.2 数据结构</a></li>
+            <li><a href="#413-深度优先搜索dfs">4.1.3 深度优先搜索(DFS)▲</a></li>
+            <li><a href="#414-通过dfs寻找路径">4.1.4 通过DFS寻找路径▲</a></li>
+            <li><a href="#415-通过dfs寻找环">4.1.5 通过DFS寻找环▲</a></li>
+            <li><a href="#416-通过dfs判断是否为二分图">4.1.6 通过DFS判断是否为二分图▲</a></li>
+            <li><a href="#417-广度优先搜索寻找最短路径">4.1.7 广度优先搜索（寻找最短路径）▲</a></li>
+            <li><a href="#418-符号图更一般的图">4.1.8 符号图（更一般的图）</a></li>
+          </ul>
+        </li>
+        <li><a href="#42-有向图">4.2 有向图</a>
+          <ul>
+            <li><a href="#421-概念">4.2.1 概念</a></li>
+            <li><a href="#422-数据结构">4.2.2 数据结构</a></li>
+            <li><a href="#423-可达性">4.2.3 可达性</a></li>
+            <li><a href="#424-环与拓扑排序">4.2.4 环与拓扑排序▲</a></li>
+            <li><a href="#425-强连通性">4.2.5 强连通性</a></li>
+          </ul>
+        </li>
+        <li><a href="#43-加权无向图--最小生成树了解">4.3 加权无向图 &amp; 最小生成树（了解）</a>
+          <ul>
+            <li><a href="#431-概念">4.3.1 概念</a></li>
+            <li><a href="#432-数据结构">4.3.2 数据结构</a></li>
+            <li><a href="#433-求最小生成树的原理">4.3.3 求最小生成树的原理</a></li>
+            <li><a href="#434-延时prim算法">4.3.4 延时Prim算法</a></li>
+            <li><a href="#435-即时prim算法">4.3.5 即时Prim算法</a></li>
+          </ul>
+        </li>
+        <li><a href="#44-加权有向图--最短路径了解">4.4 加权有向图 &amp; 最短路径（了解）</a>
+          <ul>
+            <li><a href="#441-概念">4.4.1 概念</a></li>
+            <li><a href="#442-数据结构">4.4.2 数据结构</a></li>
+            <li><a href="#443-理论基础">4.4.3 理论基础</a></li>
+            <li><a href="#444-dijkstra算法">4.4.4 Dijkstra算法</a></li>
+            <li><a href="#445-无环图的算法">4.4.5 无环图的算法</a></li>
+            <li><a href="#446-一般加权有向图的算法">4.4.6 一般加权有向图的算法</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#5-字符串">5 字符串</a>
+      <ul>
+        <li><a href="#51-字符串排序">5.1 字符串排序</a>
+          <ul>
+            <li><a href="#511-基础键索引计数法排序">5.1.1 基础：键索引计数法排序▲</a></li>
+            <li><a href="#512-低位优先的字符串排序">5.1.2 低位优先的字符串排序▲</a></li>
+            <li><a href="#513-高位优先的字符串排序">5.1.3 高位优先的字符串排序▲</a></li>
+          </ul>
+        </li>
+        <li><a href="#52-单词查找树">5.2 单词查找树▲</a>
+          <ul>
+            <li><a href="#521-r向单词查找树">5.2.1 R向单词查找树</a></li>
+            <li><a href="#522-三向单词查找树">5.2.2 三向单词查找树</a></li>
+            <li><a href="#523-与第3章中各种符号表实现的对比">5.2.3 与第3章中各种符号表实现的对比</a></li>
+          </ul>
+        </li>
+        <li><a href="#53-总结">5.3 总结</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="1-基础">1 基础</h1>
+<h2 id="11-数学基础回顾">1.1 数学基础回顾</h2>
+<p>等差数列求和</p>
+<p><img src="./imgs/dc1.png" alt=""></p>
+<p><img src="./imgs/dc2.png" alt=""></p>
+<p>等比数列求和</p>
+<p><img src="./imgs/db.png" alt=""></p>
+<p>排列</p>
+<p>从n个不同的元素中，取m个不重复的元素，按次序排列。</p>
+<p><img src="./imgs/pl.png" alt=""></p>
+<p>组合</p>
+<p>从n个不同的元素中，取m个不重复的元素，组成一个子集，而不考虑其元素的顺序。</p>
+<p><img src="./imgs/zh.png" alt=""></p>
+<h2 id="12-背包队列栈">1.2 背包、队列、栈</h2>
+<p>背包是这样的一种数据结构：只支持添加，不允许删除元素，并且遍历其中元素的顺序是不确定的。</p>
+<p>这三种数据结构都可以用 <strong>数组</strong> 或者 <strong>链表</strong> 来实现。</p>
+<p>若使用数组实现，则当数组空间被占满后，需要将其扩容，即创建一个容量更大的新数组，然后将老数组中的数组拷贝到新数组中。数组还有一个缺点，就是当在数组的非尾部增删元素时，会涉及大量元素的移动操作，因此很慢。</p>
+<p>链表的缺点是占用空间比数组大；不能像数组那样直接通过索引定位到中间的某一个元素。优点是在任意位置增删元素都很快。</p>
+<blockquote>
+<p>java中提供了Stack类来作为栈。但Queue只是一个接口，LinkedList实现了Queue接口，可以当做队列来使用。</p>
+</blockquote>
+<h2 id="13-动态连通性问题union-find算法">1.3 动态连通性问题（union-find算法）▲</h2>
+<p><strong>动态连通性问题</strong>：使用一个数据结构来存储大量的对象，对于给定的任意两个对象，此数据结构都能迅速告诉用户：给定的两个对象是否是连通的。所谓“动态”指的是，连通性不是一成不变的，比如，我们可能会经常在两个对象之间添加一条连接。</p>
+<p>为了方便，我们将所有对象(又称为触点、节点、顶点等)以从0开始的正整数命名。而分量以分量中的某一个触点命名。</p>
+<p>我们需要实现以下几个API：</p>
+<ul>
+<li><code>void union(int p,int q)</code>:在p和q之间添加一条连接</li>
+<li><code>int find(int p)</code>:找出p所在的分量（相互连通的一堆节点合称为一个分量）</li>
+<li><code>boolean connected(int p,int q)</code>:判断p和q是否连通。这个方法的实现很简单，只要“return find(p)==find(q);”即可。</li>
+</ul>
+<h3 id="131-quick-find算法">1.3.1 quick-find算法</h3>
+<blockquote>
+<p>创建了一个数组 int[] id，数组的索引是触点名，值是该触点所在的分量。</p>
+</blockquote>
+<p>find的实现很简单，只要“return id[p];”即可。</p>
+<p>而对于union操作，则需要遍历整个数组，将所有值为id[q]的元素赋值为为id[p]（或者将所有值为id[p]的元素赋值为为id[q]）。</p>
+<h3 id="132-quick-union算法">1.3.2 quick-union算法</h3>
+<blockquote>
+<p>数组 int[] id的索引是触点，而值则是该触点所在分量之中的另一个触点(将这种关系称为链接)。</p>
+</blockquote>
+<p>在实现find()方法时，我们从给定的触点开始，由它找到另一个触点，再由这个触点找到第三个触点，以此类推，直到找到根触点(链接到自己的触点，即id[m] == m)为止。此分量也以根触点命名，即m。</p>
+<p>union(int p,int q)的实现也很简单，只要分别找到p和q的根触点，然后将一个根触点链接到另一个即可。</p>
+<p>此外，为了改善quick-union在最坏情况下的性能，还有“加权quick-union算法”，即每次union操作时，总是将较小的树连接到较大的树上。</p>
+<h3 id="133-动态连通性问题的应用场景">1.3.3 动态连通性问题的应用场景</h3>
+<ul>
+<li>两台计算机是否在同一个网络中</li>
+<li>电路中的两个触点是否连通</li>
+<li>社交网络</li>
+<li>变量名的等价性</li>
+<li>&hellip;&hellip;</li>
+</ul>
+<h2 id="14总结">1.4总结</h2>
+<p>主要是了解动态连通性问题。</p>
+<h1 id="2-排序">2 排序</h1>
+<p>本书使用 <strong>比较和交换的次数</strong> 来大致衡量排序算法的性能。</p>
+<p>常见算法的时间复杂度:</p>
+<table>
+<thead>
+<tr>
+<th>描述</th>
+<th>简单表示</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>常数级别</td>
+<td>与N无关的常数(N:参与排序的元素的个数)</td>
+</tr>
+<tr>
+<td>线性级别</td>
+<td>N</td>
+</tr>
+<tr>
+<td>线性对数级别</td>
+<td>NlogN</td>
+</tr>
+<tr>
+<td>平方级别</td>
+<td>N<sup>2</sup></td>
+</tr>
+<tr>
+<td>立方级别</td>
+<td>N<sup>3</sup></td>
+</tr>
+<tr>
+<td>指数级别</td>
+<td>a<sup>N</sup></td>
+</tr>
+</tbody>
+</table>
+<p><strong>原地排序和非原地排序</strong></p>
+<p>除了函数调用所需要的栈和固定数目的实例变量之外，<strong>无需额外内存空间来存储另一份数组副本</strong> 的排序算法称为原地的。</p>
+<p>后面要介绍的几种排序算法，除了归并排序是非原地的，其他的几个都是原地的。</p>
+<p><strong>排序的稳定性</strong></p>
+<p>如果一个排序算法 <strong>能够保留数组中重复元素的相对位置</strong> 则可以被称为是稳定的。例如，obj1、obj2、obj3的key(排序的依据)都是5，如果在排序之后，这三个元素的顺序依然是obj1、obj2、obj3，则此排序算法是稳定的。</p>
+<p>稳定性是一个很重要的性质。例如，设想有一种event对象，它有时间和地点这两个key。首先我们将一系列的event按时间先后排序。接着，我们希望将这些event按发生的地点进行分组，如果分组使用的是稳定的排序算法，那么在分组之后，同一组内的event依然是按照时间先后顺序排列的；但如果分组使用的是非稳定的排序算法，那么分组后同一组内的event极有可能是时间乱序的。</p>
+<p>后面要介绍几种排序算法，只有插入排序和归并排序是稳定的。</p>
+<p><strong>后面要用到的基础方法</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">//判断v是否&lt;w
+</span><span class="c1"></span><span class="kd">private</span> <span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">less</span><span class="o">(</span><span class="n">Comparable</span> <span class="n">v</span><span class="o">,</span><span class="n">Comparable</span> <span class="n">w</span><span class="o">){</span>
+    <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">w</span><span class="o">)&lt;</span><span class="n">0</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="c1">//交换a[i]和a[j]的值
+</span><span class="c1"></span><span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">exch</span><span class="o">(</span><span class="n">Comparable</span><span class="o">[]</span> <span class="n">a</span><span class="o">,</span><span class="kt">int</span> <span class="n">i</span><span class="o">,</span><span class="kt">int</span> <span class="n">j</span><span class="o">){</span>
+    <span class="n">Comparable</span> <span class="n">t</span> <span class="o">=</span> <span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+    <span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">a</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+    <span class="n">a</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">t</span><span class="o">;</span>
+<span class="o">}</span>
+<span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">exch</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="kt">int</span> <span class="n">j</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+    <span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">a</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+    <span class="n">a</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="21-选择排序">2.1 选择排序</h2>
+<p><strong>基本思想</strong></p>
+<p>首先找到数组中最小的元素，将它和数组的第一个元素交换位置，这样就排定了数组的第一个元素；然后在剩下的元素中找到最小的元素，将它与数组的第二个元素交换位置，这样就排定了第二个元素……以此类推。</p>
+<p><strong>实现</strong></p>
+<p>p156 算法2.1</p>
+<p><strong>性能</strong></p>
+<p>对于长度为N的数组，选择排序大约需要N<sup>2</sup>/2次比较和N次交换。</p>
+<p>它的时间复杂度稳定为N<sup>2</sup>。</p>
+<h2 id="22-插入排序">2.2 插入排序▲</h2>
+<p><strong>基本思想</strong></p>
+<p>从数组的第2个元素开始，从左往右依次选取一个数组元素，并将它插入到它左边的子数组中的合适位置。</p>
+<p><strong>实现</strong></p>
+<p>p157 算法2.2</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">sort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">a</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span><span class="c1">//从第二个元素开始遍历
+</span><span class="c1"></span>        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span> <span class="n">j</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">;</span> <span class="n">j</span><span class="o">--)</span> <span class="o">{</span><span class="c1">//将a[i]插入到a[i-1]、a[i-2]...中
+</span><span class="c1"></span>            <span class="k">if</span> <span class="o">(</span><span class="n">a</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">&lt;</span> <span class="n">a</span><span class="o">[</span><span class="n">j</span> <span class="o">-</span> <span class="n">1</span><span class="o">])</span> <span class="o">{</span>
+                <span class="n">exch</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">j</span><span class="o">,</span> <span class="n">j</span> <span class="o">-</span> <span class="n">1</span><span class="o">);</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="k">break</span><span class="o">;</span> <span class="c1">//已找到位置，不需要继续比较与交换了，因此退出内层循环。
+</span><span class="c1"></span>            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>性能</strong></p>
+<p>插入排序对部分有序的数组十分高效，也很适合小规模数组。</p>
+<p>与数组的初始状态有关：最差情况下时间复杂度为N<sup>2</sup>，最好情况下时间复杂度为N。</p>
+<h2 id="23-希尔排序">2.3 希尔排序</h2>
+<p>相当于是一种改进的插入排序，了解即可。</p>
+<h2 id="24-归并排序">2.4 归并排序▲</h2>
+<p><strong>基本思想</strong></p>
+<p>要将一个数组排序，可以先(递归的)将它分成两半分别排序，然后将结果归并起来。</p>
+<p><strong>实现</strong></p>
+<p>首先是归并操作，归并是归并排序的基础：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">//将有序的子数组a[lo..mid]与a[mid+1..hi]归并成一个有序的数组，并将结果存放在a[lo..hi]中
+</span><span class="c1">//会先将涉及的所有元素复制到一个辅助数组中，再把归并的结果放回原数组中
+</span><span class="c1"></span><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">merge</span><span class="o">(</span><span class="n">Comparable</span><span class="o">[]</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">lo</span><span class="o">,</span> <span class="kt">int</span> <span class="n">mid</span><span class="o">,</span> <span class="kt">int</span> <span class="n">hi</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//将a[lo..hi]复制到aux[lo..hi]
+</span><span class="c1"></span>    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="n">lo</span><span class="o">;</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">hi</span><span class="o">;</span> <span class="n">k</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="n">aux</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">=</span> <span class="n">a</span><span class="o">[</span><span class="n">k</span><span class="o">];</span>
+    <span class="o">}</span>
+
+    <span class="c1">// 初始时，指针指向两个子数组的第一个元素
+</span><span class="c1"></span>    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">lo</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="n">1</span><span class="o">;</span>
+
+    <span class="c1">//归并
+</span><span class="c1"></span>    <span class="c1">//遍历a[lo..hi],决定每一个a[k]应该被赋值为aux[i]还是aux[j]
+</span><span class="c1"></span>    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="n">lo</span><span class="o">;</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">hi</span><span class="o">;</span> <span class="n">k</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="n">mid</span><span class="o">)</span> <span class="o">{</span><span class="c1">//第一个子数组已经归并完毕
+</span><span class="c1"></span>            <span class="n">a</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">=</span> <span class="n">aux</span><span class="o">[</span><span class="n">j</span><span class="o">++];</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">j</span> <span class="o">&gt;</span> <span class="n">hi</span><span class="o">)</span> <span class="o">{</span><span class="c1">//第二个子数组已经归并完毕
+</span><span class="c1"></span>            <span class="n">a</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">=</span> <span class="n">aux</span><span class="o">[</span><span class="n">i</span><span class="o">++];</span>
+        <span class="c1">//以下两个分支为正常的逻辑(两个子数组都未归并完毕)
+</span><span class="c1"></span>        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">less</span><span class="o">(</span><span class="n">aux</span><span class="o">[</span><span class="n">j</span><span class="o">],</span> <span class="n">aux</span><span class="o">[</span><span class="n">i</span><span class="o">]))</span> <span class="o">{</span>
+            <span class="n">a</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">=</span> <span class="n">aux</span><span class="o">[</span><span class="n">j</span><span class="o">++];</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">a</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">=</span> <span class="n">aux</span><span class="o">[</span><span class="n">i</span><span class="o">++];</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>归并的两个子数组长度可以不一样。</p>
+<p><strong>1 自顶向下的归并排序</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Merge</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">Comparable</span><span class="o">[]</span> <span class="n">aux</span><span class="o">;</span><span class="c1">//归并所需的辅助数组
+</span><span class="c1"></span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">sort</span><span class="o">(</span><span class="n">Comparable</span><span class="o">[]</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+       <span class="n">aux</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Comparable</span><span class="o">[</span><span class="n">a</span><span class="o">.</span><span class="na">length</span><span class="o">];</span>
+        <span class="n">sort</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">a</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="n">1</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">//将数组a[lo..hi]排序
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">sort</span><span class="o">(</span><span class="n">Comparable</span><span class="o">[]</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">lo</span><span class="o">,</span> <span class="kt">int</span> <span class="n">hi</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">hi</span> <span class="o">&lt;=</span> <span class="n">lo</span><span class="o">)</span> <span class="k">return</span><span class="o">;</span><span class="c1">//数组已无法再分割
+</span><span class="c1"></span>
+        <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="o">(</span><span class="n">lo</span><span class="o">+</span><span class="n">hi</span><span class="o">)/</span><span class="n">2</span><span class="o">;</span>
+        <span class="n">sort</span><span class="o">(</span><span class="n">a</span><span class="o">,</span><span class="n">lo</span><span class="o">,</span><span class="n">mid</span><span class="o">);</span><span class="c1">//将左半边排序
+</span><span class="c1"></span>        <span class="n">sort</span><span class="o">(</span><span class="n">a</span><span class="o">,</span><span class="n">mid</span><span class="o">+</span><span class="n">1</span><span class="o">,</span><span class="n">hi</span><span class="o">);</span><span class="c1">//将右半边排序
+</span><span class="c1"></span>        <span class="n">merge</span><span class="o">(</span><span class="n">a</span><span class="o">,</span><span class="n">lo</span><span class="o">,</span><span class="n">mid</span><span class="o">,</span><span class="n">hi</span><span class="o">);</span><span class="c1">//归并结果
+</span><span class="c1"></span>    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>用不同的方法处理小规模问题能改进大多数递归算法的性能，因为递归会使小规模问题中方法的调用过于频繁。使用插入排序处理小规模的子数组一般可以将归并排序的运行时间缩短10%~15%。</p>
+<p><strong>2 自底向上的归并排序(了解)</strong></p>
+<p><strong>通常使用递归操作来完成的逻辑都能改用多层循环来实现，只要换一个方向。递归虽然容易想到也容易理解，但是会造成函数调用栈中同时存在大量的函数，使内存占用快速增涨。</strong></p>
+<p>先归并那些微型数组，然后再成对归并得到的子数组，如此这般，直到我们将整个数组归并到一起。首先我们进行的是两两归并(把每个元素想象成一个大小为1的数组)，然后是四四归并(把两个大小为2的数组归并成一个大小为4的数组)，然后是八八归并，一直下去。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">sort</span><span class="o">(</span><span class="n">Comparable</span><span class="o">[]</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">N</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+
+    <span class="c1">//外层循环控制子数组的大小，初始为1，然后每次循环都加倍
+</span><span class="c1"></span>    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">sz</span> <span class="o">=</span> <span class="n">1</span><span class="o">;</span> <span class="n">sz</span> <span class="o">&lt;</span> <span class="n">N</span><span class="o">;</span> <span class="n">sz</span> <span class="o">+=</span> <span class="n">sz</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//内层循环从左到右将子数组两两归并
+</span><span class="c1"></span>        <span class="c1">//若lo &gt;= N - sz，说明只剩下一个子数组了，则不再继续两两归并
+</span><span class="c1"></span>        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">lo</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">lo</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="o">-</span> <span class="n">sz</span><span class="o">;</span> <span class="n">lo</span> <span class="o">+=</span> <span class="n">2sz</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">merge</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">lo</span><span class="o">,</span> <span class="n">lo</span> <span class="o">+</span> <span class="n">sz</span> <span class="o">-</span> <span class="n">1</span><span class="o">,</span> <span class="n">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">lo</span> <span class="o">+</span> <span class="n">2sz</span> <span class="o">-</span> <span class="n">1</span><span class="o">,</span> <span class="n">N</span> <span class="o">-</span> <span class="n">1</span><span class="o">));</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>参与归并的两个数组角标：[lo, lo + sz - 1]、[lo+sz, Math.min(lo + 2sz - 1, N - 1)]。</p>
+<p>若lo&gt;=N-sz，即lo+sz&gt;=N，即lo+sz-1&gt;=N-1，也就是说，余下元素只够一个数组了，也就无法继续归并了，因此内层循环条件是lo&lt;N-sz。</p>
+<p>过程分析：</p>
+<table>
+<thead>
+<tr>
+<th>数组</th>
+<th>sz</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 8 3 7 4 6 5</td>
+<td>sz=1 N=7</td>
+</tr>
+<tr>
+<td>18 37 46 5</td>
+<td>sz=2</td>
+</tr>
+<tr>
+<td>1378 456</td>
+<td>sz=4</td>
+</tr>
+<tr>
+<td>1345678</td>
+<td>sz=8 大于数组长度，外层循环结束</td>
+</tr>
+</tbody>
+</table>
+<p><strong>性能</strong></p>
+<p>时间复杂度稳定为NlogN。</p>
+<p>缺点为：是非原地排序，需要额外的存储空间。</p>
+<h2 id="25-快速排序">2.5 快速排序▲</h2>
+<p><strong>基本思想</strong></p>
+<p>快速排序和归并排序一样，是一种 <strong>“分治”</strong> 的排序算法。</p>
+<p>在归并排序中，一个数组（被大致地）等分为两半；在快速排序中，切分(partition)的位置取决于数组的内容，具体规则如下：</p>
+<ol>
+<li>对于某个j,a[j]已经排定</li>
+<li>a[lo]到a[j-1]中的所有元素都&lt;=a[j]</li>
+<li>a[j+1]到a[hi]中的所有元素都&gt;=a[j]</li>
+</ol>
+<p>归并排序将数组分成两个子数组分别排序，并将有序的子数组归并以将整个数组排序；而快速排序将数组切分为两个子数组，只要将两个子数组排序好，那么整个数组也就有序了。</p>
+<p><strong>算法框架</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Quick</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">sort</span><span class="o">(</span><span class="n">Comparable</span><span class="o">[]</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">StdRandom</span><span class="o">.</span><span class="na">shuffle</span><span class="o">(</span><span class="n">a</span><span class="o">);</span><span class="c1">//打乱顺序，消除对输入的依赖
+</span><span class="c1"></span>        <span class="n">sort</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">a</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="n">1</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">sort</span><span class="o">(</span><span class="n">Comparable</span><span class="o">[]</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">lo</span><span class="o">,</span> <span class="kt">int</span> <span class="n">hi</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">hi</span> <span class="o">&lt;=</span> <span class="n">lo</span><span class="o">)</span> <span class="k">return</span><span class="o">;</span><span class="c1">//不再切分
+</span><span class="c1"></span>
+        <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">partition</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">lo</span><span class="o">,</span> <span class="n">hi</span><span class="o">);</span><span class="c1">//切分，返回切分点
+</span><span class="c1"></span>        <span class="n">sort</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">lo</span><span class="o">,</span> <span class="n">j</span> <span class="o">-</span> <span class="n">1</span><span class="o">);</span><span class="c1">//将左半部分a[lo..j-1]排序
+</span><span class="c1"></span>        <span class="n">sort</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">j</span> <span class="o">+</span> <span class="n">1</span><span class="o">,</span> <span class="n">hi</span><span class="o">);</span><span class="c1">//将右半部分a[j+1..hi]排序
+</span><span class="c1"></span>    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>切分的实现</strong></p>
+<p>通常是先取a[lo]作为切分元素，即那个将会被排定的元素，然后我们从数组的左端(lo+1)开始向右扫描直到找到一个大于等于它的元素，再从数组的右端(hi)开始向左扫描直到找到一个小于等于它的元素，交换这两个元素的位置。如此继续，我们就可以保证左指针i左侧的元素都&lt;=切分元素，右指针j右侧的元素都&gt;=切分元素。当两个指针相遇或交叉时（此时a[j]必然小于等于a[lo]），我们只要将切分元素a[lo]和a[j]交换然后返回j即可。详见p184图。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">//将数组切分为a[lo..j-1],a[j],a[j+1..hi]，返回切分点j
+</span><span class="c1"></span><span class="kd">private</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">partition</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">lo</span><span class="o">,</span> <span class="kt">int</span> <span class="n">hi</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="n">a</span><span class="o">[</span><span class="n">lo</span><span class="o">];</span><span class="c1">//切分元素
+</span><span class="c1"></span>    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">lo</span><span class="o">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">hi</span> <span class="o">+</span> <span class="n">1</span><span class="o">;</span><span class="c1">//左右扫描指针。刚开始位于起点之外
+</span><span class="c1"></span>
+    <span class="c1">// 找到目标i、j，并交换对应的数组元素
+</span><span class="c1"></span>    <span class="c1">// 若i、j相遇或交叉，则退出循环
+</span><span class="c1"></span>    <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">a</span><span class="o">[++</span><span class="n">i</span><span class="o">]</span> <span class="o">&lt;</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span><span class="c1">//找到&gt;=v的元素
+</span><span class="c1"></span>            <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">hi</span><span class="o">)</span> <span class="k">break</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">a</span><span class="o">[--</span><span class="n">j</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span><span class="c1">//找到&lt;=v的元素
+</span><span class="c1"></span>            <span class="k">if</span> <span class="o">(</span><span class="n">j</span> <span class="o">==</span> <span class="n">lo</span><span class="o">)</span> <span class="k">break</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">j</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">exch</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">i</span><span class="o">,</span> <span class="n">j</span><span class="o">);</span><span class="c1">//交换上面找到的两个元素
+</span><span class="c1"></span>        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span><span class="c1">//如果指针相遇或交叉，则退出while(true)循环
+</span><span class="c1"></span>            <span class="k">break</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="n">exch</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">lo</span><span class="o">,</span> <span class="n">j</span><span class="o">);</span><span class="c1">//交换切分元素和a[j]
+</span><span class="c1"></span>    <span class="k">return</span> <span class="n">j</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">例1：
+E/quick-sort: 原始数组：[10, 20, 9, 8, 4, 7, 5, 7, 5]
+E/quick-sort: 找到i、j：i=1,a[i]=20;j=8,a[j]=5
+E/quick-sort: i、j元素交换后：[10, 5, 9, 8, 4, 7, 5, 7, 20]
+E/quick-sort: 找到i、j：i=8,a[i]=20;j=7,a[j]=7。j是末尾的7,i是末尾的20。
+————j在i左边，说明j以及j左边的元素都是&lt;=切分元素的。而根据j的含义，j右边的元素肯定&gt;=切分元素的。因此将j与切分元素交换即可。
+E/quick-sort: i、j指针相遇，退出while(true)循环
+E/quick-sort: 退出while循环时，lo=0,a[lo]=10;i=8,a[i]=20;j=7,a[j]=7
+E/quick-sort: 最终切分结果：[7, 5, 9, 8, 4, 7, 5, 10, 20]
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">例2：
+E/quick-sort: 原始数组：[10, 20, 9, 8, 4, 7, 5, 10, 5]
+E/quick-sort: 找到i、j：i=1,a[i]=20;j=8,a[j]=5
+E/quick-sort: i、j元素交换后：[10, 5, 9, 8, 4, 7, 5, 10, 20]
+E/quick-sort: 找到i、j：i=7,a[i]=10;j=7,a[j]=10
+————i、j相遇，说明a[i]==a[j]==切分元素。
+E/quick-sort: i、j指针相遇，退出while(true)循环
+E/quick-sort: 退出while循环时，lo=0,a[lo]=10;i=7,a[i]=10;j=7,a[j]=10
+E/quick-sort: 最终切分结果：[10, 5, 9, 8, 4, 7, 5, 10, 20]
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>性能</strong></p>
+<p>与切分的状况有关，大部分情况下时间复杂度为NlogN，最坏的情况下时间复杂度为N<sup>2</sup>。</p>
+<p>最坏的情况例如第一次从最小的元素切分，第二次从第二小的元素切分……我们要在快速排序前将数组打乱的主要原因就是避免这种情况，它能够使产生糟糕切分的可能性降到最低，我们就无需为此担心了。</p>
+<p>快速排序切分方法的内循环会用一个递增的索引将数组元素和一个定值比较，这种简洁性是快速排序的一个优点，很难想象排序算法还能有比这更短小的内循环了，归并排序一般都比快速排序慢，其原因就是它还在内循环中移动数据。</p>
+<p>此外，快速排序相比归并排序还有一个优点，就是快速排序是原地排序算法。</p>
+<p>如前面归并排序中所说，对于较小规模的数组(如长度&lt;15)，插入排序的速度可能更快。因此可以考虑当子数组的长度&lt;15时切换到插入排序，以此来提高快速排序的整体性能。</p>
+<h2 id="26-三向切分的快速排序了解">2.6 三向切分的快速排序（了解）</h2>
+<p><strong>基本思想</strong></p>
+<p>实际应用中经常会出现含有大量重复元素的数组，对于这些数组，将快速排序的切分方法稍加改进就能将性能从NlogN级别提升到N级别。</p>
+<p>一个简单的想法是每次将数组切分为3部分，分别对应小于、等于、大于切分元素的数组元素。具体做法为从左到右遍历数组一次，维护一个指针lt使得a[lo..lt-1]中的元素都小于v，一个指针gt使得a[gt+1,hi]中的元素都大于v，一个指针i使得a[lt..i-1]中的元素都等于v，a[i..gt]中的元素都还未确定，详见p299图2.3.4。我们使用Comparable接口(而非less方法)来对a[i]和v进行三项比较：</p>
+<ul>
+<li>a[i]&lt;v，将a[lt]与a[i]交换，将lt和i加1；</li>
+<li>a[i]&gt;v，将a[gt]与a[i]交换，将gt减1；</li>
+<li>a[i]==v,将i加1。</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Quick</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">sort</span><span class="o">(</span><span class="n">Comparable</span><span class="o">[]</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">StdRandom</span><span class="o">.</span><span class="na">shuffle</span><span class="o">(</span><span class="n">a</span><span class="o">);</span><span class="c1">//打乱顺序，消除对输入的依赖
+</span><span class="c1"></span>        <span class="n">sort</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">a</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="n">1</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">sort</span><span class="o">(</span><span class="n">Comparable</span><span class="o">[]</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">lo</span><span class="o">,</span> <span class="kt">int</span> <span class="n">hi</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">hi</span> <span class="o">&lt;=</span> <span class="n">lo</span><span class="o">)</span> <span class="k">return</span><span class="o">;</span><span class="c1">//递归结束
+</span><span class="c1"></span>
+        <span class="c1">//切分开始--------------------
+</span><span class="c1"></span>        <span class="kt">int</span> <span class="n">lt</span> <span class="o">=</span> <span class="n">lo</span><span class="o">,</span> <span class="n">i</span> <span class="o">=</span> <span class="n">lo</span> <span class="o">+</span> <span class="n">1</span><span class="o">,</span> <span class="n">gt</span> <span class="o">=</span> <span class="n">hi</span><span class="o">;</span>
+        <span class="n">Comparable</span> <span class="n">v</span> <span class="o">=</span> <span class="n">a</span><span class="o">[</span><span class="n">lo</span><span class="o">];</span><span class="c1">//切分元素
+</span><span class="c1"></span>        <span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="n">gt</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">cmp</span> <span class="o">=</span> <span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">compareTo</span><span class="o">(</span><span class="n">v</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">cmp</span> <span class="o">&lt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">exch</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">lt</span><span class="o">++,</span> <span class="n">i</span><span class="o">++);</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">cmp</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">exch</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">i</span><span class="o">,</span> <span class="n">gt</span><span class="o">--);</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="n">i</span><span class="o">++;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="c1">//切分结束--------------------
+</span><span class="c1"></span>
+        <span class="n">sort</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">lo</span><span class="o">,</span> <span class="n">lt</span> <span class="o">-</span> <span class="n">1</span><span class="o">);</span>
+        <span class="n">sort</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">gt</span> <span class="o">+</span> <span class="n">1</span><span class="o">,</span> <span class="n">hi</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这样的切分方式能够将与切分元素相等的元素归位，这样它们就不会被包含在递归调用处理的子数组中了。对于存在大量重复元素的数组，这种方法比标准的快速排序要高效很多。</p>
+<p><strong>性能</strong></p>
+<p>对于不含大量重复元素的数组，比标准快速排序略慢，因为切分时有更多次交换。</p>
+<p>对于含有大量重复元素的数组可将标准快速排序的性能由NlogN级别提升到N级别。</p>
+<h2 id="27-优先队列">2.7 优先队列▲</h2>
+<h3 id="271-概念">2.7.1 概念</h3>
+<p><strong>很多情况下我们会在集合中收集一些元素，处理并删除集合中最大的元素，然后再添加进一些元素，再处理并删除集合中最大的元素，如此这般。</strong></p>
+<p>在这种情况下，一个合适的数据结构应该支持两种操作：1删除并返回最大元素、2插入元素。这种数据结构叫做优先队列（priority queue）(此处是最大优先队列，最小优先队列也是一样的道理)。</p>
+<p>java系统库提供的优先队列见java.util.PriorityQueue。</p>
+<h3 id="272-堆">2.7.2 堆</h3>
+<p><strong>概念</strong></p>
+<p><strong>二叉堆</strong> 是 <strong>用以表示完全二叉树</strong> 的一种数据结构。通常是一个数组。</p>
+<p><strong>完全二叉树</strong>：设二叉树的深度为h，除第 h 层外，其它各层 (1～h-1) 的结点数都达到最大个数，第 h 层所有的结点都连续集中在最左边，这就是完全二叉树。</p>
+<p>完全二叉树只用数组而不需要指针就可以表示，具体方法就是将二叉树的结点按照层级顺序放入数组中，根结点在位置1(位置0空着不用)，它的子节点在位置2和3，而子节点的子节点则分别在位置4、5、6和7，以此类推。</p>
+<p>一棵大小为N的完全二叉树的高度为log<sub>2</sub>N。</p>
+<p>当一棵二叉树的每个结点都大于等于它的两个子结点时，称为 <strong>堆有序的二叉树</strong>。很明显，根结点是堆有序的二叉树中的最大结点。</p>
+<p>二叉堆一般用数组来表示，从位置1开始存储(位置0空着不用)。位置k的结点的父结点的位置为k/2，而它的两个子结点的位置则分别为2k和2k+1。这样在不使用指针的情况下我们也可以通过计算数组的索引在树中快速地上下移动。</p>
+<p><strong>堆的算法</strong></p>
+<p>我们用长度为N+1的数组pq[]来表示一个大小为N的堆，pq[0]不存放元素，堆元素存放在pq[1..N]中。</p>
+<p>基础算法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">less</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="kt">int</span> <span class="n">j</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">pq</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">compareTo</span><span class="o">(</span><span class="n">pq</span><span class="o">[</span><span class="n">j</span><span class="o">])</span> <span class="o">&lt;</span> <span class="n">0</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="kt">void</span> <span class="nf">exch</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">,</span><span class="kt">int</span> <span class="n">j</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">Comparable</span> <span class="n">t</span> <span class="o">=</span> <span class="n">pq</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+    <span class="n">pq</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">pq</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+    <span class="n">pq</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">t</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>上浮</p>
+<p>如果堆的有序状态因为某个结点变得比父结点更大而被打破，那么我们就需要通过交换它和它的父结点来修复堆。交换后，这个结点必然比它的两个子结点大，但这个结点仍然可能比它现在的父结点更大。我们可以一遍遍地用同样的办法修复秩序，将这个结点不断向上移动直到我们遇到了一个更大的父结点。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">swim</span><span class="o">(</span><span class="kt">int</span> <span class="n">k</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">while</span> <span class="o">(</span><span class="n">k</span> <span class="o">&gt;</span> <span class="n">1</span> <span class="o">&amp;&amp;</span> <span class="n">less</span><span class="o">(</span><span class="n">k</span> <span class="o">/</span> <span class="n">2</span><span class="o">,</span> <span class="n">k</span><span class="o">))</span> <span class="o">{</span>
+        <span class="n">exch</span><span class="o">(</span><span class="n">k</span> <span class="o">/</span> <span class="n">2</span><span class="o">,</span> <span class="n">k</span><span class="o">);</span><span class="c1">//交换结点和它父结点的值
+</span><span class="c1"></span>        <span class="n">k</span> <span class="o">=</span> <span class="n">k</span> <span class="o">/</span> <span class="n">2</span><span class="o">;</span><span class="c1">//更新结点的索引
+</span><span class="c1"></span>    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>下沉</p>
+<p>如果堆的有序状态因为某个结点变得比它的两个子结点或是其中之一更小而被打破了，那么我们通过将它和它的两个子结点中的较大者交换来修复堆。交换可能会在子结点处继续打破堆的有序状态，因此我们需要不断地用相同的方式将其修复，将结点向下移动直到它的子结点都比它小或是到达了堆的底部。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">sink</span><span class="o">(</span><span class="kt">int</span> <span class="n">k</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">while</span> <span class="o">(</span><span class="n">2</span> <span class="o">*</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">N</span><span class="o">)</span> <span class="o">{</span><span class="c1">//确保还有子结点
+</span><span class="c1"></span>        <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">2</span> <span class="o">*</span> <span class="n">k</span><span class="o">;</span>
+
+        <span class="c1">//如果有两个子结点，则找到更大的那个
+</span><span class="c1"></span>        <span class="c1">//j指向左子节点，j+1指向右子节点
+</span><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">j</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="o">&amp;&amp;</span> <span class="n">less</span><span class="o">(</span><span class="n">j</span><span class="o">,</span> <span class="n">j</span><span class="o">+</span><span class="n">1</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">j</span><span class="o">++;</span>
+        <span class="o">}</span>
+
+        <span class="k">if</span> <span class="o">(!</span><span class="n">less</span><span class="o">(</span><span class="n">k</span><span class="o">,</span> <span class="n">j</span><span class="o">))</span> <span class="k">break</span><span class="o">;</span><span class="c1">//秩序正常，则退出循环
+</span><span class="c1"></span>
+        <span class="n">exch</span><span class="o">(</span><span class="n">k</span><span class="o">,</span><span class="n">j</span><span class="o">);</span><span class="c1">//交换结点和j指向的子结点
+</span><span class="c1"></span>        <span class="n">k</span> <span class="o">=</span> <span class="n">j</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="273-以堆实现的优先队列">2.7.3 以堆实现的优先队列</h3>
+<p><strong>实现</strong></p>
+<p>下面我们就可以通过二叉堆来实现之前所述的优先队列的两种操作：</p>
+<p>①向堆中插入元素</p>
+<p>我们将新元素加到数组末尾，增加堆的大小，并让这个新元素上浮到合适的位置。</p>
+<p>②删除最大的元素</p>
+<p>我们从数组顶端删除最大的元素并将数组的最后一个元素放到顶端，减小堆的大小，并让这个元素下沉到合适的位置。</p>
+<p>整个优先队列的实现：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MaxPQ</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">N</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span><span class="c1">//堆的大小
+</span><span class="c1"></span>    <span class="n">Comparable</span><span class="o">[]</span> <span class="n">pq</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">MaxPQ</span><span class="o">(</span><span class="kt">int</span> <span class="n">N</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">N</span> <span class="o">=</span> <span class="n">N</span><span class="o">;</span>
+        <span class="n">pq</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Comparable</span><span class="o">[</span><span class="n">N</span> <span class="o">+</span> <span class="n">1</span><span class="o">];</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">insert</span><span class="o">(</span><span class="n">Comparable</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">pq</span><span class="o">[++</span><span class="n">N</span><span class="o">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">;</span>
+        <span class="n">swim</span><span class="o">(</span><span class="n">N</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Comparable</span> <span class="nf">deleteMax</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">Comparable</span> <span class="n">max</span> <span class="o">=</span> <span class="n">pq</span><span class="o">[</span><span class="n">1</span><span class="o">];</span><span class="c1">//从根节点得到最大的元素
+</span><span class="c1"></span>        <span class="n">exch</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">N</span><span class="o">--);</span><span class="c1">//将最后一个结点与根节点交换
+</span><span class="c1"></span>        <span class="n">pq</span><span class="o">[</span><span class="n">N</span> <span class="o">+</span> <span class="n">1</span><span class="o">]</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="n">sink</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">max</span><span class="o">;</span>
+    <span class="o">}</span>
+
+<span class="c1">//------------------------------------------------------------
+</span><span class="c1"></span>
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">less</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="kt">int</span> <span class="n">j</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">pq</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">compareTo</span><span class="o">(</span><span class="n">pq</span><span class="o">[</span><span class="n">j</span><span class="o">])</span> <span class="o">&lt;</span> <span class="n">0</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">exch</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="kt">int</span> <span class="n">j</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Comparable</span> <span class="n">t</span> <span class="o">=</span> <span class="n">pq</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+        <span class="n">pq</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">pq</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+        <span class="n">pq</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">t</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">swim</span><span class="o">(</span><span class="kt">int</span> <span class="n">k</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">k</span> <span class="o">&gt;</span> <span class="n">1</span> <span class="o">&amp;&amp;</span> <span class="n">less</span><span class="o">(</span><span class="n">k</span> <span class="o">/</span> <span class="n">2</span><span class="o">,</span> <span class="n">k</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">exch</span><span class="o">(</span><span class="n">k</span> <span class="o">/</span> <span class="n">2</span><span class="o">,</span> <span class="n">k</span><span class="o">);</span><span class="c1">//交换结点和它父结点的值
+</span><span class="c1"></span>            <span class="n">k</span> <span class="o">=</span> <span class="n">k</span> <span class="o">/</span> <span class="n">2</span><span class="o">;</span><span class="c1">//更新结点的索引
+</span><span class="c1"></span>        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">sink</span><span class="o">(</span><span class="kt">int</span> <span class="n">k</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">2</span> <span class="o">*</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">N</span><span class="o">)</span> <span class="o">{</span><span class="c1">//确保还有子结点
+</span><span class="c1"></span>            <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">2</span> <span class="o">*</span> <span class="n">k</span><span class="o">;</span>
+
+            <span class="c1">//如果有两个子结点，则找到更大的那个
+</span><span class="c1"></span>            <span class="k">if</span> <span class="o">(</span><span class="n">j</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="o">&amp;&amp;</span> <span class="n">less</span><span class="o">(</span><span class="n">j</span><span class="o">,</span> <span class="n">j</span><span class="o">+</span><span class="n">1</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">j</span><span class="o">++;</span>
+            <span class="o">}</span>
+
+            <span class="k">if</span> <span class="o">(!</span><span class="n">less</span><span class="o">(</span><span class="n">k</span><span class="o">,</span> <span class="n">j</span><span class="o">))</span> <span class="k">break</span><span class="o">;</span><span class="c1">//秩序正常，则退出循环
+</span><span class="c1"></span>
+            <span class="n">exch</span><span class="o">(</span><span class="n">k</span><span class="o">,</span> <span class="n">j</span><span class="o">);</span><span class="c1">//交换结点和j指向的子结点
+</span><span class="c1"></span>            <span class="n">k</span> <span class="o">=</span> <span class="n">j</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>性能</strong></p>
+<p>对于一个含有N个元素的优先队列，<strong>插入元素操作和删除最大元素操作的时间复杂度最差均为logN(具体来说，对于二叉堆，最差为log<sub>2</sub>N，即树的高度)</strong>。</p>
+<p>以堆实现的优先队列在现代应用程序中越来越重要，因为它能在插入操作和删除最大元素操作混合的动态场景中保证对数级别的运行时间。</p>
+<p>基于用数组表示的完全三叉树构造堆并修改相应的代码并不困难：位置k的结点大于等于位于3k-1、3k、3k+1的结点，小于等于位于(k+1)/3的结点。</p>
+<p>但对于选择d叉树的d，我们需要在树高log<sub>d</sub>N和在每个结点的d个子结点中找到最大者的代价之间找到折中。</p>
+<h3 id="274-堆排序">2.7.4 堆排序</h3>
+<p>算法：先将原始数组重新组织安排进一个堆实现的最小优先队列中，再从优先队列中逐个删除最小元素。</p>
+<p>堆排序的时间复杂度平均为NlogN，但总体来说比归并和快速排序要慢，因此较少使用，了解思想即可。</p>
+<h2 id="28-总结">2.8 总结</h2>
+<p>排序如此有用的一个主要原因是，在一个有序数组中查找一个元素要比在一个无序的数组中容易得多。</p>
+<p>实际使用中常用的排序算法有3种：插入排序、归并排序、和快速排序(包括3向切分的快速排序)。</p>
+<ul>
+<li><strong>插入排序：对于部分有序的数组，效率极高，对于小规模数组(如长度&lt;15)速度也较快。稳定、原地。</strong></li>
+<li><strong>归并排序：速度与快速排序基本相当。稳定、非原地。</strong></li>
+<li><strong>快速排序：快速排序是速度最快的通用排序算法。非稳定、原地。</strong></li>
+</ul>
+<blockquote>
+<p>java.util.Arrays.sort()，对于原始数据类型元素的数组使用三向切分的快速排序，对于引用型元素的数组使用归并排序。</p>
+<p>java.util.Collections.sort()是稳定的(官方文档：This sort is guaranteed to be stable: equal elements will not be reordered as a result of the sort)，所以应该也是归并排序。</p>
+</blockquote>
+<p>两个典型的应用：</p>
+<ul>
+<li>
+<p>找出重复元素</p>
+<p>首先将数组排序，然后遍历有序的数组，记录连续出现的重复元素即可。</p>
+</li>
+<li>
+<p>负载均衡</p>
+<p>假设我们有M个相同的处理器以及N个任务，我们的目标是用尽可能短的时间完成所有任务。这个问题是NP-困难的(见第6章)，因此我们实际上不可能算出一种最优的方案。但我们可以使用这样一种较优的方案：为M个处理器维护一个最小优先队列，每个处理器的key就是此处理器上运行的任务的耗时之和。每次我们都取出key最小的处理器，将下一个任务分配给这个处理器，然后将它重新插入优先队列。</p>
+</li>
+</ul>
+<h1 id="3-查找">3 查找</h1>
+<p>学习目标：知道红黑树和散列表即可，其他的都是铺垫。</p>
+<p><strong>符号表</strong></p>
+<p>符号表是一种存储键值对的数据结构。支持两种操作：插入(put)，即将一个新的键值对存入表中；查找(get)，即根据给定的键得到相应的值。</p>
+<p><strong>几个规定</strong></p>
+<p>为了简化问题，通常的符号表都有下面几个规定：</p>
+<ol>
+<li>每个键只对应着一个值(即表中不允许存在重复的键)，当向表中存入一个键值对时，如果键已经存在，那么新的值会覆盖旧的值。</li>
+<li>键和值都不能为null</li>
+</ol>
+<p><strong>有序符号表和无序符号表</strong></p>
+<p>这里有序符号表是指会保持键的大小顺序，相比无序符号表，有序符号表除了提供基本的put()、get()操作外，还提供min()、max()、floor()、ceiling()、rank()、select()等与顺序有关的操作。</p>
+<p>典型的有序符号表比如java中的TreeMap(底层是红黑树)；典型的无序符号表比如java中的HashMap(底层是基于拉链法的散列表)。</p>
+<h2 id="31-两种最简单的符号表实现">3.1 两种最简单的符号表实现</h2>
+<h3 id="311-无序链表">3.1.1 无序链表</h3>
+<p>键值对不是按照键的大小顺序来存储的。查找需要遍历链表，插入也需要遍历链表(因为需要先进行查找，然后根据键是否已存在决定是覆盖还是插入)，因此查找和插入的时间复杂度都是N。</p>
+<h3 id="312-有序数组">3.1.2 有序数组</h3>
+<p>键值对按照键的大小顺序存储在数组中(使用一对平行的数组，一个存储键，一个存储值)。
+查找的时间复杂度为logN(使用二分查找)。</p>
+<p>插入的时间复杂度为N(将键值对插入到数组中的某个位置，参考插入排序，涉及大量的数组元素的移动)。</p>
+<h2 id="32-二叉查找树">3.2 二叉查找树▲</h2>
+<p>二叉查找树是一棵二叉树，每个结点的键都大于其左子树中任意结点的键而小于右子树中任意结点的键(前面规定了键不能重复，因此不存在相等的情况)。</p>
+<p>二叉查找树的形状和高度与键值对被插入的顺序有关，最好的情况下，二叉树是平衡的，其高度为log<sub>2</sub>N，而最差的情况下(键值对被按照键从大到小或从小到大的顺序插入)，其高度为N。</p>
+<p>在二叉查找树中插入元素：从根节点开始往下查找，如果没有找到，也就是在前进的路径上遇到了空的分叉，那就将被插入元素放在这个空分叉上。</p>
+<p>二叉查找树的插入和查找操作的时间复杂度取决于树的高度(因为这些操作最主要的过程就是沿着树的高度方向进行遍历)，因此二叉查找树的插入和查找操作的时间复杂度，通常的情况下为logN，但最坏的情况下为N。</p>
+<h2 id="33-平衡查找树">3.3 平衡查找树▲</h2>
+<h3 id="2-3查找树">2-3查找树</h3>
+<p>2-3查找树中有2-和3-两种结点，通过特有的操作方式，我们可以保证在进行任何操作之后，2-3查找树都是完美平衡的。</p>
+<p>简洁起见，这里我们用2-3查找树指代一棵完美平衡的2-3查找树(在其他的情况下这个词应该表示一种更一般的结构)。</p>
+<p>当不断的插入元素时，二叉查找树由上往下生长，而2-3查找树是由下往上生长的。</p>
+<p>因为2-3查找树是完美平衡的，因此其查找和插入操作的时间复杂度都是logN。</p>
+<h3 id="红黑树">红黑树</h3>
+<p>红黑树是2-3查找树的另一种表现形式，它本质上和2-3查找树是完全等价的。因此，红黑树的查找和插入操作的时间复杂度都是logN。</p>
+<h2 id="34-散列表">3.4 散列表▲</h2>
+<p><strong>通过散列函数将键转化为数组的索引来访问数组中的键值对</strong>。设计一个散列表主要考虑两点：1.散列函数的实现2.处理碰撞。</p>
+<p>使用散列表，你可以实现在一般的应用中拥有<strong>常数级别的查找和插入操作</strong>的符号表。相比平衡查找树，散列表的查找、插入性能更优，但<strong>平衡查找树中的元素是有序的，而散列表是无序的，因此散列表不支持有序性相关的操作</strong>。</p>
+<h3 id="341-散列函数的实现">3.4.1 散列函数的实现</h3>
+<p>对于不同类型的键，散列函数有不同的设计思想，详细参考书p294。将整数类型的键散列的最常用方法是除留余数法：我们选择大小为素数M的数组，对于任意正整数k，计算k%M，就能有效的将键散布在0到M-1的范围内。如果M不是素数，我们可能无法利用键中包含的所有信息，这可能导致我们无法均匀的散列。</p>
+<p>在java中，对于基本数据类型和常用的类，系统已经提供了可靠的散列函数，即hashCode()。</p>
+<h3 id="342-处理碰撞">3.4.2 处理碰撞</h3>
+<p><strong>拉链法</strong></p>
+<p>将大小为M的数组中的每个元素指向一条链表，链表中的每个结点都存储了被散列到此数组索引的所有键值对。</p>
+<p>在拉链法的散列表中查找分为两步：1根据散列值找到对应的链表2沿着链表顺序查找相应的键。</p>
+<p>在实现基于拉链法的散列表时，我们的目标是选择适当的数组大小M，既不会因为空链表而浪费大量内存，也不会因为链表太长而在第二步遍历查找中花费太多时间。</p>
+<h2 id="35-总结">3.5 总结</h2>
+<p><strong>最常用的有序符号表是红黑树(java中的TreeMap)，最常用的无序符号表是基于拉链法的散列表(java中的HashMap)</strong>。</p>
+<p><strong>Set</strong></p>
+<p>将符号表中的值全部去掉，只保留键，就有了java中的Set集合(TreeSet、HashSet)。</p>
+<p><strong>SparseArray</strong></p>
+<p>Android提供了SparseArray，它其实就是前面所说的有序数组实现的符号表。相比HashMap，SparseArray更节省存储空间，但理论查找性能和插入性能都会比HashMap差。SparseArray的底层数据结构：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">mKeys</span><span class="o">;</span>
+<span class="kd">private</span> <span class="n">Object</span><span class="o">[]</span> <span class="n">mValues</span><span class="o">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="4-图">4 图</h1>
+<h2 id="41-无向图">4.1 无向图</h2>
+<h3 id="411-概念">4.1.1 概念</h3>
+<p>为了方便，一般使用0至V-1来表示一张含有V个顶点的图中的各个顶点。</p>
+<hr>
+<p>自环：一条连接一个顶点和其自身的边。</p>
+<p>平行边（重复边）：连接同一对顶点的两条边。</p>
+<p><strong>这里我们只考虑没有平行边和自环的简单图</strong>。</p>
+<hr>
+<p>路径：由边顺序连接的一系列顶点。</p>
+<p>简单路径：没有重复顶点的路径。</p>
+<p>简单环：不含重复顶点(除起点和终点)和重复边的环。</p>
+<p><strong>以下我们讨论的都是简单路径和简单环，并省略掉“简单”二字。如“无环图”中的环指的是无简单环</strong>。</p>
+<h3 id="412-数据结构">4.1.2 数据结构</h3>
+<p>使用长度为V的数组来表示有V个顶点的无向图，每个数组元素代表一个顶点。数组元素的值是一个链表，链表中是与该顶点相邻的所有顶点。这些链表都称为<strong>邻接表</strong>。</p>
+<p>显然，若v和w之间有一条边，那么v会出现在w的邻接表中，w也会出现在v的邻接表中。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">//无向图
+</span><span class="c1"></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Graph</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">V</span><span class="o">;</span><span class="c1">//顶点数
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="kt">int</span> <span class="n">E</span><span class="o">;</span><span class="c1">//边数
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="n">Bag</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;[]</span> <span class="n">adj</span><span class="o">;</span><span class="c1">//各个顶点的邻接表
+</span><span class="c1"></span>
+    <span class="kd">public</span> <span class="nf">Graph</span><span class="o">(</span><span class="kt">int</span> <span class="n">V</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">V</span> <span class="o">=</span> <span class="n">V</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">E</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+        <span class="n">adj</span> <span class="o">=</span> <span class="o">(</span><span class="n">Bag</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;[])</span> <span class="k">new</span> <span class="n">Bag</span><span class="o">[</span><span class="n">V</span><span class="o">];</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">V</span><span class="o">;</span> <span class="n">v</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">adj</span><span class="o">[</span><span class="n">v</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Bag</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">//向无向图中添加一条边
+</span><span class="c1"></span>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addEdge</span><span class="o">(</span><span class="kt">int</span> <span class="n">v</span><span class="o">,</span> <span class="kt">int</span> <span class="n">w</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">adj</span><span class="o">[</span><span class="n">v</span><span class="o">].</span><span class="na">add</span><span class="o">(</span><span class="n">w</span><span class="o">);</span>
+        <span class="n">adj</span><span class="o">[</span><span class="n">w</span><span class="o">].</span><span class="na">add</span><span class="o">(</span><span class="n">v</span><span class="o">);</span>
+        <span class="n">E</span><span class="o">++;</span>
+    <span class="o">}</span>
+
+    <span class="c1">//返回顶点v的邻接表
+</span><span class="c1"></span>    <span class="kd">public</span> <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">adj</span><span class="o">(</span><span class="kt">int</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">adj</span><span class="o">[</span><span class="n">v</span><span class="o">];</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">V</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">V</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">E</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">E</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="o">...</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="413-深度优先搜索dfs">4.1.3 深度优先搜索(DFS)▲</h3>
+<p>DFS，Depth First Search。</p>
+<p>给定一张图G和一个顶点s，找出G中与s连通的全部顶点。</p>
+<p>基本思想：先从一个顶点开始一直往前走到尽头，标记所有经过的点；然后后退一步，选择一条没有走过的路径（如果没有未走过的路径就再后退一步）一直走到尽头，标记所有经过的点&hellip;&hellip;依此类推。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">//给定一张图G和一个顶点s，找出G中与s连通的全部顶点
+</span><span class="c1"></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DepthFirstSearch</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">boolean</span><span class="o">[]</span> <span class="n">marked</span><span class="o">;</span>    <span class="c1">// 某顶点是否与s连通(即搜索过程中是否到达过此顶点)
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="kt">int</span> <span class="n">count</span><span class="o">;</span>           <span class="c1">// 与s连通的顶点数量
+</span><span class="c1"></span>
+    <span class="kd">public</span> <span class="nf">DepthFirstSearch</span><span class="o">(</span><span class="n">Graph</span> <span class="n">G</span><span class="o">,</span> <span class="kt">int</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">marked</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">G</span><span class="o">.</span><span class="na">V</span><span class="o">()];</span> <span class="c1">// G.V():返回图中顶点的数量
+</span><span class="c1"></span>        <span class="n">dfs</span><span class="o">(</span><span class="n">G</span><span class="o">,</span> <span class="n">s</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">//从某顶点开始深度优先搜索
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">dfs</span><span class="o">(</span><span class="n">Graph</span> <span class="n">G</span><span class="o">,</span> <span class="kt">int</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">marked</span><span class="o">[</span><span class="n">v</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="n">count</span><span class="o">++;</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">w</span> <span class="o">:</span> <span class="n">G</span><span class="o">.</span><span class="na">adj</span><span class="o">(</span><span class="n">v</span><span class="o">))</span> <span class="o">{</span><span class="c1">// 遍历邻接表，对每个邻接的顶点进行dfs
+</span><span class="c1"></span>            <span class="k">if</span> <span class="o">(!</span><span class="n">marked</span><span class="o">[</span><span class="n">w</span><span class="o">])</span> <span class="o">{</span><span class="c1">//未访问过。必须有此判断，否则会出现永远走不到头的情况
+</span><span class="c1"></span>                <span class="n">dfs</span><span class="o">(</span><span class="n">G</span><span class="o">,</span> <span class="n">w</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">//某顶点是否与s连通
+</span><span class="c1"></span>    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">marked</span><span class="o">(</span><span class="kt">int</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">marked</span><span class="o">[</span><span class="n">v</span><span class="o">];</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">count</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">count</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>深度优先搜索不会访问之前已经访问过的顶点。</p>
+<p>深度优先搜索标记与起点连通的所有顶点所需的时间与顶点的度数之和成正比。顶点的度数即该顶点邻接表的长度。</p>
+<h3 id="414-通过dfs寻找路径">4.1.4 通过DFS寻找路径▲</h3>
+<p>在DepthFirstSearch代码的基础上稍作修改即可：添加一个整型数组edgeTo[]，用来记录每个顶点在路径上的前一个顶点。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DepthFirstPaths</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">boolean</span><span class="o">[]</span> <span class="n">marked</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">edgeTo</span><span class="o">;</span><span class="c1">//记录每个顶点在路径上的前一个顶点
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">s</span><span class="o">;</span><span class="c1">//起点
+</span><span class="c1"></span>
+    <span class="kd">public</span> <span class="nf">DepthFirstPaths</span><span class="o">(</span><span class="n">Graph</span> <span class="n">G</span><span class="o">,</span> <span class="kt">int</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">;</span>
+        <span class="n">edgeTo</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">G</span><span class="o">.</span><span class="na">V</span><span class="o">()];</span>
+        <span class="n">marked</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">G</span><span class="o">.</span><span class="na">V</span><span class="o">()];</span>
+        <span class="n">dfs</span><span class="o">(</span><span class="n">G</span><span class="o">,</span> <span class="n">s</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">dfs</span><span class="o">(</span><span class="n">Graph</span> <span class="n">G</span><span class="o">,</span> <span class="kt">int</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">marked</span><span class="o">[</span><span class="n">v</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">w</span> <span class="o">:</span> <span class="n">G</span><span class="o">.</span><span class="na">adj</span><span class="o">(</span><span class="n">v</span><span class="o">))</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">marked</span><span class="o">[</span><span class="n">w</span><span class="o">])</span> <span class="o">{</span>
+                <span class="n">edgeTo</span><span class="o">[</span><span class="n">w</span><span class="o">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">;</span>
+                <span class="n">dfs</span><span class="o">(</span><span class="n">G</span><span class="o">,</span> <span class="n">w</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">//是否存在s到v的路径
+</span><span class="c1"></span>    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasPathTo</span><span class="o">(</span><span class="kt">int</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">marked</span><span class="o">[</span><span class="n">v</span><span class="o">];</span>
+    <span class="o">}</span>
+
+    <span class="c1">//返回s到v的路径
+</span><span class="c1"></span>    <span class="kd">public</span> <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">pathTo</span><span class="o">(</span><span class="kt">int</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">hasPathTo</span><span class="o">(</span><span class="n">v</span><span class="o">))</span> <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="n">Stack</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">path</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Stack</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">v</span><span class="o">;</span> <span class="n">x</span> <span class="o">!=</span> <span class="n">s</span><span class="o">;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">edgeTo</span><span class="o">[</span><span class="n">x</span><span class="o">]){</span>
+            <span class="n">path</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">path</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">s</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">path</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>对于一个顶点，可能存在多条到达路径。而上面的算法只能找到其中的一条。因为深度优先搜索不会访问之前已经访问过的顶点。</p>
+<h3 id="415-通过dfs寻找环">4.1.5 通过DFS寻找环▲</h3>
+<p>当然了，这里的环依然是指简单环。</p>
+<p>在一次深度优先搜索中，如果发现当前点的一个邻接点已经被访问过，但又不是当前点的上一个点，则说明找到了环。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Cycle</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">boolean</span><span class="o">[]</span> <span class="n">marked</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">hasCycle</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Cycle</span><span class="o">(</span><span class="n">Graph</span> <span class="n">G</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">marked</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">G</span><span class="o">.</span><span class="na">V</span><span class="o">()];</span>
+
+        <span class="c1">//以所有未访问过的顶点为起点，进行dfs
+</span><span class="c1"></span>        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">s</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">s</span> <span class="o">&lt;</span> <span class="n">G</span><span class="o">.</span><span class="na">V</span><span class="o">();</span> <span class="n">s</span><span class="o">++){</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">marked</span><span class="o">[</span><span class="n">s</span><span class="o">]){</span>
+                <span class="n">dfs</span><span class="o">(</span><span class="n">G</span><span class="o">,</span> <span class="n">s</span><span class="o">,</span> <span class="n">s</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">//u是v在路径上的前一个顶点
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">dfs</span><span class="o">(</span><span class="n">Graph</span> <span class="n">G</span><span class="o">,</span> <span class="kt">int</span> <span class="n">v</span><span class="o">,</span><span class="kt">int</span> <span class="n">u</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">marked</span><span class="o">[</span><span class="n">v</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">w</span> <span class="o">:</span> <span class="n">G</span><span class="o">.</span><span class="na">adj</span><span class="o">(</span><span class="n">v</span><span class="o">))</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">marked</span><span class="o">[</span><span class="n">w</span><span class="o">])</span> <span class="o">{</span>
+                <span class="n">dfs</span><span class="o">(</span><span class="n">G</span><span class="o">,</span> <span class="n">w</span><span class="o">,</span> <span class="n">v</span><span class="o">);</span>
+            <span class="c1">//w已被访问过，但w又不是u，则说明找到了环
+</span><span class="c1"></span>            <span class="o">}</span><span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">w</span> <span class="o">!=</span> <span class="n">u</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">hasCycle</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+                <span class="k">break</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasCycle</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">hasCycle</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="416-通过dfs判断是否为二分图">4.1.6 通过DFS判断是否为二分图▲</h3>
+<p>二分图：一种能够将所有节点分为两部分的图，使得图中每条边所连接的两个节点都分别属于不同的部分。</p>
+<p>这个问题等价于：是否能够用两种颜色将图的所有顶点着色，使得任意一条边的两个端点颜色都不相同。</p>
+<p>思路：在深度优先搜索过程中为每一个顶点着色。当遇到一个已经被访问过的顶点，并且此顶点的颜色与当前顶点相同，那么此图就不是一个二分图。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TwoColor</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">boolean</span><span class="o">[]</span> <span class="n">marked</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">boolean</span><span class="o">[]</span> <span class="n">color</span><span class="o">;</span><span class="c1">//记录每个顶点的颜色
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">isTwoColorable</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">TwoColor</span><span class="o">(</span><span class="n">Graph</span> <span class="n">G</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">marked</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">G</span><span class="o">.</span><span class="na">V</span><span class="o">()];</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">G</span><span class="o">.</span><span class="na">V</span><span class="o">()];</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">s</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">s</span> <span class="o">&lt;</span> <span class="n">G</span><span class="o">.</span><span class="na">V</span><span class="o">();</span> <span class="n">s</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">marked</span><span class="o">[</span><span class="n">s</span><span class="o">])</span> <span class="o">{</span>
+                <span class="n">dfs</span><span class="o">(</span><span class="n">G</span><span class="o">,</span> <span class="n">s</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">dfs</span><span class="o">(</span><span class="n">Graph</span> <span class="n">G</span><span class="o">,</span> <span class="kt">int</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">marked</span><span class="o">[</span><span class="n">v</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">w</span> <span class="o">:</span> <span class="n">G</span><span class="o">.</span><span class="na">adj</span><span class="o">(</span><span class="n">v</span><span class="o">))</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">marked</span><span class="o">[</span><span class="n">w</span><span class="o">])</span> <span class="o">{</span>
+                <span class="n">color</span><span class="o">[</span><span class="n">w</span><span class="o">]</span> <span class="o">=</span> <span class="o">!</span><span class="n">color</span><span class="o">[</span><span class="n">v</span><span class="o">];</span><span class="c1">//给w着色
+</span><span class="c1"></span>                <span class="n">dfs</span><span class="o">(</span><span class="n">G</span><span class="o">,</span> <span class="n">w</span><span class="o">);</span>
+            <span class="c1">//w已经被访问过，则w已经有颜色
+</span><span class="c1"></span>            <span class="c1">//w与v之间有边(w在v的邻接表中)，但w、v是同色的
+</span><span class="c1"></span>            <span class="o">}</span><span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="n">color</span><span class="o">[</span><span class="n">w</span><span class="o">]</span> <span class="o">==</span> <span class="n">color</span><span class="o">[</span><span class="n">v</span><span class="o">]){</span>
+                <span class="n">isTwoColorable</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+                <span class="k">break</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">//是否是二分图
+</span><span class="c1"></span>    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isBipartite</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">isTwoColorable</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>二分图的典型应用之一是电影数据图：电影名和演员名都是图中的节点。电影节点的邻接表中是参演此电影的所有演员，而演员节点的邻接表中是此演员参演过的所有电影。很明显，这是一张二分图。通过这张图，我们不光可以快速得知一部电影的全部演员和一个演员参演过的全部电影，还能找到和某演员参演过同一部电影的所有演员……等等。</p>
+<h3 id="417-广度优先搜索寻找最短路径">4.1.7 广度优先搜索（寻找最短路径）▲</h3>
+<p>通过DFS找到的是从s到v的多条路径中的一条，它不一定是最短的。</p>
+<p>要寻找最短路径，经典的方法是广度优先搜索(BFS，Breadth First Search)。</p>
+<p>基本思路：要找到从s到v的最短路径，从s开始，先在所有由一条边就可以到达的顶点中寻找v，如果找不到就继续在与s距离两条边的所有顶点中查找v，如此一直进行。</p>
+<p>技巧：使用一个队列来保存所有已经被访问过，但其邻接表还未被访问过的顶点。每次从队首取出一个点，访问它邻接表中的所有点，然后将这些点全部放入队尾，然后再从队首取出一个点，访问它邻接表中的所有点，然后将这些点全部放入队尾……以此类推。</p>
+<p>队列其实就是用来解决<strong>按照顺序进行一系列操作</strong>这样的问题。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BreadthFirstPaths</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">boolean</span><span class="o">[]</span> <span class="n">marked</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">edgeTo</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">s</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">BreadthFirstPaths</span><span class="o">(</span><span class="n">Graph</span> <span class="n">G</span><span class="o">,</span> <span class="kt">int</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">marked</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">G</span><span class="o">.</span><span class="na">V</span><span class="o">()];</span>
+        <span class="n">edgeTo</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">G</span><span class="o">.</span><span class="na">V</span><span class="o">()];</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">;</span>
+
+        <span class="n">bfs</span><span class="o">(</span><span class="n">G</span><span class="o">,</span> <span class="n">s</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">bfs</span><span class="o">(</span><span class="n">Graph</span> <span class="n">G</span><span class="o">,</span> <span class="kt">int</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Queue</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Queue</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;();</span>
+        <span class="n">marked</span><span class="o">[</span><span class="n">s</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="n">queue</span><span class="o">.</span><span class="na">enqueue</span><span class="o">(</span><span class="n">s</span><span class="o">);</span>
+
+        <span class="k">while</span> <span class="o">(!</span><span class="n">queue</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="na">dequeue</span><span class="o">();</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">w</span> <span class="o">:</span> <span class="n">G</span><span class="o">.</span><span class="na">adj</span><span class="o">(</span><span class="n">v</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(!</span><span class="n">marked</span><span class="o">[</span><span class="n">w</span><span class="o">])</span> <span class="o">{</span>
+                    <span class="n">edgeTo</span><span class="o">[</span><span class="n">w</span><span class="o">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">;</span>
+                    <span class="n">marked</span><span class="o">[</span><span class="n">w</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+                    <span class="n">queue</span><span class="o">.</span><span class="na">enqueue</span><span class="o">(</span><span class="n">w</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasPathTo</span><span class="o">(</span><span class="kt">int</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">marked</span><span class="o">[</span><span class="n">v</span><span class="o">];</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">pathTo</span><span class="o">(</span><span class="kt">int</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//和深度优先搜索中的实现相同
+</span><span class="c1"></span>    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>同深度优先搜索一样，广度优先搜索标记与起点连通的所有顶点所需的时间也与顶点的度数之和成正比。</p>
+<h3 id="418-符号图更一般的图">4.1.8 符号图（更一般的图）</h3>
+<p>实际应用中，顶点的名字通常是 <strong>字符串</strong> 而不是 <strong>数组索引</strong>。在这种情况下，前面所介绍的过的算法也都可以使用，只要我们建立字符串和数组索引的映射关系。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">map</span><span class="o">;</span><span class="c1">//顶点名-&gt;索引
+</span><span class="c1"></span><span class="kd">private</span> <span class="n">String</span><span class="o">[]</span> <span class="n">keys</span><span class="o">;</span><span class="c1">//索引-&gt;顶点名
+</span><span class="c1"></span>
+<span class="c1">// 顶点名-&gt;索引
+</span><span class="c1"></span><span class="kd">public</span> <span class="kt">int</span> <span class="nf">index</span><span class="o">(</span><span class="n">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">map</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">s</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">// 索引-&gt;顶点名
+</span><span class="c1"></span><span class="kd">public</span> <span class="n">String</span> <span class="nf">name</span><span class="o">(</span><span class="kt">int</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">keys</span><span class="o">[</span><span class="n">v</span><span class="o">];</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>有了这两个方法，我们就可以通过index()将顶点名转化为索引并在前面所述的各种图算法中使用，然后将处理结果用name()转化为顶点名以方便在实际应用中使用。</p>
+<h2 id="42-有向图">4.2 有向图</h2>
+<h3 id="421-概念">4.2.1 概念</h3>
+<blockquote>
+<p>关于概念不要纠结，了解大概即可。</p>
+</blockquote>
+<p>和无向图一样，本节也不考虑自环和平行边(即重复边：连接相同的两个顶点，且方向相同的边)。</p>
+<p>有向路径：由一系列顶点组成，对于其中的每个顶点都存在一条有向边从它指向序列中的下一个顶点。</p>
+<p>简单有向路径：没有重复顶点的有向路径。</p>
+<p>简单有向环：不含重复顶点(除起点和终点)和重复边的有向环。</p>
+<p>和无向图一样，通常我们说的有向路径都是指简单有向路径，除非我们明确指出了某个重复了的顶点，或指明是“普通的”有向路径。通常我们说的有向环是指简单有向环。</p>
+<h3 id="422-数据结构">4.2.2 数据结构</h3>
+<p>与无向图Graph基本相同，区别是addEdge()只调用了一次add。</p>
+<p>另外还有一个reverse()方法用来获取原图的反向图。反向图有时很有用，因为反向图中一个顶点所指向的顶点，都是原图中指向它的顶点。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">//有向图(Directed graph)
+</span><span class="c1"></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Digraph</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">V</span><span class="o">;</span><span class="c1">//顶点数
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="kt">int</span> <span class="n">E</span><span class="o">;</span><span class="c1">//边数
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="n">Bag</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;[]</span> <span class="n">adj</span><span class="o">;</span><span class="c1">//邻接表
+</span><span class="c1"></span>
+    <span class="kd">public</span> <span class="nf">DigGraph</span><span class="o">(</span><span class="kt">int</span> <span class="n">V</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">V</span> <span class="o">=</span> <span class="n">V</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">E</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+        <span class="n">adj</span> <span class="o">=</span> <span class="o">(</span><span class="n">Bag</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;[])</span> <span class="k">new</span> <span class="n">Bag</span><span class="o">[</span><span class="n">V</span><span class="o">];</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">V</span><span class="o">;</span> <span class="n">v</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">adj</span><span class="o">[</span><span class="n">v</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Bag</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addEdge</span><span class="o">(</span><span class="kt">int</span> <span class="n">v</span><span class="o">,</span> <span class="kt">int</span> <span class="n">w</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">adj</span><span class="o">[</span><span class="n">v</span><span class="o">].</span><span class="na">add</span><span class="o">(</span><span class="n">w</span><span class="o">);</span>
+        <span class="n">E</span><span class="o">++;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">adj</span><span class="o">(</span><span class="kt">int</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">adj</span><span class="o">[</span><span class="n">v</span><span class="o">];</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">V</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">V</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">E</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">E</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">//返回有向图的反向图，即顶点一样，但边的方向和原图完全相反的一张图
+</span><span class="c1"></span>    <span class="kd">public</span> <span class="n">Digraph</span> <span class="nf">reverse</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">Digraph</span> <span class="n">R</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Digraph</span><span class="o">(</span><span class="n">V</span><span class="o">);</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">V</span><span class="o">;</span> <span class="n">v</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">w</span> <span class="o">:</span> <span class="n">adj</span><span class="o">(</span><span class="n">v</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">R</span><span class="o">.</span><span class="na">addEdge</span><span class="o">(</span><span class="n">w</span><span class="o">,</span> <span class="n">v</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">R</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="423-可达性">4.2.3 可达性</h3>
+<p>有向图的 <strong>深度优先搜索</strong> 和 <strong>广度优先搜索</strong> 的代码和无向图一样；<strong>寻找路径</strong> 的DepthFirstPaths和 <strong>寻找最短路径</strong> 的BreadthFirstPaths也和无向图一样。</p>
+<h3 id="424-环与拓扑排序">4.2.4 环与拓扑排序▲</h3>
+<p>优先级限制下的调度问题：设想大学时期的选课，有50门课程，其中一些课程需要先修完它的前置课程才能修习，那么应该如何规划这50门课程的修习顺序？更一般点的描述是：给定一组需要完成的任务，以及关于任务完成的先后次序的优先级限制，那么在满足限制条件的前提下应该如何安排并完成所有任务？解决上述问题的办法就是拓扑排序。</p>
+<p><strong>拓扑排序</strong>：给定一幅有向图，将所有的顶点排序，使得所有的有向边均从排在前面的元素指向排在后面的元素。</p>
+<p>很显然，对于存在有向环的有向图，拓扑排序是无解的。</p>
+<p>有向无环图：不含有向环的有向图。</p>
+<h4 id="4241-寻找有向环">4.2.4.1 寻找有向环</h4>
+<p>从顶点A开始进行一次深度优先搜索：</p>
+<p><img src="./imgs/xzyxh1.png" alt=""></p>
+<p>有向图中寻找环与无向图中不同:如上图所示，假设第一次搜索路径是ABCD，第二次由ABE搜索到D时，发现D已被访问过，但并不能说明找到了环。</p>
+<p>思路(对比在无向图中寻找环的思路)：在一次深度优先搜索中，如果发现当前点的一个邻接点已经被访问过，并且它是本次搜索路径中前面的点，那么就说明找到了有向环。如下图所示：</p>
+<p><img src="./imgs/xzyxh2.png" alt=""></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DirectedCycle</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">boolean</span><span class="o">[]</span> <span class="n">marked</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">edgeTo</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">boolean</span><span class="o">[]</span> <span class="n">onStack</span><span class="o">;</span><span class="c1">//递归调用栈中的顶点。如果某个顶点在栈中，说明它在本次搜索的路径中
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="n">Stack</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">cycle</span><span class="o">;</span><span class="c1">//有向环
+</span><span class="c1"></span>
+    <span class="kd">public</span> <span class="nf">DirectedCycle</span><span class="o">(</span><span class="n">Digraph</span> <span class="n">G</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">marked</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">G</span><span class="o">.</span><span class="na">V</span><span class="o">()];</span>
+        <span class="n">onStack</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">G</span><span class="o">.</span><span class="na">V</span><span class="o">()];</span>
+        <span class="n">edgeTo</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">G</span><span class="o">.</span><span class="na">V</span><span class="o">()];</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">G</span><span class="o">.</span><span class="na">V</span><span class="o">();</span> <span class="n">v</span><span class="o">++){</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">marked</span><span class="o">[</span><span class="n">v</span><span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="n">cycle</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="n">dfs</span><span class="o">(</span><span class="n">G</span><span class="o">,</span> <span class="n">v</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">//此dfs的目的是寻找有向环，找到了就不再继续
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">dfs</span><span class="o">(</span><span class="n">Digraph</span> <span class="n">G</span><span class="o">,</span> <span class="kt">int</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//方法调用开始，将v加入onStack[]
+</span><span class="c1"></span>        <span class="n">onStack</span><span class="o">[</span><span class="n">v</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="n">marked</span><span class="o">[</span><span class="n">v</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">w</span> <span class="o">:</span> <span class="n">G</span><span class="o">.</span><span class="na">adj</span><span class="o">(</span><span class="n">v</span><span class="o">))</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">cycle</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span><span class="o">;</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(!</span><span class="n">marked</span><span class="o">[</span><span class="n">w</span><span class="o">])</span> <span class="o">{</span>
+                <span class="n">edgeTo</span><span class="o">[</span><span class="n">w</span><span class="o">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">;</span>
+                <span class="n">dfs</span><span class="o">(</span><span class="n">G</span><span class="o">,</span> <span class="n">w</span><span class="o">);</span>
+            <span class="c1">//w已被访问过，且在栈中(即在本次查找的路径上)，说明找到了环
+</span><span class="c1"></span>            <span class="c1">//单单w被访问过无法说明问题，w可能是本条路径中的前面的顶点，也可能是另一条路径中的顶点，如上图中的顶点D
+</span><span class="c1"></span>            <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">onStack</span><span class="o">[</span><span class="n">w</span><span class="o">])</span> <span class="o">{</span>
+                <span class="n">cycle</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Stack</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;();</span>
+                <span class="c1">//借助上面的图去理解此处的逻辑
+</span><span class="c1"></span>                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">v</span><span class="o">;</span> <span class="n">x</span> <span class="o">!=</span> <span class="n">w</span><span class="o">;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">edgeTo</span><span class="o">[</span><span class="n">x</span><span class="o">])</span> <span class="o">{</span>
+                    <span class="n">cycle</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+                <span class="o">}</span>
+                <span class="n">cycle</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">w</span><span class="o">);</span>
+                <span class="n">cycle</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">v</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="c1">//方法调用结束，则将v从onStack[]中移除
+</span><span class="c1"></span>        <span class="c1">//清空了标记位，这样，当一条路径搜索完毕之后，onStack[]中所有元素都是false
+</span><span class="c1"></span>        <span class="n">onStack</span><span class="o">[</span><span class="n">v</span><span class="o">]</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasCycle</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">cycle</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">cycle</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">cycle</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="4242-拓扑排序">4.2.4.2 拓扑排序</h4>
+<p>基本思想：在对一张有向图进行深度优先搜索的过程中，访问每个顶点的顺序，其实就是拓扑排序的结果。（可能需要进行多次深度优先搜索以覆盖有向图中的所有顶点）</p>
+<p>深度优先搜索只会访问每个顶点一次，如果将dfs()的参数顶点保存在一个数据结构中，那么遍历这个数据结构就能访问图中的所有顶点。那么应该何时保存参数顶点呢？常用的有以下3种：</p>
+<ul>
+<li>前序：在递归调用之前将顶点加入队列。</li>
+<li>后续：在递归调用之后将顶点加入队列。</li>
+<li>逆后序：在递归调用之后将顶点压入栈。</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DepthFirstOrder</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">boolean</span><span class="o">[]</span> <span class="n">marked</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">Queue</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">pre</span><span class="o">;</span><span class="c1">//前序
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="n">Queue</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">post</span><span class="o">;</span><span class="c1">//后序
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="n">Stack</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">reversePost</span><span class="o">;</span><span class="c1">//逆后序
+</span><span class="c1"></span>
+    <span class="kd">public</span> <span class="nf">DepthFirstOrder</span><span class="o">(</span><span class="n">Digraph</span> <span class="n">G</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">pre</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Queue</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;();</span>
+        <span class="n">post</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Queue</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;();</span>
+        <span class="n">reversePost</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Stack</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;();</span>
+
+        <span class="n">marked</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">G</span><span class="o">.</span><span class="na">V</span><span class="o">()];</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">G</span><span class="o">.</span><span class="na">V</span><span class="o">();</span> <span class="n">v</span><span class="o">++)</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">marked</span><span class="o">[</span><span class="n">v</span><span class="o">])</span> <span class="n">dfs</span><span class="o">(</span><span class="n">G</span><span class="o">,</span> <span class="n">v</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">dfs</span><span class="o">(</span><span class="n">Digraph</span> <span class="n">G</span><span class="o">,</span> <span class="kt">int</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">pre</span><span class="o">.</span><span class="na">enqueue</span><span class="o">(</span><span class="n">v</span><span class="o">);</span><span class="c1">//前序
+</span><span class="c1"></span>
+        <span class="n">marked</span><span class="o">[</span><span class="n">v</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">w</span> <span class="o">:</span> <span class="n">G</span><span class="o">.</span><span class="na">adj</span><span class="o">(</span><span class="n">v</span><span class="o">))</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">marked</span><span class="o">[</span><span class="n">w</span><span class="o">])</span> <span class="o">{</span>
+                <span class="n">dfs</span><span class="o">(</span><span class="n">G</span><span class="o">,</span> <span class="n">w</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="n">post</span><span class="o">.</span><span class="na">enqueue</span><span class="o">(</span><span class="n">v</span><span class="o">);</span><span class="c1">//后序
+</span><span class="c1"></span>        <span class="n">reversePost</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">v</span><span class="o">);</span><span class="c1">//逆后序
+</span><span class="c1"></span>    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">pre</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="n">pre</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">post</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="n">post</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">reversePost</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="n">reversePost</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>使用深度优先搜索对有向图进行拓扑排序所需的时间和V+E成正比。</p>
+<p>在进行拓扑排序之前一定要先确认是有向无环图。</p>
+<h3 id="425-强连通性">4.2.5 强连通性</h3>
+<p>如果两个顶点v和w是相互可达的，则称它们是强连通的。如果一幅有向图中的任意两个顶点都是强连通的，则称该有向图是强连通的。</p>
+<p><strong>两个顶点是强连通的，当且仅当它们都在一个有向环中</strong>。</p>
+<p>设计一种平方级别的算法来计算强连通分量并不困难，但这在处理大规模问题时是无法接受的。</p>
+<p><strong>Ksaraju算法（了解）</strong></p>
+<p>其思想如下：</p>
+<ol>
+<li>在有向图G中，使用DepthFirstOrder来计算它的反向图G<sup>R</sup>的逆后序排列。</li>
+<li>在G中进行标准的深度优先搜索，但是要按照刚才计算得到的顺序而非标准的顺序来访问所有未被标记的顶点。</li>
+<li>在构造函数中，所有在同一个递归dfs()调用中被访问到的顶点都在同一个强连通分量中。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Kosaraju</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">boolean</span><span class="o">[]</span> <span class="n">marked</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">id</span><span class="o">;</span><span class="c1">//每个顶点对应的强连通分量
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="kt">int</span> <span class="n">count</span><span class="o">;</span><span class="c1">//强连通分量计数
+</span><span class="c1"></span>
+    <span class="kd">public</span> <span class="nf">KosarajuCC</span><span class="o">(</span><span class="n">Digraph</span> <span class="n">G</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">marked</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">G</span><span class="o">.</span><span class="na">V</span><span class="o">()];</span>
+        <span class="n">id</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">G</span><span class="o">.</span><span class="na">V</span><span class="o">()];</span>
+        <span class="n">DepthFirstOrder</span> <span class="n">order</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DepthFirstOrder</span><span class="o">(</span><span class="n">G</span><span class="o">.</span><span class="na">reverse</span><span class="o">());</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">s</span> <span class="o">:</span> <span class="n">order</span><span class="o">.</span><span class="na">reversePost</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">marked</span><span class="o">[</span><span class="n">s</span><span class="o">])</span> <span class="o">{</span>
+                <span class="n">dfs</span><span class="o">(</span><span class="n">G</span><span class="o">,</span> <span class="n">s</span><span class="o">);</span>
+                <span class="n">count</span><span class="o">++;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">dfs</span><span class="o">(</span><span class="n">Digraph</span> <span class="n">G</span><span class="o">,</span> <span class="kt">int</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">marked</span><span class="o">[</span><span class="n">v</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="n">id</span><span class="o">[</span><span class="n">v</span><span class="o">]</span> <span class="o">=</span> <span class="n">count</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">w</span> <span class="o">:</span> <span class="n">G</span><span class="o">.</span><span class="na">adj</span><span class="o">(</span><span class="n">v</span><span class="o">))</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">marked</span><span class="o">[</span><span class="n">w</span><span class="o">])</span> <span class="o">{</span>
+                <span class="n">dfs</span><span class="o">(</span><span class="n">G</span><span class="o">,</span> <span class="n">w</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">stronglyConnected</span><span class="o">(</span><span class="kt">int</span> <span class="n">v</span><span class="o">,</span> <span class="kt">int</span> <span class="n">w</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">id</span><span class="o">[</span><span class="n">v</span><span class="o">]</span> <span class="o">==</span> <span class="n">id</span><span class="o">[</span><span class="n">w</span><span class="o">];</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">id</span><span class="o">(</span><span class="kt">int</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">id</span><span class="o">[</span><span class="n">v</span><span class="o">];</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">count</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">count</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Kosaraju算法的预处理时间和空间与V+E成正比，并且支持常数时间的有向图强连通性查询。</p>
+<h2 id="43-加权无向图--最小生成树了解">4.3 加权无向图 &amp; 最小生成树（了解）</h2>
+<h3 id="431-概念">4.3.1 概念</h3>
+<p>图的生成树：一棵含有其全部顶点的无环连通子图。最小生成树即所有边权值最小的生成树。</p>
+<p>为了简化问题有如下设定：</p>
+<ol>
+<li>假设图是连通图</li>
+<li>边的权重可能是0或者负数</li>
+<li>所有边的权重都各不相同</li>
+</ol>
+<p>树的两个重要性质（无向图）：</p>
+<ol>
+<li>用一条边连接树中的任意两个顶点都会产生一个环</li>
+<li>从树中删去一条边将会得到两棵独立的树</li>
+</ol>
+<h3 id="432-数据结构">4.3.2 数据结构</h3>
+<p>加权无向图(EdgeWeightedGraph)的实现与4.1节中无向图的实现大体一致，只是在邻接表中用Edge对象替代了Graph中的整数(顶点索引)来作为链表的节点。</p>
+<p>Edge:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Edge</span> <span class="kd">implements</span> <span class="n">Comparable</span><span class="o">&lt;</span><span class="n">Edge</span><span class="o">&gt;</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">v</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">w</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">double</span> <span class="n">weight</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Edge</span><span class="o">(</span><span class="kt">int</span> <span class="n">v</span><span class="o">,</span> <span class="kt">int</span> <span class="n">w</span><span class="o">,</span> <span class="kt">double</span> <span class="n">weight</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">w</span> <span class="o">=</span> <span class="n">w</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">weight</span> <span class="o">=</span> <span class="n">weight</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">double</span> <span class="nf">weight</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">weight</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">either</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">v</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">other</span><span class="o">(</span><span class="kt">int</span> <span class="n">vertex</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">vertex</span> <span class="o">==</span> <span class="n">v</span><span class="o">)</span> <span class="k">return</span> <span class="n">w</span><span class="o">;</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">vertex</span> <span class="o">==</span> <span class="n">w</span><span class="o">)</span> <span class="k">return</span> <span class="n">v</span><span class="o">;</span>
+        <span class="k">else</span> <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalArgumentException</span><span class="o">(</span><span class="s">&#34;Illegal endpoint&#34;</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compareTo</span><span class="o">(</span><span class="n">Edge</span> <span class="n">that</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">Double</span><span class="o">.</span><span class="na">compare</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">weight</span><span class="o">,</span> <span class="n">that</span><span class="o">.</span><span class="na">weight</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">&#34;%d-%d %.5f&#34;</span><span class="o">,</span> <span class="n">v</span><span class="o">,</span> <span class="n">w</span><span class="o">,</span> <span class="n">weight</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>EdgeWeightedGraph:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">EdgeWeightedGraph</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">V</span><span class="o">;</span><span class="c1">//顶点总数
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="kt">int</span> <span class="n">E</span><span class="o">;</span><span class="c1">//边总数
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="n">Bag</span><span class="o">&lt;</span><span class="n">Edge</span><span class="o">&gt;[]</span> <span class="n">adj</span><span class="o">;</span><span class="c1">//邻接表
+</span><span class="c1"></span>
+    <span class="kd">public</span> <span class="nf">EdgeWeightedGraph</span><span class="o">(</span><span class="kt">int</span> <span class="n">V</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">V</span> <span class="o">=</span> <span class="n">V</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">E</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+        <span class="n">adj</span> <span class="o">=</span> <span class="o">(</span><span class="n">Bag</span><span class="o">&lt;</span><span class="n">Edge</span><span class="o">&gt;[])</span> <span class="k">new</span> <span class="n">Bag</span><span class="o">[</span><span class="n">V</span><span class="o">];</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">V</span><span class="o">;</span> <span class="n">v</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">adj</span><span class="o">[</span><span class="n">v</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Bag</span><span class="o">&lt;</span><span class="n">Edge</span><span class="o">&gt;();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">V</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">V</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">E</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">E</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addEdge</span><span class="o">(</span><span class="n">Edge</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="na">either</span><span class="o">();</span>
+        <span class="kt">int</span> <span class="n">w</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="na">other</span><span class="o">(</span><span class="n">v</span><span class="o">);</span>
+        <span class="n">adj</span><span class="o">[</span><span class="n">v</span><span class="o">].</span><span class="na">add</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+        <span class="n">adj</span><span class="o">[</span><span class="n">w</span><span class="o">].</span><span class="na">add</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+        <span class="n">E</span><span class="o">++;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">Edge</span><span class="o">&gt;</span> <span class="nf">adj</span><span class="o">(</span><span class="kt">int</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">adj</span><span class="o">[</span><span class="n">v</span><span class="o">];</span>
+    <span class="o">}</span>
+
+    <span class="c1">//返回所有边，略
+</span><span class="c1"></span>    <span class="kd">public</span> <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">Edge</span><span class="o">&gt;</span> <span class="nf">edges</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="433-求最小生成树的原理">4.3.3 求最小生成树的原理</h3>
+<p>切分：将图的所有顶点分为两个非空且不重叠的集合。</p>
+<p>横切边：横跨两个集合的边。</p>
+<p><strong>切分定理</strong>：在一幅加权图中，给定任意的切分，它的横切边中的权重最小者必然属于图的最小生成树。</p>
+<p><strong>贪心算法</strong>：1.将属于最小生成树的边标记为黑色，初始状态下所有边均为灰色。2.找到一种切分，它产生的横切边均不是黑色，将它权重最小的横切边标记为黑色，如此反复，直到标记了V-1条黑色边为止。</p>
+<h3 id="434-延时prim算法">4.3.4 延时Prim算法</h3>
+<p>使用一个最小优先队列来存储横切边，及获取权重最小的横切边。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LazyPrimMST</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">boolean</span><span class="o">[]</span> <span class="n">marked</span><span class="o">;</span><span class="c1">//最小生成树中的顶点
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="n">Queue</span><span class="o">&lt;</span><span class="n">Edge</span><span class="o">&gt;</span> <span class="n">mst</span><span class="o">;</span><span class="c1">//最小生成树中的边
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="n">MinPQ</span><span class="o">&lt;</span><span class="n">Edge</span><span class="o">&gt;</span> <span class="n">pq</span><span class="o">;</span><span class="c1">//所有横切边(包括已失效的横切边)
+</span><span class="c1"></span>    <span class="c1">//若一条横切边中的两个顶点都在最小生成树中，那么它就已经不是横切边了，称为“失效”
+</span><span class="c1"></span>    <span class="c1">//由visit()方法可知，当横切边被加入pq时，它们都是有效的，但随着运算的进行，队列中的横切边可能失效（参考书p399 图4.3.10）
+</span><span class="c1"></span>
+    <span class="kd">public</span> <span class="nf">LazyPrimMST</span><span class="o">(</span><span class="n">EdgeWeightedGraph</span> <span class="n">G</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">marked</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">G</span><span class="o">.</span><span class="na">V</span><span class="o">()];</span>
+        <span class="n">mst</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Queue</span><span class="o">&lt;</span><span class="n">Edge</span><span class="o">&gt;();</span>
+        <span class="n">pq</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MinPQ</span><span class="o">&lt;</span><span class="n">Edge</span><span class="o">&gt;();</span>
+
+        <span class="n">visit</span><span class="o">(</span><span class="n">G</span><span class="o">,</span> <span class="n">0</span><span class="o">);</span>
+        <span class="k">while</span> <span class="o">(!</span><span class="n">pq</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">Edge</span> <span class="n">e</span> <span class="o">=</span> <span class="n">pq</span><span class="o">.</span><span class="na">delMin</span><span class="o">();</span><span class="c1">//取出权重最小的横切边
+</span><span class="c1"></span>            <span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="na">either</span><span class="o">(),</span> <span class="n">w</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="na">other</span><span class="o">(</span><span class="n">v</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">marked</span><span class="o">[</span><span class="n">v</span><span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="n">marked</span><span class="o">[</span><span class="n">w</span><span class="o">])</span> <span class="k">continue</span><span class="o">;</span><span class="c1">//跳过失效的横切边
+</span><span class="c1"></span>            <span class="n">mst</span><span class="o">.</span><span class="na">enqueue</span><span class="o">(</span><span class="n">e</span><span class="o">);</span><span class="c1">//将横切边添加到树中
+</span><span class="c1"></span>
+            <span class="c1">//将横切边不在树中的那一个顶点加入树中，并将与此顶点相邻的所有横切边加入最小优先队列pq
+</span><span class="c1"></span>            <span class="k">if</span> <span class="o">(!</span><span class="n">marked</span><span class="o">[</span><span class="n">v</span><span class="o">])</span> <span class="n">visit</span><span class="o">(</span><span class="n">G</span><span class="o">,</span> <span class="n">v</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">marked</span><span class="o">[</span><span class="n">w</span><span class="o">])</span> <span class="n">visit</span><span class="o">(</span><span class="n">G</span><span class="o">,</span> <span class="n">w</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+
+    <span class="c1">//将v加入生成树，并将与v相连的所有横切边加入最小优先队列pq
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="n">EdgeWeightedGraph</span> <span class="n">G</span><span class="o">,</span> <span class="kt">int</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">marked</span><span class="o">[</span><span class="n">v</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">Edge</span> <span class="n">e</span> <span class="o">:</span> <span class="n">G</span><span class="o">.</span><span class="na">adj</span><span class="o">(</span><span class="n">v</span><span class="o">))</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">marked</span><span class="o">[</span><span class="n">e</span><span class="o">.</span><span class="na">other</span><span class="o">(</span><span class="n">v</span><span class="o">)])</span> <span class="n">pq</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="n">e</span><span class="o">);</span><span class="c1">//另一点不在树中，说明是横切边
+</span><span class="c1"></span>    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">Edge</span><span class="o">&gt;</span> <span class="nf">edges</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">mst</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">double</span> <span class="nf">weight</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">//略
+</span><span class="c1"></span>    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>延时Prim算法计算一幅连通加权无向图的最小生成树所需时间与ElogE成正比(最坏情况)，所需空间与E成正比。</p>
+<h3 id="435-即时prim算法">4.3.5 即时Prim算法</h3>
+<p>效果：减小了优先队列的长度，从而提高了算法效率。</p>
+<p>思想：只在优先队列中为每个非树顶点w保存一条边，即将它与树中顶点连接起来的权重最小的那条边。因为将w和树中顶点连接起来的其他权重较大的边迟早都会失效，所有没有必要在优先队列中保存它们。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PrimMST</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">boolean</span><span class="o">[]</span> <span class="n">marked</span><span class="o">;</span><span class="c1">//最小生成树中的顶点
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="n">Edge</span><span class="o">[]</span> <span class="n">edgeTo</span><span class="o">;</span><span class="c1">//edgeTo[v]:将v连接到树中的权重最小的边，也就是最终的最小生成树中的边
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="kt">double</span><span class="o">[]</span> <span class="n">distTo</span><span class="o">;</span><span class="c1">// distTo[v]:最小的权重(将v连接到树中的权重最小的边的权重)
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="n">IndexMinPQ</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;</span> <span class="n">pq</span><span class="o">;</span><span class="c1">//这是一个索引优先队列，索引为顶点(如v)，值为该顶点的最小权重即distTo[v]
+</span><span class="c1"></span>
+    <span class="kd">public</span> <span class="nf">PrimMST</span><span class="o">(</span><span class="n">EdgeWeightedGraph</span> <span class="n">G</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">marked</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">G</span><span class="o">.</span><span class="na">V</span><span class="o">()];</span>
+        <span class="n">edgeTo</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Edge</span><span class="o">[</span><span class="n">G</span><span class="o">.</span><span class="na">V</span><span class="o">()];</span>
+        <span class="n">distTo</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">double</span><span class="o">[</span><span class="n">G</span><span class="o">.</span><span class="na">V</span><span class="o">()];</span>
+        <span class="n">pq</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IndexMinPQ</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;(</span><span class="n">G</span><span class="o">.</span><span class="na">V</span><span class="o">());</span>
+        <span class="c1">//将权重初始化为正无穷
+</span><span class="c1"></span>        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">G</span><span class="o">.</span><span class="na">V</span><span class="o">();</span> <span class="n">v</span><span class="o">++)</span>
+            <span class="n">distTo</span><span class="o">[</span><span class="n">v</span><span class="o">]</span> <span class="o">=</span> <span class="n">Double</span><span class="o">.</span><span class="na">POSITIVE_INFINITY</span><span class="o">;</span>
+
+        <span class="n">distTo</span><span class="o">[</span><span class="n">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">0</span><span class="o">.</span><span class="na">0</span><span class="o">;</span>
+        <span class="n">pq</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="n">0</span><span class="o">.</span><span class="na">0</span><span class="o">);</span>
+        <span class="k">while</span> <span class="o">(!</span><span class="n">pq</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">visit</span><span class="o">(</span><span class="n">G</span><span class="o">,</span> <span class="n">pq</span><span class="o">.</span><span class="na">delMin</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="n">EdgeWeightedGraph</span> <span class="n">G</span><span class="o">,</span> <span class="kt">int</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//将v加入生成树
+</span><span class="c1"></span>        <span class="n">marked</span><span class="o">[</span><span class="n">v</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+
+        <span class="c1">//与lazyPrimMST对比
+</span><span class="c1"></span>        <span class="k">for</span> <span class="o">(</span><span class="n">Edge</span> <span class="n">e</span> <span class="o">:</span> <span class="n">G</span><span class="o">.</span><span class="na">adj</span><span class="o">(</span><span class="n">v</span><span class="o">))</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">w</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="na">other</span><span class="o">(</span><span class="n">v</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">marked</span><span class="o">[</span><span class="n">w</span><span class="o">])</span> <span class="o">{</span>
+                <span class="c1">//e是一条横切边
+</span><span class="c1"></span>                <span class="c1">//lazyPrimMST是将e直接加入最小优先队列
+</span><span class="c1"></span>                <span class="c1">//而这里还要进一步筛选
+</span><span class="c1"></span>                <span class="k">if</span> <span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">weight</span><span class="o">()</span> <span class="o">&lt;</span> <span class="n">distTo</span><span class="o">[</span><span class="n">w</span><span class="o">])</span> <span class="o">{</span>
+                    <span class="n">distTo</span><span class="o">[</span><span class="n">w</span><span class="o">]</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="na">weight</span><span class="o">();</span>
+                    <span class="n">edgeTo</span><span class="o">[</span><span class="n">w</span><span class="o">]</span> <span class="o">=</span> <span class="n">e</span><span class="o">;</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">pq</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">w</span><span class="o">))</span> <span class="o">{</span>
+                        <span class="n">pq</span><span class="o">.</span><span class="na">change</span><span class="o">(</span><span class="n">w</span><span class="o">,</span> <span class="n">distTo</span><span class="o">[</span><span class="n">w</span><span class="o">]);</span><span class="c1">//替换
+</span><span class="c1"></span>                    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                        <span class="n">pq</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="n">w</span><span class="o">,</span> <span class="n">distTo</span><span class="o">[</span><span class="n">w</span><span class="o">]);</span><span class="c1">//新增
+</span><span class="c1"></span>                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">Edge</span><span class="o">&gt;</span> <span class="nf">edges</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">double</span> <span class="nf">weight</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>即时Prim算法计算一幅连通加权无向图的最小生成树所需时间与ElogV成正比(最坏情况)，所需空间与V成正比。</p>
+<p>按照惯例，我们需要仔细研究这些改进，只有当这种常数因子的性能改进十分必要时，它所带来的代码复杂性才是值得的。在复杂的现代系统中有时这样做甚至得不偿失。</p>
+<p>4.4.6 Kruskal算法</p>
+<p>Kruskal算法的思想很简单：将图中所有的边加入最小优先队列，每次取出权重最小的边将其加入最小生成树中，确保它不会和树中已存在的边形成环，如此继续，直到树中含有V-1条边为止。</p>
+<p>使用了union-find数据结构来识别会形成环的边：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">KruskalMST</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">Queue</span><span class="o">&lt;</span><span class="n">Edge</span><span class="o">&gt;</span> <span class="n">mst</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">KruskalMST</span><span class="o">(</span><span class="n">EdgeWeightedGraph</span> <span class="n">G</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">mst</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Queue</span><span class="o">&lt;</span><span class="n">Edge</span><span class="o">&gt;();</span>
+        <span class="n">MinPQ</span><span class="o">&lt;</span><span class="n">Edge</span><span class="o">&gt;</span> <span class="n">pq</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MinPQ</span><span class="o">&lt;</span><span class="n">Edge</span><span class="o">&gt;();</span>
+        <span class="c1">//将所有边插入优先队列
+</span><span class="c1"></span>        <span class="k">for</span> <span class="o">(</span><span class="n">Edge</span> <span class="n">e</span> <span class="o">:</span> <span class="n">G</span><span class="o">.</span><span class="na">edges</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">pq</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="c1">//union-find数据结构，用来识别会形成环的边
+</span><span class="c1"></span>        <span class="n">UF</span> <span class="n">uf</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UF</span><span class="o">(</span><span class="n">G</span><span class="o">.</span><span class="na">V</span><span class="o">());</span>
+
+        <span class="k">while</span> <span class="o">(!</span><span class="n">pq</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">()</span> <span class="o">&amp;&amp;</span> <span class="n">mst</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">&lt;</span> <span class="n">G</span><span class="o">.</span><span class="na">V</span><span class="o">()</span> <span class="o">-</span> <span class="n">1</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">Edge</span> <span class="n">e</span> <span class="o">=</span> <span class="n">pq</span><span class="o">.</span><span class="na">delMin</span><span class="o">();</span>
+            <span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="na">either</span><span class="o">();</span>
+            <span class="kt">int</span> <span class="n">w</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="na">other</span><span class="o">(</span><span class="n">v</span><span class="o">);</span>
+            <span class="c1">//跳过加入树中后会形成环的边
+</span><span class="c1"></span>            <span class="k">if</span> <span class="o">(!</span><span class="n">uf</span><span class="o">.</span><span class="na">connected</span><span class="o">(</span><span class="n">v</span><span class="o">,</span> <span class="n">w</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">uf</span><span class="o">.</span><span class="na">union</span><span class="o">(</span><span class="n">v</span><span class="o">,</span> <span class="n">w</span><span class="o">);</span>
+                <span class="n">mst</span><span class="o">.</span><span class="na">enqueue</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">Edge</span><span class="o">&gt;</span> <span class="nf">edges</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">mst</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">double</span> <span class="nf">weight</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Kruskal算法计算一幅连通加权无向图的最小生成树所需时间与ElogE成正比(最坏情况)，所需空间与E成正比。但通常情况下Kruskal算法比Prim算法要慢。</p>
+<h2 id="44-加权有向图--最短路径了解">4.4 加权有向图 &amp; 最短路径（了解）</h2>
+<p>了解大致结构即可，万一用到时再细看。</p>
+<h3 id="441-概念">4.4.1 概念</h3>
+<p>p412</p>
+<h3 id="442-数据结构">4.4.2 数据结构</h3>
+<p>p414</p>
+<h3 id="443-理论基础">4.4.3 理论基础</h3>
+<p>边的松弛：p417</p>
+<p>顶点的松弛：即对一个顶点指出的所有边进行松弛，p418</p>
+<p>通用最短路径算法：p421</p>
+<h3 id="444-dijkstra算法">4.4.4 Dijkstra算法</h3>
+<p>p421</p>
+<p>边权重非负，可以有环</p>
+<h3 id="445-无环图的算法">4.4.5 无环图的算法</h3>
+<p>p425</p>
+<p>边权重可以为负，不能有环</p>
+<p>比Dijkstra更快更简单，在已知加权有向图是无环的情况下，它是找出最短路径的最好方法。</p>
+<p>对此算法稍加修改，还能解决最长路径问题及并行调度问题。</p>
+<h3 id="446-一般加权有向图的算法">4.4.6 一般加权有向图的算法</h3>
+<p>p433</p>
+<p>边权重可以为负，可以有环</p>
+<p>可以有环，但不能有负权重的环(即所有边权重之和为负)，因为只要围着这个环兜圈子就能得到权重任意小的路径，那么最短路径问题就失去意义了。</p>
+<p>主要是两个算法：</p>
+<ol>
+<li>基于队列的Bellman-Ford算法</li>
+<li>负权重环的检测</li>
+</ol>
+<p>金融市场上的“套汇问题”也能转化为加权有向图中负权重环的检测问题。</p>
+<h1 id="5-字符串">5 字符串</h1>
+<p>思想：字符串和数字相互转换</p>
+<p>有一张字母表含有R个字母，每个字母在字母表中的索引为 0 ~ R-1 中的一个。
+那么通过这张字母表，我们将一个字符串转化为一个R进制的数字，也可以将一个R进制的数字转化为一个字符串。实际上就是 字母 和 字母在字母表中的索引 之间的相互转换。</p>
+<p>例如如下有字母表：</p>
+<table>
+<thead>
+<tr>
+<th>索引</th>
+<th>字母</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>a</td>
+</tr>
+<tr>
+<td>1</td>
+<td>b</td>
+</tr>
+<tr>
+<td>2</td>
+<td>c</td>
+</tr>
+<tr>
+<td>3</td>
+<td>d</td>
+</tr>
+<tr>
+<td>4</td>
+<td>e</td>
+</tr>
+</tbody>
+</table>
+<p>则字符串”bcdde”可以转化为12334；而10243可以转化为字符串”baced”。</p>
+<h2 id="51-字符串排序">5.1 字符串排序</h2>
+<p><strong>得益于字符集通常不大，我们可以使用一种不基于比较的字符串排序法，可以实现比第2章中的排序算法更高的性能</strong>。</p>
+<h3 id="511-基础键索引计数法排序">5.1.1 基础：键索引计数法排序▲</h3>
+<p>数组a[]中是一系列待排序的数据对象，这些数据对象的key均为0~R-1之间的整数，我们将根据key对这些数据对象进行排序。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kt">int</span> <span class="n">N</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+<span class="n">String</span><span class="o">[]</span> <span class="n">aux</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">[</span><span class="n">N</span><span class="o">];</span><span class="c1">//辅助数组
+</span><span class="c1"></span><span class="kt">int</span><span class="o">[]</span> <span class="n">count</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">R</span><span class="o">+</span><span class="n">1</span><span class="o">];</span>
+
+<span class="c1">//1.遍历数据对象，统计每个键出现的次数
+</span><span class="c1">//将键i出现的次数保存在count[i+1]中(这样做是为了方便后面第3步中使用)
+</span><span class="c1"></span><span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">N</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
+    <span class="n">count</span><span class="o">[</span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">key</span> <span class="o">+</span> <span class="n">1</span><span class="o">]++;</span>
+<span class="o">}</span>
+
+<span class="c1">//2.从左往右对count[]数组的每个元素进行累加
+</span><span class="c1">//这样的结果就是:count[i+1]等于键0到i出现的次数之和，也就是键为i+1的数据对象在排序结果数组中的起始索引
+</span><span class="c1"></span><span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">r</span><span class="o">=</span><span class="n">0</span><span class="o">;</span><span class="n">r</span><span class="o">&lt;</span><span class="n">R</span><span class="o">;</span><span class="n">r</span><span class="o">++){</span>
+    <span class="n">count</span><span class="o">[</span><span class="n">r</span><span class="o">+</span><span class="n">1</span><span class="o">]</span> <span class="o">+=</span> <span class="n">count</span><span class="o">[</span><span class="n">r</span><span class="o">];</span> 
+<span class="o">}</span>
+
+<span class="c1">//3.遍历数据对象，将它们按照索引依次复制到数组aux[]中，排序完成
+</span><span class="c1"></span><span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">N</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
+    <span class="n">aux</span><span class="o">[</span><span class="n">count</span><span class="o">[</span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">key</span><span class="o">]++]</span> <span class="o">=</span> <span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+<span class="o">}</span>
+
+<span class="c1">//回写
+</span><span class="c1"></span><span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">N</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
+    <span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">aux</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>键索引计数法排序N个键为0~R-1之间的整数的元素需要访问数组11N+4R+1次，这突破了之前的排序算法NlogN的时间复杂度下限。</p>
+<p>键相同的元素在排序后会被聚集到一起，但相对位置没有变化，即这种排序算法是稳定的。</p>
+<h3 id="512-低位优先的字符串排序">5.1.2 低位优先的字符串排序▲</h3>
+<p>即从右往左检查字符串中的字符。</p>
+<p>通过字母表，我们可以将一个字母转化为它在字母表中的索引，也就是一个0到R-1之间的整数(R为字母表中的字母个数)。</p>
+<p>算法思想：如果字符串的长度均为W，那就从右向左以每个位置的字符作为键，用键索引计数法将字符串排序W遍，就可以得到正确的排序结果。</p>
+<p>算法实现：见p459 算法5.1，很简单。</p>
+<p>时间复杂度：对于基于R个字符的字母表的N个长度为W的字符串，低位优先的字符串排序需要访问~7WN+3WR次数组，这可以认为是一种线性的排序算法。</p>
+<h3 id="513-高位优先的字符串排序">5.1.3 高位优先的字符串排序▲</h3>
+<p>即从左往右检查字符串中的字符。</p>
+<p>算法思想：首先用键索引计数法将所有字符串按首字母排序，对于拥有相同首字母的字符串子集，我们再将其按照第二个字母进行排序&hellip;&hellip;</p>
+<p>时间复杂度：对于基于R个字符的字母表的N个长度为W的字符串，高位优先的字符串排序需要访问8N+3R到~7WN+3WR次数组。</p>
+<h2 id="52-单词查找树">5.2 单词查找树▲</h2>
+<h3 id="521-r向单词查找树">5.2.1 R向单词查找树</h3>
+<p>利用字符串的性质我们可以开发出比第3章中介绍的通用算法效率更高的查找算法，在一般的应用场景中它能取得以下的性能：1.查找命中所需的时间与被查找的键的长度成正比；2.查找未命中平均只需检查几个字符。</p>
+<p>缺点：占用空间大。</p>
+<p>单词查找树的结构</p>
+<ul>
+<li>每个节点都只可能有一个指向它的节点，称为它的父节点（根节点除外，根节点没有父节点）。</li>
+<li>每个节点都含有R条连接（R为字母表的大小），如果一条连接没有指向另一个节点，则称之为空连接，在绘制一棵单词查找树时通常会忽略空连接。</li>
+<li>每个节点也都含有一个值，可以是空也可以是符号表中的某个键所关联的值。具体来说，我们将每个键所关联的值保存在该键的最后一个字母所对应的节点中。</li>
+</ul>
+<p>如下图所示：</p>
+<p><img src="./imgs/dcczs.png" alt=""></p>
+<p>上图中，每个节点中的字母就是此节点的名字，也是指向该节点的连接的名字；节点旁边的数字就是该节点所对应的值。</p>
+<table>
+<thead>
+<tr>
+<th>键</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>by</td>
+<td>4</td>
+</tr>
+<tr>
+<td>sea</td>
+<td>2</td>
+</tr>
+<tr>
+<td>sells</td>
+<td>1</td>
+</tr>
+<tr>
+<td>she</td>
+<td>0</td>
+</tr>
+<tr>
+<td>shells</td>
+<td>3</td>
+</tr>
+<tr>
+<td>the</td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+<p><strong>单词查找树中的查找操作</strong></p>
+<p>从根节点开始，首先经过的是单词首字符所对应的连接；在下一个节点处沿着单词第二个字符所对应的连接继续前进；在第二个节点中沿着单词第三个字符所对应的连接向前&hellip;&hellip;如此这般，直到到达了单词最后一个字符所对应的节点或是遇到了一条空连接（即没有指向任何节点的连接）：</p>
+<ol>
+<li>单词的尾字符所对应的节点中的值非空——这是一次命中的查找。</li>
+<li>单词的尾字符所对应的节点中的值为空——这是一次未命中的查找。</li>
+<li>查找结束于一条空连接——这也是一次未命中的查找。</li>
+</ol>
+<p>具体实现见书p479-算法5.4。节点的数据结构如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Node</span><span class="o">{</span>
+    <span class="c1">//值
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="n">Object</span> <span class="n">val</span><span class="o">;</span>
+    <span class="c1">//用一个长度为R的数组来表示此节点指向的R个节点(也就是R条连接)
+</span><span class="c1"></span>    <span class="c1">//R为字母表中的字母个数
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="n">Node</span><span class="o">[]</span> <span class="n">next</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Node</span><span class="o">[</span><span class="n">R</span><span class="o">];</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>可见每个节点中都含有R连接，这样的单词查找树称为R向单词查找树。</p>
+<h3 id="522-三向单词查找树">5.2.2 三向单词查找树</h3>
+<p>R向单词查找树能实现极高的查找效率，但因为每个节点中都含有R条连接，因此空间占用十分巨大。</p>
+<p>三向单词查找树将每个节点中的R条连接缩减到了3条，节约了大量空间，而查找效率只是略有下降。</p>
+<h3 id="523-与第3章中各种符号表实现的对比">5.2.3 与第3章中各种符号表实现的对比</h3>
+<ol>
+<li>对于字符串查找这样的操作，如果空间足够，那么R向单词查找树的速度是最快的，能够在常数次字符比较之内（如果key的长度为i，则最多比较i次）完成查找；</li>
+<li>当空间不是很充裕时，三向单词查找树是最佳的选择，它需要对字符进行对数级别次数的比较。而第3章中的二叉查找树虽然也只需要对数级别次数的比较，但每次比较都是比较的字符串，相对三向单词查找树的比较字符，要慢一些；</li>
+<li>除开R向单词查找树和三向单词查找树，散列表也是很有竞争力的，但它的功能不如单词查找树强大，要实现p474表中的某些字符串特殊操作比较困难。</li>
+</ol>
+<h2 id="53-总结">5.3 总结</h2>
+<p><strong>键索引计数法排序</strong></p>
+<p>大致了解即可，适用于键的取值较少的场景。可以实现比之前介绍过的排序算法更优的性能。</p>
+<p><strong>单词查找树</strong></p>
+<p>与单词查找树对比，散列表的查询速度可能更快，但单词查找树能实现一些针对字符串的特殊操作。</p>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/20180331indicator/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">ViewPager导航控件-SimpleViewpagerIndicator</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/20171122scanner/">
+            <span class="next-text nav-default">基于zbar的相机扫码性能优化实践</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:al4fun@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://github.com/al4fun" class="iconfont icon-github" title="github"></a>
+  <a href="https://al4fun.gitee.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2016 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>al4fun</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

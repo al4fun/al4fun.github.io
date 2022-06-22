@@ -359,6 +359,27 @@
   </url>
   
   <url>
+    <loc>https://al4fun.gitee.io/post/20171201algorithm4/</loc>
+    <lastmod>2017-12-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://al4fun.gitee.io/tags/%E7%AE%97%E6%B3%95/</loc>
+    <lastmod>2017-12-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://al4fun.gitee.io/categories/%E7%AE%97%E6%B3%95/</loc>
+    <lastmod>2017-12-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://al4fun.gitee.io/tags/zbar/</loc>
     <lastmod>2017-11-22T16:02:56+00:00</lastmod>
     <changefreq>weekly</changefreq>
