@@ -6,7 +6,16 @@
     <description>Recent content in Web on al4fun&#39;s notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 29 Jul 2021 11:16:00 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/categories/web/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 26 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/categories/web/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>前端监控上报工具watcher实现小结</title>
+      <link>https://al4fun.gitee.io/post/20211126watcher/</link>
+      <pubDate>Fri, 26 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20211126watcher/</guid>
+      <description>概述 这是工作闲暇实现的一个简单的前端监控上报工具，取名watcher。目前已在公司的两个项目中投入使用。下面对其实现做一个简单记录。 整体结构</description>
+    </item>
+    
     <item>
       <title>前端无感知刷新token</title>
       <link>https://al4fun.gitee.io/post/20210729refreshtoken/</link>

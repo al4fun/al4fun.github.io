@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>前端监控 on al4fun&#39;s notes</title>
+    <link>https://al4fun.gitee.io/tags/%E5%89%8D%E7%AB%AF%E7%9B%91%E6%8E%A7/</link>
+    <description>Recent content in 前端监控 on al4fun&#39;s notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 26 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/tags/%E5%89%8D%E7%AB%AF%E7%9B%91%E6%8E%A7/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>前端监控上报工具watcher实现小结</title>
+      <link>https://al4fun.gitee.io/post/20211126watcher/</link>
+      <pubDate>Fri, 26 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20211126watcher/</guid>
+      <description>概述 这是工作闲暇实现的一个简单的前端监控上报工具，取名watcher。目前已在公司的两个项目中投入使用。下面对其实现做一个简单记录。 整体结构</description>
+    </item>
+    
+  </channel>
+</rss>

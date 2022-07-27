@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>前端监控上报工具watcher实现小结 - al4fun&#39;s notes</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="al4fun" /><meta name="description" content="概述 这是工作闲暇实现的一个简单的前端监控上报工具，取名watcher。目前已在公司的两个项目中投入使用。下面对其实现做一个简单记录。 整体结构" /><meta name="keywords" content="android, web, flutter" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.0 with theme even" />
+
+
+<link rel="canonical" href="https://al4fun.gitee.io/post/20211126watcher/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.cb68f97bc9cece255d217346d970e3c62623408634e500c330a62fadabbbe77c.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="前端监控上报工具watcher实现小结" />
+<meta property="og:description" content="概述 这是工作闲暇实现的一个简单的前端监控上报工具，取名watcher。目前已在公司的两个项目中投入使用。下面对其实现做一个简单记录。 整体结构" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://al4fun.gitee.io/post/20211126watcher/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-11-26T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-11-26T00:00:00+00:00" />
+
+<meta itemprop="name" content="前端监控上报工具watcher实现小结">
+<meta itemprop="description" content="概述 这是工作闲暇实现的一个简单的前端监控上报工具，取名watcher。目前已在公司的两个项目中投入使用。下面对其实现做一个简单记录。 整体结构"><meta itemprop="datePublished" content="2021-11-26T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-11-26T00:00:00+00:00" />
+<meta itemprop="wordCount" content="4098">
+<meta itemprop="keywords" content="前端监控," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="前端监控上报工具watcher实现小结"/>
+<meta name="twitter:description" content="概述 这是工作闲暇实现的一个简单的前端监控上报工具，取名watcher。目前已在公司的两个项目中投入使用。下面对其实现做一个简单记录。 整体结构"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">al4fun&#39;s notes</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">al4fun&#39;s notes</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">前端监控上报工具watcher实现小结</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-11-26 </span>
+        <div class="post-category">
+            <a href="/categories/web/"> web </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#整体结构">整体结构</a></li>
+    <li><a href="#数据上报reportjs">数据上报：report.js</a></li>
+    <li><a href="#错误监控watch-errorjs">错误监控：watch-error.js</a></li>
+    <li><a href="#fps监控watch-fpsjs">FPS监控：watch-fps.js</a></li>
+    <li><a href="#google性能指标监控watch-web-vitalsjs">Google性能指标监控：watch-web-vitals.js</a></li>
+    <li><a href="#vue页面加载渲染时间监控watch-vue-loadjs">Vue页面加载渲染时间监控：watch-vue-load.js</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="概述">概述</h1>
+<p>这是工作闲暇实现的一个简单的前端监控上报工具，取名watcher。目前已在公司的两个项目中投入使用。下面对其实现做一个简单记录。</p>
+<h1 id="整体结构">整体结构</h1>
+<p><strong>目录结构</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">src
+  |-- utils                  工具函数
+  |-- config.js              全局配置
+  |-- report.js              数据上报
+  |-- watch-error.js         监控错误
+  |-- watch-fps.js           监控fps
+  |-- watch-web-vitals.js    监控google的web vitals性能指标
+  |-- watch-vue-load.js      监控vue页面的加载渲染时间
+  |-- ...
+index.js                     打包入口
+rollup                       打包配置
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>全局配置：config.js</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="p">...</span>
+
+<span class="kr">const</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">reportUrl</span><span class="o">:</span> <span class="s1">&#39;http://xxx.xxx.xxx:xxxx/report&#39;</span><span class="p">,</span>
+    <span class="nx">appVersion</span><span class="o">:</span> <span class="s1">&#39;1.0.0&#39;</span><span class="p">,</span>
+    <span class="nx">userId</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="kd">function</span> <span class="nx">setConfig</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">isObject</span><span class="p">(</span><span class="nx">c</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nb">Object</span><span class="p">.</span><span class="nx">assign</span><span class="p">(</span><span class="nx">config</span><span class="p">,</span> <span class="nx">c</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="p">{</span> <span class="nx">config</span><span class="p">,</span> <span class="nx">setConfig</span> <span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>config.js主要用于配置和存储上报所需的一些基本信息，包括上报地址、app版本等。</p>
+<p><strong>监控上报功能：watchXXX.js</strong></p>
+<p>为方便用户自由选择，将监控上报功能按类别拆分成了watch-error、watch-web-vitals、watch-fps等多个模块。每个模块会对外暴露一个watchXXX函数，如watchError、watchWebVitals、watchFPS等，调用函数则启动相应的监控上报功能。</p>
+<p><strong>打包入口：index.js</strong></p>
+<p>此模块只是负责将其他模块中的功能对外暴露出去，并提供一个初始化函数init：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kd">function</span> <span class="nx">init</span><span class="p">({</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{},</span> <span class="nx">watchers</span> <span class="o">=</span> <span class="p">[</span><span class="nx">watchError</span><span class="p">,</span> <span class="nx">watchFPS</span><span class="p">,</span> <span class="nx">watchWebVitals</span><span class="p">]</span> <span class="p">}</span> <span class="o">=</span> <span class="p">{})</span> <span class="p">{</span>
+    <span class="nx">setConfig</span><span class="p">(</span><span class="nx">config</span><span class="p">);</span>
+
+    <span class="c1">// 遍历调用watcher
+</span><span class="c1"></span>    <span class="c1">// watcher可能是函数，也可能是包含func和params两个字段的对象
+</span><span class="c1"></span>    <span class="nx">watchers</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">watcher</span> <span class="p">=&gt;</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">watcher</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">watcher</span><span class="p">();</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">isObject</span><span class="p">(</span><span class="nx">watcher</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="k">typeof</span> <span class="nx">watcher</span><span class="p">.</span><span class="nx">func</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">isObject</span><span class="p">(</span><span class="nx">watcher</span><span class="p">.</span><span class="nx">params</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nx">watcher</span><span class="p">.</span><span class="nx">func</span><span class="p">(</span><span class="nx">watcher</span><span class="p">.</span><span class="nx">params</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+
+    <span class="nx">initReport</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>用户通过调用init函数并传入配置config和watcher列表来启动监控上报功能，如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">Watcher</span> <span class="nx">from</span> <span class="s2">&#34;./dist/watcher.esm.js&#34;</span><span class="p">;</span>
+
+<span class="p">...</span>
+
+<span class="nx">Watcher</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
+  <span class="nx">config</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">reportUrl</span><span class="o">:</span> <span class="s1">&#39;http://127.0.0.1:3000/report&#39;</span><span class="p">,</span>
+    <span class="nx">appVersion</span><span class="o">:</span> <span class="s1">&#39;1.0.0&#39;</span><span class="p">,</span>
+    <span class="nx">userId</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="nx">watchers</span><span class="o">:</span> <span class="p">[</span>
+    <span class="p">{</span> <span class="nx">func</span><span class="o">:</span> <span class="nx">Watcher</span><span class="p">.</span><span class="nx">watchError</span><span class="p">,</span> <span class="nx">params</span><span class="o">:</span> <span class="p">{</span> <span class="nx">vueCls</span><span class="o">:</span> <span class="nx">Vue</span> <span class="p">}</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="nx">func</span><span class="o">:</span> <span class="nx">Watcher</span><span class="p">.</span><span class="nx">watchFPS</span><span class="p">,</span> <span class="nx">params</span><span class="o">:</span> <span class="p">{</span> <span class="nx">lowFPSThreshold</span><span class="o">:</span> <span class="mi">30</span> <span class="p">}</span> <span class="p">},</span>
+    <span class="nx">Watcher</span><span class="p">.</span><span class="nx">watchWebVitals</span><span class="p">,</span>
+    <span class="p">{</span> <span class="nx">func</span><span class="o">:</span> <span class="nx">Watcher</span><span class="p">.</span><span class="nx">WatchVueLoad</span><span class="p">,</span> <span class="nx">params</span><span class="o">:</span> <span class="p">{</span> <span class="nx">vueCls</span><span class="o">:</span> <span class="nx">Vue</span><span class="p">,</span> <span class="nx">router</span><span class="o">:</span> <span class="nx">router</span> <span class="p">}</span> <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">});</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在init函数内部会遍历传入的watcher列表并调用相应的watchXXX函数。</p>
+<p><strong>打包</strong></p>
+<p>因为是纯js项目，所以使用rollup进行打包。为不同的使用场景分别提供iife、es module、commonjs module三种类型的包。</p>
+<h1 id="数据上报reportjs">数据上报：report.js</h1>
+<p>为方便处理，首先对上报信息的数据结构进行了抽象，分别是基类BaseInfo、错误信息ErrorInfo、性能信息PerformanceInfo、用户行为信息BehaviorInfo以及用户自定义信息CustomInfo。在BaseInfo的构造函数中会自动记录下时间戳和当前页面的url：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">class</span> <span class="nx">BaseInfo</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">({</span> <span class="nx">type</span><span class="p">,</span> <span class="nx">subType</span> <span class="p">})</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="nx">type</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">subType</span> <span class="o">=</span> <span class="nx">subType</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">timestamp</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">valueOf</span><span class="p">();</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">pageUrl</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="kr">class</span> <span class="nx">ErrorInfo</span> <span class="kr">extends</span> <span class="nx">BaseInfo</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">({</span> <span class="nx">subType</span><span class="p">,</span> <span class="nx">message</span><span class="p">,</span> <span class="nx">stack</span> <span class="p">})</span> <span class="p">{</span>
+        <span class="kr">super</span><span class="p">({</span> <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;ErrorInfo&#39;</span><span class="p">,</span> <span class="nx">subType</span><span class="o">:</span> <span class="nx">subType</span> <span class="p">});</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">message</span> <span class="o">=</span> <span class="nx">message</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">stack</span> <span class="o">=</span> <span class="nx">stack</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="kr">class</span> <span class="nx">PerformanceInfo</span> <span class="kr">extends</span> <span class="nx">BaseInfo</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">({</span> <span class="nx">subType</span><span class="p">,</span> <span class="nx">value</span> <span class="p">})</span> <span class="p">{</span>
+        <span class="kr">super</span><span class="p">({</span> <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;PerformanceInfo&#39;</span><span class="p">,</span> <span class="nx">subType</span><span class="o">:</span> <span class="nx">subType</span> <span class="p">});</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="kr">class</span> <span class="nx">BehaviorInfo</span> <span class="kr">extends</span> <span class="nx">BaseInfo</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">({</span> <span class="nx">subType</span><span class="p">,</span> <span class="nx">value</span> <span class="p">})</span> <span class="p">{</span>
+        <span class="kr">super</span><span class="p">({</span> <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;BehaviorInfo&#39;</span><span class="p">,</span> <span class="nx">subType</span><span class="o">:</span> <span class="nx">subType</span> <span class="p">});</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="kr">class</span> <span class="nx">CustomInfo</span> <span class="kr">extends</span> <span class="nx">BaseInfo</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">({</span> <span class="nx">subType</span><span class="p">,</span> <span class="nx">value</span> <span class="p">})</span> <span class="p">{</span>
+        <span class="kr">super</span><span class="p">({</span> <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;CustomInfo&#39;</span><span class="p">,</span> <span class="nx">subType</span><span class="o">:</span> <span class="nx">subType</span> <span class="p">});</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>外部通过调用report函数来进行数据上报。为避免请求过于频繁，使用了一个infos数组来对数据进行缓存，并通过throtledBatchUpload来对infos中的数据进行带有延迟节流的批量上报：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">infos</span> <span class="o">=</span> <span class="p">[];</span>
+
+<span class="kd">function</span> <span class="nx">report</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">data</span> <span class="k">instanceof</span> <span class="nx">BaseInfo</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">infos</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nb">Array</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nx">data</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">item</span> <span class="p">=&gt;</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">item</span> <span class="k">instanceof</span> <span class="nx">BaseInfo</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">infos</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">item</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+    <span class="nx">throtledBatchUpload</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>throtledBatchUpload实现：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">throtledBatchUpload</span> <span class="o">=</span> <span class="nx">delayedThrotle</span><span class="p">(</span><span class="nx">batchUpload</span><span class="p">,</span> <span class="mi">5000</span><span class="p">);</span>
+
+<span class="p">...</span>
+
+<span class="c1">// 延迟节流
+</span><span class="c1"></span><span class="kd">function</span> <span class="nx">delayedThrotle</span><span class="p">(</span><span class="nx">fn</span><span class="p">,</span> <span class="nx">delay</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">timer</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">timer</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+
+    <span class="kr">const</span> <span class="nx">context</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+    <span class="kr">const</span> <span class="nx">args</span> <span class="o">=</span> <span class="nx">arguments</span><span class="p">;</span>
+    <span class="nx">timer</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="nx">fn</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">context</span><span class="p">,</span> <span class="nx">args</span><span class="p">);</span>
+      <span class="nx">timer</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+    <span class="p">},</span> <span class="nx">delay</span><span class="p">);</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>batchUpload实现：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kd">function</span> <span class="nx">batchUpload</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">batchCapacity</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+    <span class="kr">const</span> <span class="nx">batchCount</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">ceil</span><span class="p">(</span><span class="nx">infos</span><span class="p">.</span><span class="nx">length</span> <span class="o">/</span> <span class="nx">batchCapacity</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">batchCount</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kr">const</span> <span class="nx">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="nx">userAgent</span><span class="o">:</span> <span class="nb">window</span><span class="p">.</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">userAgent</span><span class="p">,</span>
+            <span class="nx">appVersion</span><span class="o">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">appVersion</span><span class="p">,</span>
+            <span class="nx">userId</span><span class="o">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">userId</span><span class="p">,</span>
+            <span class="nx">infos</span><span class="o">:</span> <span class="nx">infos</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="nx">batchCapacity</span><span class="p">,</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">((</span><span class="nx">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="nx">batchCapacity</span><span class="p">,</span> <span class="nx">infos</span><span class="p">.</span><span class="nx">length</span><span class="p">)),</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">sendBeacon</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nb">window</span><span class="p">.</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">sendBeacon</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">reportUrl</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">params</span><span class="p">));</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="sb">`</span><span class="si">${</span><span class="nx">config</span><span class="p">.</span><span class="nx">reportUrl</span><span class="si">}</span><span class="sb">/report.gif?params=</span><span class="si">${</span><span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">params</span><span class="p">))</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+            <span class="p">(</span><span class="k">new</span> <span class="nx">Image</span><span class="p">()).</span><span class="nx">src</span> <span class="o">=</span> <span class="nx">url</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nx">infos</span><span class="p">.</span><span class="nx">length</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果浏览器支持sendBeacon，就使用sendBeacon进行上报。sendBeacon实际发出的是post请求，并且支持跨域。以下介绍摘自MDN：</p>
+<blockquote>
+<p>navigator.sendBeacon()方法可用于通过HTTP将少量数据异步传输到服务器。</p>
+<p>这个方法主要用于满足统计和诊断代码的需要，这些代码通常尝试在卸载（unload）文档之前向服务器发送数据。过早的发送数据可能导致错过收集数据的机会。</p>
+<p>然而，对于开发者来说保证在文档卸载期间发送数据一直是一个困难。因为浏览器通常会忽略在 unload 事件处理器中产生的异步 XMLHttpRequest。为了解决这个问题， 统计和诊断代码通常要在 unload 或者 beforeunload 事件处理器中发起一个同步 XMLHttpRequest 来发送数据。同步的 XMLHttpRequest 迫使客户端延迟卸载文档，并使得下一个页面出现的更晚。下一个页面对于这种较差的载入表现无能为力。</p>
+<p>这就是 sendBeacon() 方法存在的意义。使用 sendBeacon() 方法会使客户端在有机会时，异步地向服务器发送数据，同时不会延迟当前页面的卸载和下一页面的载入。</p>
+</blockquote>
+<p>若浏览器不支持sendBeacon，则使用<code>new Image()</code>进行上报。相比传统GET/POST请求，通过<code>new Image()</code>向服务器提交数据可以避开跨域限制。</p>
+<p>另一方面，因为浏览器和服务器对url的长度通常都有限制，为避免url长度超限，在batchUpload中还限制了单次上报的数据不超过10条。</p>
+<p>最后，因为在throtledBatchUpload中使用了定时器，而当页面被卸载时(用户关闭标签页、刷新标签页、在标签页中打开另一网站)，定时器会被自动取消，为了避免infos中的数据因来不及上报而丢失，我们还需要在<code>beforeunload</code>事件被触发时，对infos中的数据进行一次立即上报：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kd">function</span> <span class="nx">initReport</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// 在页面卸载之前，立即上报
+</span><span class="c1"></span>    <span class="c1">// 因为如果页面被卸载了，throtledBatchUpload内部的定时器也会被取消，造成上报数据丢失
+</span><span class="c1"></span>    <span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;beforeunload&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+        <span class="nx">batchUpload</span><span class="p">();</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>initReport函数会在index.js中的init函数中被调用。</p>
+<h1 id="错误监控watch-errorjs">错误监控：watch-error.js</h1>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">import</span> <span class="p">{</span> <span class="nx">report</span><span class="p">,</span> <span class="nx">ErrorInfo</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;./report.js&#39;</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">watchError</span><span class="p">({</span> <span class="nx">vueCls</span> <span class="p">}</span> <span class="o">=</span> <span class="p">{})</span> <span class="p">{</span>
+    <span class="nx">watchUnCaughtError</span><span class="p">();</span>
+    <span class="nx">watchUnCaughtRejection</span><span class="p">();</span>
+    <span class="nx">watchVueComponent</span><span class="p">(</span><span class="nx">vueCls</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">watchUnCaughtError</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+        <span class="nx">report</span><span class="p">(</span><span class="nx">format</span><span class="p">(</span><span class="nx">error</span><span class="p">));</span>
+    <span class="p">},</span> <span class="kc">true</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">watchUnCaughtRejection</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;unhandledrejection&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+        <span class="nx">report</span><span class="p">(</span><span class="nx">format</span><span class="p">(</span><span class="nx">error</span><span class="p">));</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">watchVueComponent</span><span class="p">(</span><span class="nx">vueCls</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">vueCls</span> <span class="o">&amp;&amp;</span> <span class="nx">vueCls</span><span class="p">.</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kr">const</span> <span class="nx">prev</span> <span class="o">=</span> <span class="nx">vueCls</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">errorHandler</span><span class="p">;</span>
+        <span class="nx">vueCls</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">errorHandler</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">vm</span><span class="p">,</span> <span class="nx">info</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+
+            <span class="nx">report</span><span class="p">(</span><span class="nx">format</span><span class="p">(</span><span class="nx">error</span><span class="p">));</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">prev</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">prev</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">error</span><span class="p">,</span> <span class="nx">vm</span><span class="p">,</span> <span class="nx">info</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="p">...</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">watchError</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>通过<code>window.addEventListener('error', callback, true)</code>可以捕获到同步和异步的运行时错误，以及资源加载错误；通过<code>window.addEventListener('unhandledrejection',callback)</code>可以捕获到未被处理的promise的reject信息；而通过<code>Vue.config.errorHandler</code>则可以捕获到Vue组件中的各种错误。</p>
+<h1 id="fps监控watch-fpsjs">FPS监控：watch-fps.js</h1>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">import</span> <span class="p">{</span> <span class="nx">report</span><span class="p">,</span> <span class="nx">PerformanceInfo</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;./report.js&#39;</span><span class="p">;</span>
+
+<span class="c1">// lowFPSThreshold = 20: FPS低于20视为lowFPS
+</span><span class="c1">// continuousThreshold = 3: 连续出现3个lowFPS，视为卡顿，进行上报
+</span><span class="c1"></span><span class="kd">function</span> <span class="nx">watchFPS</span><span class="p">({</span> <span class="nx">lowFPSThreshold</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="nx">continuousThreshold</span> <span class="o">=</span> <span class="mi">3</span> <span class="p">}</span> <span class="o">=</span> <span class="p">{})</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">continuousLowFPS</span> <span class="o">=</span> <span class="p">[];</span> <span class="c1">// 存储连续出现的lowFPS
+</span><span class="c1"></span>    <span class="kd">let</span> <span class="nx">frameCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kd">let</span> <span class="nx">startTime</span> <span class="o">=</span> <span class="nx">performance</span><span class="p">.</span><span class="nx">now</span><span class="p">();</span>
+
+    <span class="kd">function</span> <span class="nx">loop</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">frameCount</span><span class="o">++</span><span class="p">;</span>
+
+        <span class="kr">const</span> <span class="nx">now</span> <span class="o">=</span> <span class="nx">performance</span><span class="p">.</span><span class="nx">now</span><span class="p">();</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">now</span> <span class="o">-</span> <span class="nx">startTime</span> <span class="o">&gt;=</span> <span class="mi">1000</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kr">const</span> <span class="nx">fps</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">(</span><span class="nx">frameCount</span> <span class="o">*</span> <span class="mi">1000</span> <span class="o">/</span> <span class="p">(</span><span class="nx">now</span> <span class="o">-</span> <span class="nx">startTime</span><span class="p">));</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">fps</span> <span class="o">&lt;</span> <span class="nx">lowFPSThreshold</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">continuousLowFPS</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">fps</span><span class="p">);</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">continuousLowFPS</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="nx">continuousThreshold</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="c1">// 达到连续lowFPS标准，进行上报
+</span><span class="c1"></span>                    <span class="nx">report</span><span class="p">(</span><span class="k">new</span> <span class="nx">PerformanceInfo</span><span class="p">({</span>
+                        <span class="nx">subType</span><span class="o">:</span> <span class="s2">&#34;FPS&#34;</span><span class="p">,</span>
+                        <span class="nx">value</span><span class="o">:</span> <span class="nx">continuousLowFPS</span><span class="p">.</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">sum</span><span class="p">,</span> <span class="nx">item</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">sum</span> <span class="o">+</span> <span class="nx">item</span><span class="p">)</span> <span class="o">/</span> <span class="nx">continuousLowFPS</span><span class="p">.</span><span class="nx">length</span>
+                    <span class="p">}));</span>
+                    <span class="nx">continuousLowFPS</span><span class="p">.</span><span class="nx">length</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="nx">continuousLowFPS</span><span class="p">.</span><span class="nx">length</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="c1">// 开始新一轮fps计算
+</span><span class="c1"></span>            <span class="nx">frameCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="nx">startTime</span> <span class="o">=</span> <span class="nx">now</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="nb">window</span><span class="p">.</span><span class="nx">requestAnimationFrame</span><span class="p">(</span><span class="nx">loop</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nx">loop</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">watchFPS</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>通过 requestAnimationFrame 来进行帧率计数。当连续 continuousThreshold 次帧率小于 lowFPSThreshold 时，就认为页面发生了卡顿，需要进行上报。</p>
+<h1 id="google性能指标监控watch-web-vitalsjs">Google性能指标监控：watch-web-vitals.js</h1>
+<p>Web Vitals，即Web核心指标，是由google发起的一项新计划，旨在提供一份有关各种质量信号的统一指南。</p>
+<p>Web核心指标的构成会随着时间的推移而发展。当前构成侧重于用户体验的三个方面：</p>
+<ul>
+<li>LCP: Largest Contentful Paint，最大内容绘制，即从页面加载开始到页面可视区域内最大文本块或图像元素完成渲染的时间。衡量页面加载性能。</li>
+<li>FID: First Input Delay，首次输入延迟，即从用户第一次与页面交互（如点击链接、点击按钮）到浏览器实际能够开始响应该交互的时间。衡量页面交互性能。</li>
+<li>CLS: Cumulative Layout Shift，累积布局偏移，即页面的整个生命周期中所有意外布局偏移的累积分数。衡量页面视觉稳定性。</li>
+</ul>
+<p>尽管google对每种指标都给出了详细的测量和计算方法，但因为要考虑和处理的情况十分复杂，google还是建议开发者直接使用其推出的web-vitals库。使用方法非常简单，详细参考: <a href="https://web.dev/vitals">https://web.dev/vitals</a> 。</p>
+<p>watch-web-vitals.js：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">import</span> <span class="p">{</span> <span class="nx">getLCP</span><span class="p">,</span> <span class="nx">getFID</span><span class="p">,</span> <span class="nx">getCLS</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;web-vitals&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">report</span><span class="p">,</span> <span class="nx">PerformanceInfo</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;./report.js&#39;</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">queue</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Set</span><span class="p">();</span>
+
+<span class="kd">function</span> <span class="nx">addToQueue</span><span class="p">(</span><span class="nx">metric</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">queue</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">format</span><span class="p">(</span><span class="nx">metric</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">flushQueue</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">queue</span><span class="p">.</span><span class="nx">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">report</span><span class="p">([...</span><span class="nx">queue</span><span class="p">]);</span>
+        <span class="nx">queue</span><span class="p">.</span><span class="nx">clear</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">watchWebVitals</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">getCLS</span><span class="p">(</span><span class="nx">addToQueue</span><span class="p">);</span>
+    <span class="nx">getFID</span><span class="p">(</span><span class="nx">addToQueue</span><span class="p">);</span>
+    <span class="nx">getLCP</span><span class="p">(</span><span class="nx">addToQueue</span><span class="p">);</span>
+
+    <span class="c1">// 页面不可见
+</span><span class="c1"></span>    <span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;visibilitychange&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">visibilityState</span> <span class="o">===</span> <span class="s1">&#39;hidden&#39;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">flushQueue</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+    <span class="c1">// 标签页关闭、刷新、打开另一个页面
+</span><span class="c1"></span>    <span class="c1">// 上述三种情况并不会触发visibilitychange
+</span><span class="c1"></span>    <span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;beforeunload&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+        <span class="nx">flushQueue</span><span class="p">();</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">format</span><span class="p">(</span><span class="nx">metric</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nx">PerformanceInfo</span><span class="p">({</span>
+        <span class="nx">subType</span><span class="o">:</span> <span class="nx">metric</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span>
+        <span class="nx">value</span><span class="o">:</span> <span class="nx">metric</span><span class="p">.</span><span class="nx">value</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">watchWebVitals</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>按照google推荐的做法，使用一个set对web vitals数据进行缓存，并在页面不可见时统一上报。</p>
+<p>此外，为避免标签页关闭、刷新、打开另一个页面时数据丢失，在页面卸载之前也要进行上报。</p>
+<h1 id="vue页面加载渲染时间监控watch-vue-loadjs">Vue页面加载渲染时间监控：watch-vue-load.js</h1>
+<p>参考文章：https://mp.weixin.qq.com/s/O2ANZE1vYG-DT6eCB_hf4A ，计算Vue页面加载渲染时间的思路如下：</p>
+<ul>
+<li>监听 router.beforeEach()，在回调函数中将当前时间记为渲染开始时间。</li>
+<li>利用 Vue.mixin() 对所有组件的 mounted() 注入一段代码，并进行防抖处理。</li>
+<li>当最后一个组件的 mounted() 触发时，就代表该路由下的所有组件都已经加载完毕，就可以在 this.$nextTick() 回调中计算渲染时间了。</li>
+<li>另外还要考虑到一个情况：不切换路由时，也会有变更组件的情况，此时就不应该在这些组件的 mounted() 中进行渲染时间计算。所以需要添加一个 needCalculateRenderTime 字段，当切换路由时将它设为 true，代表需要计算渲染时间。</li>
+</ul>
+<p>watch-vue-load.js：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">import</span> <span class="p">{</span> <span class="nx">report</span><span class="p">,</span> <span class="nx">PerformanceInfo</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;./report.js&#39;</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">watchVueLoad</span><span class="p">({</span> <span class="nx">vueCls</span><span class="p">,</span> <span class="nx">router</span> <span class="p">}</span> <span class="o">=</span> <span class="p">{})</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">vueCls</span> <span class="o">||</span> <span class="o">!</span><span class="nx">router</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+
+    <span class="kd">let</span> <span class="nx">startTime</span><span class="p">;</span>
+    <span class="nx">router</span><span class="p">.</span><span class="nx">beforeEach</span><span class="p">((</span><span class="nx">to</span><span class="p">,</span> <span class="nx">from</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+        <span class="c1">// 给 router 新增一个字段，表示是否要计算渲染时间
+</span><span class="c1"></span>        <span class="c1">// 只有路由跳转才需要计算
+</span><span class="c1"></span>        <span class="nx">router</span><span class="p">.</span><span class="nx">needCalculateRenderTime</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+        <span class="nx">startTime</span> <span class="o">=</span> <span class="nx">performance</span><span class="p">.</span><span class="nx">now</span><span class="p">();</span>
+
+        <span class="nx">next</span><span class="p">();</span>
+    <span class="p">})</span>
+
+    <span class="kd">let</span> <span class="nx">timer</span><span class="p">;</span>
+    <span class="nx">vueCls</span><span class="p">.</span><span class="nx">mixin</span><span class="p">({</span>
+        <span class="nx">mounted</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">router</span><span class="p">.</span><span class="nx">needCalculateRenderTime</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+
+            <span class="c1">// 整个组件的视图都被渲染之后才会运行nextTick中的代码
+</span><span class="c1"></span>            <span class="k">this</span><span class="p">.</span><span class="nx">$nextTick</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+                <span class="nx">clearTimeout</span><span class="p">(</span><span class="nx">timer</span><span class="p">);</span>
+                <span class="kr">const</span> <span class="nx">now</span> <span class="o">=</span> <span class="nx">performance</span><span class="p">.</span><span class="nx">now</span><span class="p">();</span>
+                <span class="nx">timer</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+                    <span class="nx">router</span><span class="p">.</span><span class="nx">needCalculateRenderTime</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+                    <span class="nx">report</span><span class="p">(</span><span class="k">new</span> <span class="nx">PerformanceInfo</span><span class="p">({</span>
+                        <span class="nx">subType</span><span class="o">:</span> <span class="s2">&#34;VueLoad&#34;</span><span class="p">,</span>
+                        <span class="nx">value</span><span class="o">:</span> <span class="nx">now</span> <span class="o">-</span> <span class="nx">startTime</span>
+                    <span class="p">}));</span>
+                <span class="p">},</span> <span class="mi">1000</span><span class="p">);</span>
+            <span class="p">})</span>
+        <span class="p">},</span>
+    <span class="p">})</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">watchVueLoad</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E5%89%8D%E7%AB%AF%E7%9B%91%E6%8E%A7/">前端监控</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/20220122webgl1/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">OpenGL基本概念</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/20210729refreshtoken/">
+            <span class="next-text nav-default">前端无感知刷新token</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:al4fun@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://github.com/al4fun" class="iconfont icon-github" title="github"></a>
+  <a href="https://al4fun.gitee.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2016 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>al4fun</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

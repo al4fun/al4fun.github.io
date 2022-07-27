@@ -100,14 +100,28 @@
   </url>
   
   <url>
-    <loc>https://al4fun.gitee.io/tags/token/</loc>
-    <lastmod>2021-07-29T11:16:00+00:00</lastmod>
+    <loc>https://al4fun.gitee.io/categories/web/</loc>
+    <lastmod>2021-11-26T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://al4fun.gitee.io/categories/web/</loc>
+    <loc>https://al4fun.gitee.io/tags/%E5%89%8D%E7%AB%AF%E7%9B%91%E6%8E%A7/</loc>
+    <lastmod>2021-11-26T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://al4fun.gitee.io/post/20211126watcher/</loc>
+    <lastmod>2021-11-26T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://al4fun.gitee.io/tags/token/</loc>
     <lastmod>2021-07-29T11:16:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
