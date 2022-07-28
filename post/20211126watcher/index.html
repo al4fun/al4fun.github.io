@@ -49,7 +49,7 @@
 <meta itemprop="name" content="前端监控上报工具watcher实现小结">
 <meta itemprop="description" content="概述 这是工作闲暇实现的一个简单的前端监控上报工具，取名watcher。目前已在公司的两个项目中投入使用。下面对其实现做一个简单记录。 整体结构"><meta itemprop="datePublished" content="2021-11-26T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2021-11-26T00:00:00+00:00" />
-<meta itemprop="wordCount" content="4098">
+<meta itemprop="wordCount" content="4107">
 <meta itemprop="keywords" content="前端监控," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="前端监控上报工具watcher实现小结"/>
 <meta name="twitter:description" content="概述 这是工作闲暇实现的一个简单的前端监控上报工具，取名watcher。目前已在公司的两个项目中投入使用。下面对其实现做一个简单记录。 整体结构"/>
@@ -207,12 +207,14 @@ rollup                       打包配置
 </span><span class="lnt">13
 </span><span class="lnt">14
 </span><span class="lnt">15
+</span><span class="lnt">16
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="p">...</span>
 
 <span class="kr">const</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span>
     <span class="nx">reportUrl</span><span class="o">:</span> <span class="s1">&#39;http://xxx.xxx.xxx:xxxx/report&#39;</span><span class="p">,</span>
+    <span class="nx">appName</span><span class="o">:</span> <span class="s1">&#39;myApp&#39;</span><span class="p">,</span>
     <span class="nx">appVersion</span><span class="o">:</span> <span class="s1">&#39;1.0.0&#39;</span><span class="p">,</span>
     <span class="nx">userId</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
 <span class="p">};</span>
@@ -287,6 +289,7 @@ rollup                       打包配置
 </span><span class="lnt">15
 </span><span class="lnt">16
 </span><span class="lnt">17
+</span><span class="lnt">18
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">Watcher</span> <span class="nx">from</span> <span class="s2">&#34;./dist/watcher.esm.js&#34;</span><span class="p">;</span>
@@ -296,6 +299,7 @@ rollup                       打包配置
 <span class="nx">Watcher</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
   <span class="nx">config</span><span class="o">:</span> <span class="p">{</span>
     <span class="nx">reportUrl</span><span class="o">:</span> <span class="s1">&#39;http://127.0.0.1:3000/report&#39;</span><span class="p">,</span>
+    <span class="nx">appName</span><span class="o">:</span> <span class="s1">&#39;myApp&#39;</span><span class="p">,</span>
     <span class="nx">appVersion</span><span class="o">:</span> <span class="s1">&#39;1.0.0&#39;</span><span class="p">,</span>
     <span class="nx">userId</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
   <span class="p">},</span>
@@ -488,6 +492,7 @@ rollup                       打包配置
 </span><span class="lnt">18
 </span><span class="lnt">19
 </span><span class="lnt">20
+</span><span class="lnt">21
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kd">function</span> <span class="nx">batchUpload</span><span class="p">()</span> <span class="p">{</span>
@@ -496,6 +501,7 @@ rollup                       打包配置
     <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">batchCount</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
         <span class="kr">const</span> <span class="nx">params</span> <span class="o">=</span> <span class="p">{</span>
             <span class="nx">userAgent</span><span class="o">:</span> <span class="nb">window</span><span class="p">.</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">userAgent</span><span class="p">,</span>
+            <span class="nx">appName</span><span class="o">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">appName</span><span class="p">,</span>
             <span class="nx">appVersion</span><span class="o">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">appVersion</span><span class="p">,</span>
             <span class="nx">userId</span><span class="o">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">userId</span><span class="p">,</span>
             <span class="nx">infos</span><span class="o">:</span> <span class="nx">infos</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="nx">batchCapacity</span><span class="p">,</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">((</span><span class="nx">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="nx">batchCapacity</span><span class="p">,</span> <span class="nx">infos</span><span class="p">.</span><span class="nx">length</span><span class="p">)),</span>
