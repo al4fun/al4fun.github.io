@@ -6,7 +6,25 @@
     <description>Recent content in Web on al4fun&#39;s notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 26 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/categories/web/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 29 Sep 2022 11:02:00 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/categories/web/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Web Workers库Comlink源码解析</title>
+      <link>https://al4fun.gitee.io/post/20220930comlink/</link>
+      <pubDate>Thu, 29 Sep 2022 11:02:00 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20220930comlink/</guid>
+      <description>Comlink是Google Chrome Labs出品的，旨在帮助开发者简化Web Workers使用的一个工具包，项目地址: https://github.com/GoogleChromeLabs/comlink 。 源码解读 以下源码来自Co</description>
+    </item>
+    
+    <item>
+      <title>MessageChannel MDN文档</title>
+      <link>https://al4fun.gitee.io/post/20220920messagechannel/</link>
+      <pubDate>Tue, 20 Sep 2022 17:30:56 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20220920messagechannel/</guid>
+      <description>本文内容摘自MDN文档： Channel Messaging API Using channel messaging 简介 Channel Messaging API 允许 同一文档的不同浏览上下文(比如，两个IFrame、主文档和一个IFrame、使用一个Sha</description>
+    </item>
+    
     <item>
       <title>前端监控上报工具watcher实现小结</title>
       <link>https://al4fun.gitee.io/post/20211126watcher/</link>

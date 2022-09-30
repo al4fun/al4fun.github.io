@@ -6,7 +6,43 @@
     <description>Recent content in Tags on al4fun&#39;s notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 26 Jan 2022 16:30:31 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 29 Sep 2022 11:02:00 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Comlink</title>
+      <link>https://al4fun.gitee.io/tags/comlink/</link>
+      <pubDate>Thu, 29 Sep 2022 11:02:00 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/tags/comlink/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Web Workers</title>
+      <link>https://al4fun.gitee.io/tags/web-workers/</link>
+      <pubDate>Thu, 29 Sep 2022 11:02:00 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/tags/web-workers/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>多线程</title>
+      <link>https://al4fun.gitee.io/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</link>
+      <pubDate>Thu, 29 Sep 2022 11:02:00 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>MessageChannel</title>
+      <link>https://al4fun.gitee.io/tags/messagechannel/</link>
+      <pubDate>Tue, 20 Sep 2022 17:30:56 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/tags/messagechannel/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>glTF</title>
       <link>https://al4fun.gitee.io/tags/gltf/</link>

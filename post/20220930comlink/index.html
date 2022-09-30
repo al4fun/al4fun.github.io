@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Web Workers库Comlink源码解析 - al4fun&#39;s notes</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="al4fun" /><meta name="description" content="Comlink是Google Chrome Labs出品的，旨在帮助开发者简化Web Workers使用的一个工具包，项目地址: https://github.com/GoogleChromeLabs/comlink 。 源码解读 以下源码来自Co" /><meta name="keywords" content="android, web, flutter" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.92.0 with theme even" />
+
+
+<link rel="canonical" href="https://al4fun.gitee.io/post/20220930comlink/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.cb68f97bc9cece255d217346d970e3c62623408634e500c330a62fadabbbe77c.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Web Workers库Comlink源码解析" />
+<meta property="og:description" content="Comlink是Google Chrome Labs出品的，旨在帮助开发者简化Web Workers使用的一个工具包，项目地址: https://github.com/GoogleChromeLabs/comlink 。 源码解读 以下源码来自Co" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://al4fun.gitee.io/post/20220930comlink/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-09-29T11:02:00+00:00" />
+<meta property="article:modified_time" content="2022-09-29T11:02:00+00:00" />
+
+<meta itemprop="name" content="Web Workers库Comlink源码解析">
+<meta itemprop="description" content="Comlink是Google Chrome Labs出品的，旨在帮助开发者简化Web Workers使用的一个工具包，项目地址: https://github.com/GoogleChromeLabs/comlink 。 源码解读 以下源码来自Co"><meta itemprop="datePublished" content="2022-09-29T11:02:00+00:00" />
+<meta itemprop="dateModified" content="2022-09-29T11:02:00+00:00" />
+<meta itemprop="wordCount" content="4651">
+<meta itemprop="keywords" content="Web Workers,Comlink,多线程," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Web Workers库Comlink源码解析"/>
+<meta name="twitter:description" content="Comlink是Google Chrome Labs出品的，旨在帮助开发者简化Web Workers使用的一个工具包，项目地址: https://github.com/GoogleChromeLabs/comlink 。 源码解读 以下源码来自Co"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">al4fun&#39;s notes</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">al4fun&#39;s notes</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Web Workers库Comlink源码解析</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2022-09-29 </span>
+        <div class="post-category">
+            <a href="/categories/web/"> Web </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#源码解读">源码解读</a></li>
+    <li><a href="#工作流程分析">工作流程分析</a>
+      <ul>
+        <li><a href="#running-a-simple-function">Running a simple function</a></li>
+        <li><a href="#callbacks">Callbacks</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>Comlink是Google Chrome Labs出品的，旨在帮助开发者简化Web Workers使用的一个工具包，项目地址: <a href="https://github.com/GoogleChromeLabs/comlink">https://github.com/GoogleChromeLabs/comlink</a> 。</p>
+<h1 id="源码解读">源码解读</h1>
+<p>以下源码来自<code>Comlink v4.3.1</code>。</p>
+<p><strong>protocol.ts（节选）</strong></p>
+<p>定义了一些基本数据类型：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="p">...</span>
+
+<span class="kr">export</span> <span class="kr">interface</span> <span class="nx">EventSource</span> <span class="p">{</span>
+  <span class="nx">addEventListener</span><span class="p">(</span>
+    <span class="kr">type</span><span class="o">:</span> <span class="kt">string</span><span class="p">,</span>
+    <span class="nx">listener</span>: <span class="kt">EventListenerOrEventListenerObject</span><span class="p">,</span>
+    <span class="nx">options</span><span class="o">?:</span> <span class="p">{}</span>
+  <span class="p">)</span><span class="o">:</span> <span class="k">void</span><span class="p">;</span>
+
+  <span class="nx">removeEventListener</span><span class="p">(</span>
+    <span class="kr">type</span><span class="o">:</span> <span class="kt">string</span><span class="p">,</span>
+    <span class="nx">listener</span>: <span class="kt">EventListenerOrEventListenerObject</span><span class="p">,</span>
+    <span class="nx">options</span><span class="o">?:</span> <span class="p">{}</span>
+  <span class="p">)</span><span class="o">:</span> <span class="k">void</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**
+</span><span class="cm"> * Endpoint是对 包含addEventListener、removeEventListener、postMessage方法的 对象的抽象。
+</span><span class="cm"> * 典型的Endpoint比如window对象和worker对象
+</span><span class="cm"> */</span>
+<span class="kr">export</span> <span class="kr">interface</span> <span class="nx">Endpoint</span> <span class="kr">extends</span> <span class="nx">EventSource</span> <span class="p">{</span>
+  <span class="nx">postMessage</span><span class="p">(</span><span class="nx">message</span>: <span class="kt">any</span><span class="p">,</span> <span class="nx">transfer?</span>: <span class="kt">Transferable</span><span class="p">[])</span><span class="o">:</span> <span class="k">void</span><span class="p">;</span>
+
+  <span class="nx">start</span><span class="o">?:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="k">void</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="p">...</span>
+
+<span class="cm">/**
+</span><span class="cm"> * 原始WireValue
+</span><span class="cm"> */</span>
+<span class="kr">export</span> <span class="kr">interface</span> <span class="nx">RawWireValue</span> <span class="p">{</span>
+  <span class="nx">id?</span>: <span class="kt">string</span><span class="p">;</span>
+  <span class="kr">type</span><span class="o">:</span> <span class="nx">WireValueType</span><span class="p">.</span><span class="nx">RAW</span><span class="p">;</span>
+  <span class="nx">value</span><span class="o">:</span> <span class="p">{};</span>
+<span class="p">}</span>
+
+<span class="cm">/**
+</span><span class="cm"> * TransferHandler处理得到的WireValue
+</span><span class="cm"> */</span>
+<span class="kr">export</span> <span class="kr">interface</span> <span class="nx">HandlerWireValue</span> <span class="p">{</span>
+  <span class="nx">id?</span>: <span class="kt">string</span><span class="p">;</span>
+  <span class="kr">type</span><span class="o">:</span> <span class="nx">WireValueType</span><span class="p">.</span><span class="nx">HANDLER</span><span class="p">;</span>
+  <span class="nx">name</span>: <span class="kt">string</span><span class="p">;</span>
+  <span class="nx">value</span>: <span class="kt">unknown</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="kr">type</span> <span class="nx">WireValue</span> <span class="o">=</span> <span class="nx">RawWireValue</span> <span class="o">|</span> <span class="nx">HandlerWireValue</span><span class="p">;</span>
+
+<span class="p">...</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>comlink.ts（节选）</strong></p>
+<p>comlink的主要逻辑都在此文件中，需要重点关注的是<code>expose</code>、<code>createProxy</code>、<code>requestResponseMessage</code>、<code>proxy</code>等函数，以及<code>proxyTransferHandler</code>对<code>ProxyMarked</code>对象的处理：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span><span class="lnt">174
+</span><span class="lnt">175
+</span><span class="lnt">176
+</span><span class="lnt">177
+</span><span class="lnt">178
+</span><span class="lnt">179
+</span><span class="lnt">180
+</span><span class="lnt">181
+</span><span class="lnt">182
+</span><span class="lnt">183
+</span><span class="lnt">184
+</span><span class="lnt">185
+</span><span class="lnt">186
+</span><span class="lnt">187
+</span><span class="lnt">188
+</span><span class="lnt">189
+</span><span class="lnt">190
+</span><span class="lnt">191
+</span><span class="lnt">192
+</span><span class="lnt">193
+</span><span class="lnt">194
+</span><span class="lnt">195
+</span><span class="lnt">196
+</span><span class="lnt">197
+</span><span class="lnt">198
+</span><span class="lnt">199
+</span><span class="lnt">200
+</span><span class="lnt">201
+</span><span class="lnt">202
+</span><span class="lnt">203
+</span><span class="lnt">204
+</span><span class="lnt">205
+</span><span class="lnt">206
+</span><span class="lnt">207
+</span><span class="lnt">208
+</span><span class="lnt">209
+</span><span class="lnt">210
+</span><span class="lnt">211
+</span><span class="lnt">212
+</span><span class="lnt">213
+</span><span class="lnt">214
+</span><span class="lnt">215
+</span><span class="lnt">216
+</span><span class="lnt">217
+</span><span class="lnt">218
+</span><span class="lnt">219
+</span><span class="lnt">220
+</span><span class="lnt">221
+</span><span class="lnt">222
+</span><span class="lnt">223
+</span><span class="lnt">224
+</span><span class="lnt">225
+</span><span class="lnt">226
+</span><span class="lnt">227
+</span><span class="lnt">228
+</span><span class="lnt">229
+</span><span class="lnt">230
+</span><span class="lnt">231
+</span><span class="lnt">232
+</span><span class="lnt">233
+</span><span class="lnt">234
+</span><span class="lnt">235
+</span><span class="lnt">236
+</span><span class="lnt">237
+</span><span class="lnt">238
+</span><span class="lnt">239
+</span><span class="lnt">240
+</span><span class="lnt">241
+</span><span class="lnt">242
+</span><span class="lnt">243
+</span><span class="lnt">244
+</span><span class="lnt">245
+</span><span class="lnt">246
+</span><span class="lnt">247
+</span><span class="lnt">248
+</span><span class="lnt">249
+</span><span class="lnt">250
+</span><span class="lnt">251
+</span><span class="lnt">252
+</span><span class="lnt">253
+</span><span class="lnt">254
+</span><span class="lnt">255
+</span><span class="lnt">256
+</span><span class="lnt">257
+</span><span class="lnt">258
+</span><span class="lnt">259
+</span><span class="lnt">260
+</span><span class="lnt">261
+</span><span class="lnt">262
+</span><span class="lnt">263
+</span><span class="lnt">264
+</span><span class="lnt">265
+</span><span class="lnt">266
+</span><span class="lnt">267
+</span><span class="lnt">268
+</span><span class="lnt">269
+</span><span class="lnt">270
+</span><span class="lnt">271
+</span><span class="lnt">272
+</span><span class="lnt">273
+</span><span class="lnt">274
+</span><span class="lnt">275
+</span><span class="lnt">276
+</span><span class="lnt">277
+</span><span class="lnt">278
+</span><span class="lnt">279
+</span><span class="lnt">280
+</span><span class="lnt">281
+</span><span class="lnt">282
+</span><span class="lnt">283
+</span><span class="lnt">284
+</span><span class="lnt">285
+</span><span class="lnt">286
+</span><span class="lnt">287
+</span><span class="lnt">288
+</span><span class="lnt">289
+</span><span class="lnt">290
+</span><span class="lnt">291
+</span><span class="lnt">292
+</span><span class="lnt">293
+</span><span class="lnt">294
+</span><span class="lnt">295
+</span><span class="lnt">296
+</span><span class="lnt">297
+</span><span class="lnt">298
+</span><span class="lnt">299
+</span><span class="lnt">300
+</span><span class="lnt">301
+</span><span class="lnt">302
+</span><span class="lnt">303
+</span><span class="lnt">304
+</span><span class="lnt">305
+</span><span class="lnt">306
+</span><span class="lnt">307
+</span><span class="lnt">308
+</span><span class="lnt">309
+</span><span class="lnt">310
+</span><span class="lnt">311
+</span><span class="lnt">312
+</span><span class="lnt">313
+</span><span class="lnt">314
+</span><span class="lnt">315
+</span><span class="lnt">316
+</span><span class="lnt">317
+</span><span class="lnt">318
+</span><span class="lnt">319
+</span><span class="lnt">320
+</span><span class="lnt">321
+</span><span class="lnt">322
+</span><span class="lnt">323
+</span><span class="lnt">324
+</span><span class="lnt">325
+</span><span class="lnt">326
+</span><span class="lnt">327
+</span><span class="lnt">328
+</span><span class="lnt">329
+</span><span class="lnt">330
+</span><span class="lnt">331
+</span><span class="lnt">332
+</span><span class="lnt">333
+</span><span class="lnt">334
+</span><span class="lnt">335
+</span><span class="lnt">336
+</span><span class="lnt">337
+</span><span class="lnt">338
+</span><span class="lnt">339
+</span><span class="lnt">340
+</span><span class="lnt">341
+</span><span class="lnt">342
+</span><span class="lnt">343
+</span><span class="lnt">344
+</span><span class="lnt">345
+</span><span class="lnt">346
+</span><span class="lnt">347
+</span><span class="lnt">348
+</span><span class="lnt">349
+</span><span class="lnt">350
+</span><span class="lnt">351
+</span><span class="lnt">352
+</span><span class="lnt">353
+</span><span class="lnt">354
+</span><span class="lnt">355
+</span><span class="lnt">356
+</span><span class="lnt">357
+</span><span class="lnt">358
+</span><span class="lnt">359
+</span><span class="lnt">360
+</span><span class="lnt">361
+</span><span class="lnt">362
+</span><span class="lnt">363
+</span><span class="lnt">364
+</span><span class="lnt">365
+</span><span class="lnt">366
+</span><span class="lnt">367
+</span><span class="lnt">368
+</span><span class="lnt">369
+</span><span class="lnt">370
+</span><span class="lnt">371
+</span><span class="lnt">372
+</span><span class="lnt">373
+</span><span class="lnt">374
+</span><span class="lnt">375
+</span><span class="lnt">376
+</span><span class="lnt">377
+</span><span class="lnt">378
+</span><span class="lnt">379
+</span><span class="lnt">380
+</span><span class="lnt">381
+</span><span class="lnt">382
+</span><span class="lnt">383
+</span><span class="lnt">384
+</span><span class="lnt">385
+</span><span class="lnt">386
+</span><span class="lnt">387
+</span><span class="lnt">388
+</span><span class="lnt">389
+</span><span class="lnt">390
+</span><span class="lnt">391
+</span><span class="lnt">392
+</span><span class="lnt">393
+</span><span class="lnt">394
+</span><span class="lnt">395
+</span><span class="lnt">396
+</span><span class="lnt">397
+</span><span class="lnt">398
+</span><span class="lnt">399
+</span><span class="lnt">400
+</span><span class="lnt">401
+</span><span class="lnt">402
+</span><span class="lnt">403
+</span><span class="lnt">404
+</span><span class="lnt">405
+</span><span class="lnt">406
+</span><span class="lnt">407
+</span><span class="lnt">408
+</span><span class="lnt">409
+</span><span class="lnt">410
+</span><span class="lnt">411
+</span><span class="lnt">412
+</span><span class="lnt">413
+</span><span class="lnt">414
+</span><span class="lnt">415
+</span><span class="lnt">416
+</span><span class="lnt">417
+</span><span class="lnt">418
+</span><span class="lnt">419
+</span><span class="lnt">420
+</span><span class="lnt">421
+</span><span class="lnt">422
+</span><span class="lnt">423
+</span><span class="lnt">424
+</span><span class="lnt">425
+</span><span class="lnt">426
+</span><span class="lnt">427
+</span><span class="lnt">428
+</span><span class="lnt">429
+</span><span class="lnt">430
+</span><span class="lnt">431
+</span><span class="lnt">432
+</span><span class="lnt">433
+</span><span class="lnt">434
+</span><span class="lnt">435
+</span><span class="lnt">436
+</span><span class="lnt">437
+</span><span class="lnt">438
+</span><span class="lnt">439
+</span><span class="lnt">440
+</span><span class="lnt">441
+</span><span class="lnt">442
+</span><span class="lnt">443
+</span><span class="lnt">444
+</span><span class="lnt">445
+</span><span class="lnt">446
+</span><span class="lnt">447
+</span><span class="lnt">448
+</span><span class="lnt">449
+</span><span class="lnt">450
+</span><span class="lnt">451
+</span><span class="lnt">452
+</span><span class="lnt">453
+</span><span class="lnt">454
+</span><span class="lnt">455
+</span><span class="lnt">456
+</span><span class="lnt">457
+</span><span class="lnt">458
+</span><span class="lnt">459
+</span><span class="lnt">460
+</span><span class="lnt">461
+</span><span class="lnt">462
+</span><span class="lnt">463
+</span><span class="lnt">464
+</span><span class="lnt">465
+</span><span class="lnt">466
+</span><span class="lnt">467
+</span><span class="lnt">468
+</span><span class="lnt">469
+</span><span class="lnt">470
+</span><span class="lnt">471
+</span><span class="lnt">472
+</span><span class="lnt">473
+</span><span class="lnt">474
+</span><span class="lnt">475
+</span><span class="lnt">476
+</span><span class="lnt">477
+</span><span class="lnt">478
+</span><span class="lnt">479
+</span><span class="lnt">480
+</span><span class="lnt">481
+</span><span class="lnt">482
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">import</span> <span class="p">{</span>
+  <span class="nx">Endpoint</span><span class="p">,</span>
+  <span class="nx">EventSource</span><span class="p">,</span>
+  <span class="nx">Message</span><span class="p">,</span>
+  <span class="nx">MessageType</span><span class="p">,</span>
+  <span class="nx">PostMessageWithOrigin</span><span class="p">,</span>
+  <span class="nx">WireValue</span><span class="p">,</span>
+  <span class="nx">WireValueType</span><span class="p">,</span>
+<span class="p">}</span> <span class="kr">from</span> <span class="s2">&#34;./protocol&#34;</span><span class="p">;</span>
+<span class="kr">export</span> <span class="p">{</span> <span class="nx">Endpoint</span> <span class="p">};</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">proxyMarker</span> <span class="o">=</span> <span class="nx">Symbol</span><span class="p">(</span><span class="s2">&#34;Comlink.proxy&#34;</span><span class="p">);</span>
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">createEndpoint</span> <span class="o">=</span> <span class="nx">Symbol</span><span class="p">(</span><span class="s2">&#34;Comlink.endpoint&#34;</span><span class="p">);</span>
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">releaseProxy</span> <span class="o">=</span> <span class="nx">Symbol</span><span class="p">(</span><span class="s2">&#34;Comlink.releaseProxy&#34;</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">throwMarker</span> <span class="o">=</span> <span class="nx">Symbol</span><span class="p">(</span><span class="s2">&#34;Comlink.thrown&#34;</span><span class="p">);</span>
+
+<span class="cm">/**
+</span><span class="cm"> * 对 包含`[proxyMarker]: true;`属性的 对象的抽象。
+</span><span class="cm"> * 这样的对象在传递前会被proxyTransferHandler处理，为其创建专用的MessageChannel，
+</span><span class="cm"> * 真正被传递到其他线程的是此MessageChannel的一个port，其他线程通过port.postMessage来操作这个对象
+</span><span class="cm"> * Interface of values that were marked to be proxied with `comlink.proxy()`.
+</span><span class="cm"> * Can also be implemented by classes.
+</span><span class="cm"> */</span>
+<span class="kr">export</span> <span class="kr">interface</span> <span class="nx">ProxyMarked</span> <span class="p">{</span>
+  <span class="p">[</span><span class="nx">proxyMarker</span><span class="p">]</span><span class="o">:</span> <span class="kc">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="p">...</span>
+
+<span class="cm">/**
+</span><span class="cm"> * 对象的序列化和反序列化处理器
+</span><span class="cm"> *
+</span><span class="cm"> * @template T The input type being handled by this transfer handler.
+</span><span class="cm"> * @template S The serialized type sent over the wire.
+</span><span class="cm"> */</span>
+<span class="kr">export</span> <span class="kr">interface</span> <span class="nx">TransferHandler</span><span class="p">&lt;</span><span class="nt">T</span><span class="err">,</span> <span class="na">S</span><span class="p">&gt;</span> <span class="p">{</span>
+  <span class="cm">/**
+</span><span class="cm">   * Gets called for every value to determine whether this transfer handler
+</span><span class="cm">   * should serialize the value, which includes checking that it is of the right
+</span><span class="cm">   * type (but can perform checks beyond that as well).
+</span><span class="cm">   */</span>
+  <span class="nx">canHandle</span><span class="p">(</span><span class="nx">value</span>: <span class="kt">unknown</span><span class="p">)</span><span class="o">:</span> <span class="nx">value</span> <span class="k">is</span> <span class="nx">T</span><span class="p">;</span>
+
+  <span class="cm">/**
+</span><span class="cm">   * Gets called with the value if `canHandle()` returned `true` to produce a
+</span><span class="cm">   * value that can be sent in a message, consisting of structured-cloneable
+</span><span class="cm">   * values and/or transferrable objects.
+</span><span class="cm">   */</span>
+  <span class="nx">serialize</span><span class="p">(</span><span class="nx">value</span>: <span class="kt">T</span><span class="p">)</span><span class="o">:</span> <span class="p">[</span><span class="nx">S</span><span class="p">,</span> <span class="nx">Transferable</span><span class="p">[]];</span>
+
+  <span class="cm">/**
+</span><span class="cm">   * Gets called to deserialize an incoming value that was serialized in the
+</span><span class="cm">   * other thread with this transfer handler (known through the name it was
+</span><span class="cm">   * registered under).
+</span><span class="cm">   */</span>
+  <span class="nx">deserialize</span><span class="p">(</span><span class="nx">value</span>: <span class="kt">S</span><span class="p">)</span><span class="o">:</span> <span class="nx">T</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**
+</span><span class="cm"> * 处理需要代理的对象。
+</span><span class="cm"> * Internal transfer handle to handle objects marked to proxy.
+</span><span class="cm"> */</span>
+<span class="kr">const</span> <span class="nx">proxyTransferHandler</span>: <span class="kt">TransferHandler</span><span class="p">&lt;</span><span class="nt">object</span><span class="err">,</span> <span class="na">MessagePort</span><span class="p">&gt;</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="c1">// 处理[proxyMarker]属性为true的对象
+</span><span class="c1"></span>  <span class="nx">canHandle</span><span class="o">:</span> <span class="p">(</span><span class="nx">val</span><span class="p">)</span><span class="o">:</span> <span class="nx">val</span> <span class="k">is</span> <span class="nx">ProxyMarked</span> <span class="o">=&gt;</span>
+    <span class="nx">isObject</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">val</span> <span class="kr">as</span> <span class="nx">ProxyMarked</span><span class="p">)[</span><span class="nx">proxyMarker</span><span class="p">],</span>
+  <span class="nx">serialize</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 创建MessageChannel
+</span><span class="c1"></span>    <span class="c1">// 自己持有port1，将port2传输到其他线程
+</span><span class="c1"></span>    <span class="c1">// 其他线程通过port2.postMessage就可操作obj
+</span><span class="c1"></span>    <span class="kr">const</span> <span class="p">{</span> <span class="nx">port1</span><span class="p">,</span> <span class="nx">port2</span> <span class="p">}</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MessageChannel</span><span class="p">();</span>
+    <span class="nx">expose</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">port1</span><span class="p">);</span>
+    <span class="k">return</span> <span class="p">[</span><span class="nx">port2</span><span class="p">,</span> <span class="p">[</span><span class="nx">port2</span><span class="p">]];</span>
+  <span class="p">},</span>
+  <span class="nx">deserialize</span><span class="p">(</span><span class="nx">port</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 创建并返回使用port的代理
+</span><span class="c1"></span>    <span class="nx">port</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span>
+    <span class="k">return</span> <span class="nx">wrap</span><span class="p">(</span><span class="nx">port</span><span class="p">);</span>
+  <span class="p">},</span>
+<span class="p">};</span>
+
+<span class="kr">interface</span> <span class="nx">ThrownValue</span> <span class="p">{</span>
+  <span class="p">[</span><span class="nx">throwMarker</span><span class="p">]</span><span class="o">:</span> <span class="kt">unknown</span><span class="p">;</span> <span class="c1">// just needs to be present
+</span><span class="c1"></span>  <span class="nx">value</span>: <span class="kt">unknown</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kr">type</span> <span class="nx">SerializedThrownValue</span> <span class="o">=</span>
+  <span class="o">|</span> <span class="p">{</span> <span class="nx">isError</span>: <span class="kt">true</span><span class="p">;</span> <span class="nx">value</span>: <span class="kt">Error</span> <span class="p">}</span>
+  <span class="o">|</span> <span class="p">{</span> <span class="nx">isError</span>: <span class="kt">false</span><span class="p">;</span> <span class="nx">value</span>: <span class="kt">unknown</span> <span class="p">};</span>
+
+<span class="cm">/**
+</span><span class="cm"> * 处理错误信息。
+</span><span class="cm"> * Internal transfer handler to handle thrown exceptions.
+</span><span class="cm"> */</span>
+<span class="kr">const</span> <span class="nx">throwTransferHandler</span>: <span class="kt">TransferHandler</span><span class="o">&lt;</span>
+  <span class="nx">ThrownValue</span><span class="p">,</span>
+  <span class="nx">SerializedThrownValue</span>
+<span class="o">&gt;</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">canHandle</span><span class="o">:</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span><span class="o">:</span> <span class="nx">value</span> <span class="k">is</span> <span class="nx">ThrownValue</span> <span class="o">=&gt;</span>
+    <span class="nx">isObject</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">throwMarker</span> <span class="k">in</span> <span class="nx">value</span><span class="p">,</span>
+  <span class="nx">serialize</span><span class="p">({</span> <span class="nx">value</span> <span class="p">})</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">serialized</span>: <span class="kt">SerializedThrownValue</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">value</span> <span class="k">instanceof</span> <span class="nb">Error</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">serialized</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">isError</span>: <span class="kt">true</span><span class="p">,</span>
+        <span class="nx">value</span><span class="o">:</span> <span class="p">{</span>
+          <span class="nx">message</span>: <span class="kt">value.message</span><span class="p">,</span>
+          <span class="nx">name</span>: <span class="kt">value.name</span><span class="p">,</span>
+          <span class="nx">stack</span>: <span class="kt">value.stack</span><span class="p">,</span>
+        <span class="p">},</span>
+      <span class="p">};</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">serialized</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">isError</span>: <span class="kt">false</span><span class="p">,</span> <span class="nx">value</span> <span class="p">};</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="p">[</span><span class="nx">serialized</span><span class="p">,</span> <span class="p">[]];</span>
+  <span class="p">},</span>
+  <span class="nx">deserialize</span><span class="p">(</span><span class="nx">serialized</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">serialized</span><span class="p">.</span><span class="nx">isError</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">throw</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">assign</span><span class="p">(</span>
+        <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">serialized</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">message</span><span class="p">),</span>
+        <span class="nx">serialized</span><span class="p">.</span><span class="nx">value</span>
+      <span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">throw</span> <span class="nx">serialized</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+  <span class="p">},</span>
+<span class="p">};</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">transferHandlers</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Map</span><span class="o">&lt;</span>
+  <span class="kt">string</span><span class="p">,</span>
+  <span class="nx">TransferHandler</span><span class="p">&lt;</span><span class="nt">unknown</span><span class="err">,</span> <span class="na">unknown</span><span class="p">&gt;</span>
+<span class="o">&gt;</span><span class="p">([</span>
+  <span class="p">[</span><span class="s2">&#34;proxy&#34;</span><span class="p">,</span> <span class="nx">proxyTransferHandler</span><span class="p">],</span>
+  <span class="p">[</span><span class="s2">&#34;throw&#34;</span><span class="p">,</span> <span class="nx">throwTransferHandler</span><span class="p">],</span>
+<span class="p">]);</span>
+
+<span class="cm">/**
+</span><span class="cm"> * expose(value, endpoint?): exposes value on endpoint。
+</span><span class="cm"> * 本质上是监听endpoint上的消息，然后根据消息操作value，最后将操作结果通过endpoint.postMessage发送出去。
+</span><span class="cm"> * Endpoint是对 包含postMessage、addEventListener、removeEventListener方法的 对象的抽象。
+</span><span class="cm"> * ep默认值是self，也就是当前worker。
+</span><span class="cm"> */</span>
+<span class="kr">export</span> <span class="kd">function</span> <span class="nx">expose</span><span class="p">(</span><span class="nx">obj</span>: <span class="kt">any</span><span class="p">,</span> <span class="nx">ep</span>: <span class="kt">Endpoint</span> <span class="o">=</span> <span class="nx">self</span> <span class="kr">as</span> <span class="kt">any</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// 监听message事件
+</span><span class="c1"></span>  <span class="nx">ep</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&#34;message&#34;</span><span class="p">,</span> <span class="kd">function</span> <span class="nx">callback</span><span class="p">(</span><span class="nx">ev</span>: <span class="kt">MessageEvent</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">ev</span> <span class="o">||</span> <span class="o">!</span><span class="nx">ev</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kr">const</span> <span class="p">{</span> <span class="nx">id</span><span class="p">,</span> <span class="kr">type</span><span class="p">,</span> <span class="nx">path</span> <span class="p">}</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">path</span><span class="o">:</span> <span class="p">[]</span> <span class="kr">as</span> <span class="kt">string</span><span class="p">[],</span>
+      <span class="p">...(</span><span class="nx">ev</span><span class="p">.</span><span class="nx">data</span> <span class="kr">as</span> <span class="nx">Message</span><span class="p">),</span>
+    <span class="p">};</span>
+    <span class="kr">const</span> <span class="nx">argumentList</span> <span class="o">=</span> <span class="p">(</span><span class="nx">ev</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">argumentList</span> <span class="o">||</span> <span class="p">[]).</span><span class="nx">map</span><span class="p">(</span><span class="nx">fromWireValue</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">returnValue</span><span class="p">;</span>
+
+    <span class="k">try</span> <span class="p">{</span>
+      <span class="c1">// 根据path，在obj中逐层向内，取到parent和rawValue
+</span><span class="c1"></span>      <span class="c1">// rawValue就是根据path向内找的最后一层，parent是它的父级
+</span><span class="c1"></span>      <span class="kr">const</span> <span class="nx">parent</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">prop</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">obj</span><span class="p">[</span><span class="nx">prop</span><span class="p">],</span> <span class="nx">obj</span><span class="p">);</span>
+      <span class="kr">const</span> <span class="nx">rawValue</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">prop</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">obj</span><span class="p">[</span><span class="nx">prop</span><span class="p">],</span> <span class="nx">obj</span><span class="p">);</span>
+      <span class="k">switch</span> <span class="p">(</span><span class="kr">type</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 获取rawValue
+</span><span class="c1"></span>        <span class="k">case</span> <span class="nx">MessageType</span><span class="p">.</span><span class="nx">GET</span><span class="o">:</span>
+          <span class="p">{</span>
+            <span class="nx">returnValue</span> <span class="o">=</span> <span class="nx">rawValue</span><span class="p">;</span>
+          <span class="p">}</span>
+          <span class="k">break</span><span class="p">;</span>
+        <span class="c1">// 设置rawValue
+</span><span class="c1"></span>        <span class="k">case</span> <span class="nx">MessageType</span><span class="p">.</span><span class="nx">SET</span><span class="o">:</span>
+          <span class="p">{</span>
+            <span class="nx">parent</span><span class="p">[</span><span class="nx">path</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="nx">fromWireValue</span><span class="p">(</span><span class="nx">ev</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+            <span class="nx">returnValue</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+          <span class="p">}</span>
+          <span class="k">break</span><span class="p">;</span>
+        <span class="c1">// rawValue是函数，通过apply调用，得到返回值
+</span><span class="c1"></span>        <span class="k">case</span> <span class="nx">MessageType</span><span class="p">.</span><span class="nx">APPLY</span><span class="o">:</span>
+          <span class="p">{</span>
+            <span class="nx">returnValue</span> <span class="o">=</span> <span class="nx">rawValue</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">parent</span><span class="p">,</span> <span class="nx">argumentList</span><span class="p">);</span>
+          <span class="p">}</span>
+          <span class="k">break</span><span class="p">;</span>
+        <span class="c1">// rawValue是构造函数，使用其创建对象，并返回对象的代理
+</span><span class="c1"></span>        <span class="k">case</span> <span class="nx">MessageType</span><span class="p">.</span><span class="nx">CONSTRUCT</span><span class="o">:</span>
+          <span class="p">{</span>
+            <span class="kr">const</span> <span class="nx">value</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">rawValue</span><span class="p">(...</span><span class="nx">argumentList</span><span class="p">);</span>
+            <span class="nx">returnValue</span> <span class="o">=</span> <span class="nx">proxy</span><span class="p">(</span><span class="nx">value</span><span class="p">);</span>
+          <span class="p">}</span>
+          <span class="k">break</span><span class="p">;</span>
+        <span class="c1">// 创建一个MessageChannel，当前线程使用port2，port1传递到另一线程
+</span><span class="c1"></span>        <span class="k">case</span> <span class="nx">MessageType</span><span class="p">.</span><span class="nx">ENDPOINT</span><span class="o">:</span>
+          <span class="p">{</span>
+            <span class="kr">const</span> <span class="p">{</span> <span class="nx">port1</span><span class="p">,</span> <span class="nx">port2</span> <span class="p">}</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MessageChannel</span><span class="p">();</span>
+            <span class="nx">expose</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">port2</span><span class="p">);</span>
+            <span class="nx">returnValue</span> <span class="o">=</span> <span class="nx">transfer</span><span class="p">(</span><span class="nx">port1</span><span class="p">,</span> <span class="p">[</span><span class="nx">port1</span><span class="p">]);</span>
+          <span class="p">}</span>
+          <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="nx">MessageType</span><span class="p">.</span><span class="nx">RELEASE</span><span class="o">:</span>
+          <span class="p">{</span>
+            <span class="nx">returnValue</span> <span class="o">=</span> <span class="kc">undefined</span><span class="p">;</span>
+          <span class="p">}</span>
+          <span class="k">break</span><span class="p">;</span>
+        <span class="k">default</span><span class="o">:</span>
+          <span class="k">return</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">returnValue</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">value</span><span class="p">,</span> <span class="p">[</span><span class="nx">throwMarker</span><span class="p">]</span><span class="o">:</span> <span class="mi">0</span> <span class="p">};</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 使用postMessage将returnValue发送出去
+</span><span class="c1"></span>    <span class="nx">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">returnValue</span><span class="p">)</span>
+      <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">value</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">{</span> <span class="nx">value</span><span class="p">,</span> <span class="p">[</span><span class="nx">throwMarker</span><span class="p">]</span><span class="o">:</span> <span class="mi">0</span> <span class="p">};</span>
+      <span class="p">})</span>
+      <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">returnValue</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="kr">const</span> <span class="p">[</span><span class="nx">wireValue</span><span class="p">,</span> <span class="nx">transferables</span><span class="p">]</span> <span class="o">=</span> <span class="nx">toWireValue</span><span class="p">(</span><span class="nx">returnValue</span><span class="p">);</span>
+        <span class="nx">ep</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">({</span> <span class="p">...</span><span class="nx">wireValue</span><span class="p">,</span> <span class="nx">id</span> <span class="p">},</span> <span class="nx">transferables</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="kr">type</span> <span class="o">===</span> <span class="nx">MessageType</span><span class="p">.</span><span class="nx">RELEASE</span><span class="p">)</span> <span class="p">{</span>
+          <span class="c1">// detach and deactive after sending release response above.
+</span><span class="c1"></span>          <span class="nx">ep</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="s2">&#34;message&#34;</span><span class="p">,</span> <span class="nx">callback</span> <span class="kr">as</span> <span class="kt">any</span><span class="p">);</span>
+          <span class="nx">closeEndPoint</span><span class="p">(</span><span class="nx">ep</span><span class="p">);</span>
+        <span class="p">}</span>
+      <span class="p">});</span>
+  <span class="p">}</span> <span class="kr">as</span> <span class="kt">any</span><span class="p">);</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="nx">ep</span><span class="p">.</span><span class="nx">start</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">ep</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">isMessagePort</span><span class="p">(</span><span class="nx">endpoint</span>: <span class="kt">Endpoint</span><span class="p">)</span><span class="o">:</span> <span class="nx">endpoint</span> <span class="k">is</span> <span class="nx">MessagePort</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">endpoint</span><span class="p">.</span><span class="kr">constructor</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="s2">&#34;MessagePort&#34;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">closeEndPoint</span><span class="p">(</span><span class="nx">endpoint</span>: <span class="kt">Endpoint</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">isMessagePort</span><span class="p">(</span><span class="nx">endpoint</span><span class="p">))</span> <span class="nx">endpoint</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="cm">/**
+</span><span class="cm"> * 创建代理。将对代理的直接操作转化为ep.postMessage驱动的间接操作，操作结果通过ep.onmessage接收
+</span><span class="cm"> */</span>
+<span class="kr">export</span> <span class="kd">function</span> <span class="nx">wrap</span><span class="p">&lt;</span><span class="nt">T</span><span class="p">&gt;(</span><span class="nx">ep</span>: <span class="kt">Endpoint</span><span class="p">,</span> <span class="nx">target?</span>: <span class="kt">any</span><span class="p">)</span><span class="o">:</span> <span class="nx">Remote</span><span class="p">&lt;</span><span class="nt">T</span><span class="p">&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">createProxy</span><span class="p">&lt;</span><span class="nt">T</span><span class="p">&gt;(</span><span class="nx">ep</span><span class="p">,</span> <span class="p">[],</span> <span class="nx">target</span><span class="p">)</span> <span class="kr">as</span> <span class="kt">any</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">throwIfProxyReleased</span><span class="p">(</span><span class="nx">isReleased</span>: <span class="kt">boolean</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">isReleased</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">&#34;Proxy has been released and is not useable&#34;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/**
+</span><span class="cm"> * 创建代理。将对代理的直接操作转化为ep.postMessage驱动的间接操作，操作结果通过ep.onmessage接收
+</span><span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">createProxy</span><span class="p">&lt;</span><span class="nt">T</span><span class="p">&gt;(</span>
+  <span class="nx">ep</span>: <span class="kt">Endpoint</span><span class="p">,</span>
+  <span class="nx">path</span><span class="o">:</span> <span class="p">(</span><span class="kt">string</span> <span class="o">|</span> <span class="kt">number</span> <span class="o">|</span> <span class="kt">symbol</span><span class="p">)[]</span> <span class="o">=</span> <span class="p">[],</span>
+  <span class="nx">target</span>: <span class="kt">object</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="p">}</span>
+<span class="p">)</span><span class="o">:</span> <span class="nx">Remote</span><span class="p">&lt;</span><span class="nt">T</span><span class="p">&gt;</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">isProxyReleased</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+  <span class="kr">const</span> <span class="nx">proxy</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Proxy</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="p">{</span>
+    <span class="c1">// 访问
+</span><span class="c1"></span>    <span class="kr">get</span><span class="p">(</span><span class="nx">_target</span><span class="p">,</span> <span class="nx">prop</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">throwIfProxyReleased</span><span class="p">(</span><span class="nx">isProxyReleased</span><span class="p">);</span>
+      <span class="c1">// releaseProxy方法
+</span><span class="c1"></span>      <span class="k">if</span> <span class="p">(</span><span class="nx">prop</span> <span class="o">===</span> <span class="nx">releaseProxy</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 返回一个函数，调用此函数，则释放资源
+</span><span class="c1"></span>        <span class="k">return</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+          <span class="k">return</span> <span class="nx">requestResponseMessage</span><span class="p">(</span><span class="nx">ep</span><span class="p">,</span> <span class="p">{</span>
+            <span class="kr">type</span><span class="o">:</span> <span class="nx">MessageType</span><span class="p">.</span><span class="nx">RELEASE</span><span class="p">,</span>
+            <span class="nx">path</span>: <span class="kt">path.map</span><span class="p">((</span><span class="nx">p</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">p</span><span class="p">.</span><span class="nx">toString</span><span class="p">()),</span>
+          <span class="p">}).</span><span class="nx">then</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">closeEndPoint</span><span class="p">(</span><span class="nx">ep</span><span class="p">);</span>
+            <span class="nx">isProxyReleased</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+          <span class="p">});</span>
+        <span class="p">};</span>
+      <span class="p">}</span>
+
+      <span class="c1">// then方法
+</span><span class="c1"></span>      <span class="k">if</span> <span class="p">(</span><span class="nx">prop</span> <span class="o">===</span> <span class="s2">&#34;then&#34;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">return</span> <span class="p">{</span> <span class="nx">then</span><span class="o">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">proxy</span> <span class="p">};</span>
+        <span class="p">}</span>
+        <span class="c1">// 通过requestResponseMessage得到携带目标属性值的promise
+</span><span class="c1"></span>        <span class="c1">// 然后将此promise的then方法返回
+</span><span class="c1"></span>        <span class="kr">const</span> <span class="nx">r</span> <span class="o">=</span> <span class="nx">requestResponseMessage</span><span class="p">(</span><span class="nx">ep</span><span class="p">,</span> <span class="p">{</span>
+          <span class="kr">type</span><span class="o">:</span> <span class="nx">MessageType</span><span class="p">.</span><span class="nx">GET</span><span class="p">,</span>
+          <span class="nx">path</span>: <span class="kt">path.map</span><span class="p">((</span><span class="nx">p</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">p</span><span class="p">.</span><span class="nx">toString</span><span class="p">()),</span>
+        <span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="nx">fromWireValue</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">r</span><span class="p">.</span><span class="nx">then</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="nx">r</span><span class="p">);</span>
+      <span class="p">}</span>
+
+      <span class="c1">// 普通的属性访问
+</span><span class="c1"></span>      <span class="c1">// 返回一个新的代理，并更新访问路径path
+</span><span class="c1"></span>      <span class="c1">// 也就是说，对proxy的属性访问，不管proxy往后.了几层，其实都只是对访问路径进行更新
+</span><span class="c1"></span>      <span class="c1">// 只有在调用了then之后，才会真正去获取属性值
+</span><span class="c1"></span>      <span class="c1">// 这其实是一种提高性能的做法，因为每次在线程间通信和传递数据，通常都会带来对象的序列化和返序列化操作
+</span><span class="c1"></span>      <span class="k">return</span> <span class="nx">createProxy</span><span class="p">(</span><span class="nx">ep</span><span class="p">,</span> <span class="p">[...</span><span class="nx">path</span><span class="p">,</span> <span class="nx">prop</span><span class="p">]);</span>
+    <span class="p">},</span>
+    <span class="c1">// 赋值
+</span><span class="c1"></span>    <span class="kr">set</span><span class="p">(</span><span class="nx">_target</span><span class="p">,</span> <span class="nx">prop</span><span class="p">,</span> <span class="nx">rawValue</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">throwIfProxyReleased</span><span class="p">(</span><span class="nx">isProxyReleased</span><span class="p">);</span>
+      <span class="kr">const</span> <span class="p">[</span><span class="nx">value</span><span class="p">,</span> <span class="nx">transferables</span><span class="p">]</span> <span class="o">=</span> <span class="nx">toWireValue</span><span class="p">(</span><span class="nx">rawValue</span><span class="p">);</span>
+      <span class="k">return</span> <span class="nx">requestResponseMessage</span><span class="p">(</span>
+        <span class="nx">ep</span><span class="p">,</span>
+        <span class="p">{</span>
+          <span class="kr">type</span><span class="o">:</span> <span class="nx">MessageType</span><span class="p">.</span><span class="nx">SET</span><span class="p">,</span>
+          <span class="nx">path</span><span class="o">:</span> <span class="p">[...</span><span class="nx">path</span><span class="p">,</span> <span class="nx">prop</span><span class="p">].</span><span class="nx">map</span><span class="p">((</span><span class="nx">p</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">p</span><span class="p">.</span><span class="nx">toString</span><span class="p">()),</span>
+          <span class="nx">value</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="nx">transferables</span>
+      <span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">fromWireValue</span><span class="p">)</span> <span class="kr">as</span> <span class="kt">any</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="c1">// 调用方法
+</span><span class="c1"></span>    <span class="nx">apply</span><span class="p">(</span><span class="nx">_target</span><span class="p">,</span> <span class="nx">_thisArg</span><span class="p">,</span> <span class="nx">rawArgumentList</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">throwIfProxyReleased</span><span class="p">(</span><span class="nx">isProxyReleased</span><span class="p">);</span>
+      <span class="kr">const</span> <span class="nx">last</span> <span class="o">=</span> <span class="nx">path</span><span class="p">[</span><span class="nx">path</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
+
+      <span class="c1">// 创建endPoint
+</span><span class="c1"></span>      <span class="c1">// 另一端的线程(假设叫线程B)收到消息后会创建一个MessageChannel
+</span><span class="c1"></span>      <span class="c1">// 线程B使用port2监听消息并操作obj
+</span><span class="c1"></span>      <span class="c1">// port1会被传递到当前线程
+</span><span class="c1"></span>      <span class="c1">// 当前线程通过下面返回的promise就可以获取到port1
+</span><span class="c1"></span>      <span class="c1">// 详见expose函数中对MessageType.ENDPOINT的处理
+</span><span class="c1"></span>      <span class="k">if</span> <span class="p">((</span><span class="nx">last</span> <span class="kr">as</span> <span class="kt">any</span><span class="p">)</span> <span class="o">===</span> <span class="nx">createEndpoint</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">requestResponseMessage</span><span class="p">(</span><span class="nx">ep</span><span class="p">,</span> <span class="p">{</span>
+          <span class="kr">type</span><span class="o">:</span> <span class="nx">MessageType</span><span class="p">.</span><span class="nx">ENDPOINT</span><span class="p">,</span>
+        <span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="nx">fromWireValue</span><span class="p">);</span>
+      <span class="p">}</span>
+
+      <span class="c1">// We just pretend that `bind()` didn’t happen.
+</span><span class="c1"></span>      <span class="k">if</span> <span class="p">(</span><span class="nx">last</span> <span class="o">===</span> <span class="s2">&#34;bind&#34;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">createProxy</span><span class="p">(</span><span class="nx">ep</span><span class="p">,</span> <span class="nx">path</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">));</span>
+      <span class="p">}</span>
+
+      <span class="c1">// 调用方法
+</span><span class="c1"></span>      <span class="kr">const</span> <span class="p">[</span><span class="nx">argumentList</span><span class="p">,</span> <span class="nx">transferables</span><span class="p">]</span> <span class="o">=</span> <span class="nx">processArguments</span><span class="p">(</span><span class="nx">rawArgumentList</span><span class="p">);</span>
+      <span class="k">return</span> <span class="nx">requestResponseMessage</span><span class="p">(</span>
+        <span class="nx">ep</span><span class="p">,</span>
+        <span class="p">{</span>
+          <span class="kr">type</span><span class="o">:</span> <span class="nx">MessageType</span><span class="p">.</span><span class="nx">APPLY</span><span class="p">,</span>
+          <span class="nx">path</span>: <span class="kt">path.map</span><span class="p">((</span><span class="nx">p</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">p</span><span class="p">.</span><span class="nx">toString</span><span class="p">()),</span>
+          <span class="nx">argumentList</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="nx">transferables</span>
+      <span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">fromWireValue</span><span class="p">);</span>
+    <span class="p">},</span>
+    <span class="c1">// 使用new操作符调用(即创建对象)
+</span><span class="c1"></span>    <span class="nx">construct</span><span class="p">(</span><span class="nx">_target</span><span class="p">,</span> <span class="nx">rawArgumentList</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">throwIfProxyReleased</span><span class="p">(</span><span class="nx">isProxyReleased</span><span class="p">);</span>
+      <span class="kr">const</span> <span class="p">[</span><span class="nx">argumentList</span><span class="p">,</span> <span class="nx">transferables</span><span class="p">]</span> <span class="o">=</span> <span class="nx">processArguments</span><span class="p">(</span><span class="nx">rawArgumentList</span><span class="p">);</span>
+      <span class="k">return</span> <span class="nx">requestResponseMessage</span><span class="p">(</span>
+        <span class="nx">ep</span><span class="p">,</span>
+        <span class="p">{</span>
+          <span class="kr">type</span><span class="o">:</span> <span class="nx">MessageType</span><span class="p">.</span><span class="nx">CONSTRUCT</span><span class="p">,</span>
+          <span class="nx">path</span>: <span class="kt">path.map</span><span class="p">((</span><span class="nx">p</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">p</span><span class="p">.</span><span class="nx">toString</span><span class="p">()),</span>
+          <span class="nx">argumentList</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="nx">transferables</span>
+      <span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">fromWireValue</span><span class="p">);</span>
+    <span class="p">},</span>
+  <span class="p">});</span>
+  <span class="k">return</span> <span class="nx">proxy</span> <span class="kr">as</span> <span class="kt">any</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**
+</span><span class="cm"> * 如果是[T[]]，则将其展平为T[]。
+</span><span class="cm"> * 如果是T[]，则依然是T[]
+</span><span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">myFlat</span><span class="p">&lt;</span><span class="nt">T</span><span class="p">&gt;(</span><span class="nx">arr</span><span class="o">:</span> <span class="p">(</span><span class="nx">T</span> <span class="o">|</span> <span class="nx">T</span><span class="p">[])[])</span><span class="o">:</span> <span class="nx">T</span><span class="p">[]</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">concat</span><span class="p">.</span><span class="nx">apply</span><span class="p">([],</span> <span class="nx">arr</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">processArguments</span><span class="p">(</span><span class="nx">argumentList</span>: <span class="kt">any</span><span class="p">[])</span><span class="o">:</span> <span class="p">[</span><span class="nx">WireValue</span><span class="p">[],</span> <span class="nx">Transferable</span><span class="p">[]]</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">processed</span> <span class="o">=</span> <span class="nx">argumentList</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">toWireValue</span><span class="p">);</span>
+  <span class="k">return</span> <span class="p">[</span><span class="nx">processed</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">v</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nx">myFlat</span><span class="p">(</span><span class="nx">processed</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">v</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]))];</span>
+<span class="p">}</span>
+
+<span class="kr">const</span> <span class="nx">transferCache</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WeakMap</span><span class="p">&lt;</span><span class="nt">any</span><span class="err">,</span> <span class="na">Transferable</span><span class="err">[]</span><span class="p">&gt;();</span>
+<span class="cm">/**
+</span><span class="cm"> * 将transfers加入transferCache，原样返回obj
+</span><span class="cm"> */</span>
+<span class="kr">export</span> <span class="kd">function</span> <span class="nx">transfer</span><span class="p">&lt;</span><span class="nt">T</span><span class="p">&gt;(</span><span class="nx">obj</span>: <span class="kt">T</span><span class="p">,</span> <span class="nx">transfers</span>: <span class="kt">Transferable</span><span class="p">[])</span><span class="o">:</span> <span class="nx">T</span> <span class="p">{</span>
+  <span class="nx">transferCache</span><span class="p">.</span><span class="kr">set</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">transfers</span><span class="p">);</span>
+  <span class="k">return</span> <span class="nx">obj</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**
+</span><span class="cm"> * 将obj标记为需要代理，也就是为其添加`[proxyMarker]: true`属性。
+</span><span class="cm"> * 包含`[proxyMarker]: true`属性的值，在传递前会被proxyTransferHandler处理，为其创建专用的MessageChannel，
+</span><span class="cm"> * 真正被传递到其他线程的是此MessageChannel的一个port，其他线程通过port.postMessage来操作这个值
+</span><span class="cm"> */</span>
+<span class="kr">export</span> <span class="kd">function</span> <span class="nx">proxy</span><span class="p">&lt;</span><span class="nt">T</span><span class="p">&gt;(</span><span class="nx">obj</span>: <span class="kt">T</span><span class="p">)</span><span class="o">:</span> <span class="nx">T</span> <span class="o">&amp;</span> <span class="nx">ProxyMarked</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">assign</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="p">{</span> <span class="p">[</span><span class="nx">proxyMarker</span><span class="p">]</span><span class="o">:</span> <span class="kc">true</span> <span class="p">})</span> <span class="kr">as</span> <span class="kt">any</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**
+</span><span class="cm"> * Windows and Web Workers have a slightly different variants of postMessage.
+</span><span class="cm"> * If you want to use Comlink to communicate with an iframe or another window,
+</span><span class="cm"> * you need to wrap it with windowEndpoint().
+</span><span class="cm"> */</span>
+<span class="kr">export</span> <span class="kd">function</span> <span class="nx">windowEndpoint</span><span class="p">(</span>
+  <span class="nx">w</span>: <span class="kt">PostMessageWithOrigin</span><span class="p">,</span>
+  <span class="nx">context</span>: <span class="kt">EventSource</span> <span class="o">=</span> <span class="nx">self</span><span class="p">,</span>
+  <span class="nx">targetOrigin</span> <span class="o">=</span> <span class="s2">&#34;*&#34;</span>
+<span class="p">)</span><span class="o">:</span> <span class="nx">Endpoint</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">postMessage</span><span class="o">:</span> <span class="p">(</span><span class="nx">msg</span>: <span class="kt">any</span><span class="p">,</span> <span class="nx">transferables</span>: <span class="kt">Transferable</span><span class="p">[])</span> <span class="o">=&gt;</span>
+      <span class="nx">w</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">(</span><span class="nx">msg</span><span class="p">,</span> <span class="nx">targetOrigin</span><span class="p">,</span> <span class="nx">transferables</span><span class="p">),</span>
+    <span class="nx">addEventListener</span>: <span class="kt">context.addEventListener.bind</span><span class="p">(</span><span class="nx">context</span><span class="p">),</span>
+    <span class="nx">removeEventListener</span>: <span class="kt">context.removeEventListener.bind</span><span class="p">(</span><span class="nx">context</span><span class="p">),</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">toWireValue</span><span class="p">(</span><span class="nx">value</span>: <span class="kt">any</span><span class="p">)</span><span class="o">:</span> <span class="p">[</span><span class="nx">WireValue</span><span class="p">,</span> <span class="nx">Transferable</span><span class="p">[]]</span> <span class="p">{</span>
+  <span class="c1">// 需要handler处理的value
+</span><span class="c1"></span>  <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="p">[</span><span class="nx">name</span><span class="p">,</span> <span class="nx">handler</span><span class="p">]</span> <span class="k">of</span> <span class="nx">transferHandlers</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">handler</span><span class="p">.</span><span class="nx">canHandle</span><span class="p">(</span><span class="nx">value</span><span class="p">))</span> <span class="p">{</span>
+      <span class="kr">const</span> <span class="p">[</span><span class="nx">serializedValue</span><span class="p">,</span> <span class="nx">transferables</span><span class="p">]</span> <span class="o">=</span> <span class="nx">handler</span><span class="p">.</span><span class="nx">serialize</span><span class="p">(</span><span class="nx">value</span><span class="p">);</span>
+      <span class="k">return</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="kr">type</span><span class="o">:</span> <span class="nx">WireValueType</span><span class="p">.</span><span class="nx">HANDLER</span><span class="p">,</span>
+          <span class="nx">name</span><span class="p">,</span>
+          <span class="nx">value</span>: <span class="kt">serializedValue</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="nx">transferables</span><span class="p">,</span>
+      <span class="p">];</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="c1">// 无需handler处理的value
+</span><span class="c1"></span>  <span class="k">return</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="kr">type</span><span class="o">:</span> <span class="nx">WireValueType</span><span class="p">.</span><span class="nx">RAW</span><span class="p">,</span>
+      <span class="nx">value</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="nx">transferCache</span><span class="p">.</span><span class="kr">get</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="o">||</span> <span class="p">[],</span>
+  <span class="p">];</span>
+<span class="p">}</span>
+
+<span class="cm">/**
+</span><span class="cm"> * 获取wireValue.value
+</span><span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">fromWireValue</span><span class="p">(</span><span class="nx">value</span>: <span class="kt">WireValue</span><span class="p">)</span><span class="o">:</span> <span class="kt">any</span> <span class="p">{</span>
+  <span class="k">switch</span> <span class="p">(</span><span class="nx">value</span><span class="p">.</span><span class="kr">type</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="nx">WireValueType.HANDLER</span>:
+      <span class="kt">return</span> <span class="nx">transferHandlers</span><span class="p">.</span><span class="kr">get</span><span class="p">(</span><span class="nx">value</span><span class="p">.</span><span class="nx">name</span><span class="p">)</span><span class="o">!</span><span class="p">.</span><span class="nx">deserialize</span><span class="p">(</span><span class="nx">value</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+    <span class="k">case</span> <span class="nx">WireValueType.RAW</span>:
+      <span class="kt">return</span> <span class="nx">value</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/**
+</span><span class="cm"> * 通过ep.postMessage发送消息，并监听响应message。
+</span><span class="cm"> * 当接收到响应message后，函数返回的promise变为resolved状态
+</span><span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">requestResponseMessage</span><span class="p">(</span>
+  <span class="nx">ep</span>: <span class="kt">Endpoint</span><span class="p">,</span>
+  <span class="nx">msg</span>: <span class="kt">Message</span><span class="p">,</span>
+  <span class="nx">transfers?</span>: <span class="kt">Transferable</span><span class="p">[]</span>
+<span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">WireValue</span><span class="p">&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">new</span> <span class="nx">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">id</span> <span class="o">=</span> <span class="nx">generateUUID</span><span class="p">();</span>
+    <span class="nx">ep</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&#34;message&#34;</span><span class="p">,</span> <span class="kd">function</span> <span class="nx">l</span><span class="p">(</span><span class="nx">ev</span>: <span class="kt">MessageEvent</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// id不一致，说明不是自己需要的message
+</span><span class="c1"></span>      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">ev</span><span class="p">.</span><span class="nx">data</span> <span class="o">||</span> <span class="o">!</span><span class="nx">ev</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">id</span> <span class="o">||</span> <span class="nx">ev</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">id</span> <span class="o">!==</span> <span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="nx">ep</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="s2">&#34;message&#34;</span><span class="p">,</span> <span class="nx">l</span> <span class="kr">as</span> <span class="kt">any</span><span class="p">);</span>
+      <span class="nx">resolve</span><span class="p">(</span><span class="nx">ev</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
+    <span class="p">}</span> <span class="kr">as</span> <span class="kt">any</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">ep</span><span class="p">.</span><span class="nx">start</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">ep</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="nx">ep</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">({</span> <span class="nx">id</span><span class="p">,</span> <span class="p">...</span><span class="nx">msg</span> <span class="p">},</span> <span class="nx">transfers</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">generateUUID</span><span class="p">()</span><span class="o">:</span> <span class="kt">string</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">map</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="nb">Number</span><span class="p">.</span><span class="nx">MAX_SAFE_INTEGER</span><span class="p">).</span><span class="nx">toString</span><span class="p">(</span><span class="mi">16</span><span class="p">))</span>
+    <span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">&#34;-&#34;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="工作流程分析">工作流程分析</h1>
+<p>有了对源码的了解，就可以对下面两个官方示例的工作原理做一个简要分析：</p>
+<h2 id="running-a-simple-function">Running a simple function</h2>
+<p>main.js</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">Comlink</span> <span class="nx">from</span> <span class="s2">&#34;https://unpkg.com/comlink/dist/esm/comlink.mjs&#34;</span><span class="p">;</span>
+<span class="kr">async</span> <span class="kd">function</span> <span class="nx">init</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">worker</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Worker</span><span class="p">(</span><span class="s2">&#34;worker.js&#34;</span><span class="p">);</span>
+  <span class="c1">// wrap(worker)本质上是:
+</span><span class="c1"></span>  <span class="c1">// 创建了一个代理对象，当操作代理对象(读、写、函数调用等)时，
+</span><span class="c1"></span>  <span class="c1">// 通过worker.postMessage(...)来间接操作在worker中通过expose(obj)暴露出来的obj，
+</span><span class="c1"></span>  <span class="c1">// 操作结果通过worker.addEventListener(&#34;message&#34;,fn)接收，并封装到一个promise中
+</span><span class="c1"></span>  <span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">Comlink</span><span class="p">.</span><span class="nx">wrap</span><span class="p">(</span><span class="nx">worker</span><span class="p">);</span>
+  <span class="nx">alert</span><span class="p">(</span><span class="sb">`Counter: </span><span class="si">${</span><span class="kr">await</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">counter</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+  <span class="kr">await</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">inc</span><span class="p">();</span>
+  <span class="nx">alert</span><span class="p">(</span><span class="sb">`Counter: </span><span class="si">${</span><span class="kr">await</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">counter</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nx">init</span><span class="p">();</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>worker.js</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="nx">importScripts</span><span class="p">(</span><span class="s2">&#34;https://unpkg.com/comlink/dist/umd/comlink.js&#34;</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">counter</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nx">inc</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">counter</span><span class="o">++</span><span class="p">;</span>
+  <span class="p">},</span>
+<span class="p">};</span>
+
+<span class="c1">// expose(obj)本质上是：
+</span><span class="c1">// 通过self.addEventListener(&#34;message&#34;,fn)监听来自其他线程的消息
+</span><span class="c1">// 根据消息操作obj
+</span><span class="c1">// 操作结果通过self.postMessage(...)发回其他线程
+</span><span class="c1"></span><span class="nx">Comlink</span><span class="p">.</span><span class="nx">expose</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="callbacks">Callbacks</h2>
+<p>main.js</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">Comlink</span> <span class="nx">from</span> <span class="s2">&#34;https://unpkg.com/comlink/dist/esm/comlink.mjs&#34;</span><span class="p">;</span>
+<span class="kd">function</span> <span class="nx">callback</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">alert</span><span class="p">(</span><span class="sb">`Result: </span><span class="si">${</span><span class="nx">value</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kr">async</span> <span class="kd">function</span> <span class="nx">init</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// worker中remoteFunction的代理
+</span><span class="c1"></span>  <span class="kr">const</span> <span class="nx">remoteFunction</span> <span class="o">=</span> <span class="nx">Comlink</span><span class="p">.</span><span class="nx">wrap</span><span class="p">(</span><span class="k">new</span> <span class="nx">Worker</span><span class="p">(</span><span class="s2">&#34;worker.js&#34;</span><span class="p">));</span>
+  <span class="c1">// 将本地函数callback作为参数传递给remoteFunction
+</span><span class="c1"></span>  <span class="c1">// Comlink.proxy(callback)会将callback标记为需要代理
+</span><span class="c1"></span>  <span class="c1">// 这样，在callback被传递之前，会为其创建专用的MessageChannel,
+</span><span class="c1"></span>  <span class="c1">// 真正被传递到worker中的，是此MessageChannel的一个port，
+</span><span class="c1"></span>  <span class="c1">// worker通过port.postMessage来调用callback
+</span><span class="c1"></span>  <span class="c1">// 也就是说，callback是运行在当前线程的，虽然它看起来很像是运行在worker线程中
+</span><span class="c1"></span>  <span class="kr">await</span> <span class="nx">remoteFunction</span><span class="p">(</span><span class="nx">Comlink</span><span class="p">.</span><span class="nx">proxy</span><span class="p">(</span><span class="nx">callback</span><span class="p">));</span>
+<span class="p">}</span>
+<span class="nx">init</span><span class="p">();</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>worker.js</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="nx">importScripts</span><span class="p">(</span><span class="s2">&#34;https://unpkg.com/comlink/dist/umd/comlink.js&#34;</span><span class="p">);</span>
+
+<span class="c1">// 这里的cb实际是一个代理
+</span><span class="c1">// 当调用cb时，会通过port.postMessage来间接调用main线程中的callback函数
+</span><span class="c1"></span><span class="kr">async</span> <span class="kd">function</span> <span class="nx">remoteFunction</span><span class="p">(</span><span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kr">await</span> <span class="nx">cb</span><span class="p">(</span><span class="s2">&#34;A string from a worker&#34;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">Comlink</span><span class="p">.</span><span class="nx">expose</span><span class="p">(</span><span class="nx">remoteFunction</span><span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/web-workers/">Web Workers</a>
+          <a href="/tags/comlink/">Comlink</a>
+          <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/20220920messagechannel/">
+            <span class="next-text nav-default">MessageChannel MDN文档</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:al4fun@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://github.com/al4fun" class="iconfont icon-github" title="github"></a>
+  <a href="https://al4fun.gitee.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2016 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>al4fun</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

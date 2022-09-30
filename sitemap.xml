@@ -2,21 +2,84 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://al4fun.gitee.io/categories/3d%E5%9B%BE%E5%BD%A2%E6%8A%80%E6%9C%AF/</loc>
-    <lastmod>2022-01-26T16:30:31+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>https://al4fun.gitee.io/</loc>
-    <lastmod>2022-01-26T16:30:31+00:00</lastmod>
+    <lastmod>2022-09-29T11:02:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://al4fun.gitee.io/categories/</loc>
+    <lastmod>2022-09-29T11:02:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://al4fun.gitee.io/tags/comlink/</loc>
+    <lastmod>2022-09-29T11:02:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://al4fun.gitee.io/post/</loc>
+    <lastmod>2022-09-29T11:02:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://al4fun.gitee.io/tags/</loc>
+    <lastmod>2022-09-29T11:02:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://al4fun.gitee.io/categories/web/</loc>
+    <lastmod>2022-09-29T11:02:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://al4fun.gitee.io/tags/web-workers/</loc>
+    <lastmod>2022-09-29T11:02:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://al4fun.gitee.io/post/20220930comlink/</loc>
+    <lastmod>2022-09-29T11:02:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://al4fun.gitee.io/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</loc>
+    <lastmod>2022-09-29T11:02:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://al4fun.gitee.io/tags/messagechannel/</loc>
+    <lastmod>2022-09-20T17:30:56+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://al4fun.gitee.io/post/20220920messagechannel/</loc>
+    <lastmod>2022-09-20T17:30:56+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://al4fun.gitee.io/categories/3d%E5%9B%BE%E5%BD%A2%E6%8A%80%E6%9C%AF/</loc>
     <lastmod>2022-01-26T16:30:31+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -31,20 +94,6 @@
   
   <url>
     <loc>https://al4fun.gitee.io/post/20220126gltf/</loc>
-    <lastmod>2022-01-26T16:30:31+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://al4fun.gitee.io/post/</loc>
-    <lastmod>2022-01-26T16:30:31+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://al4fun.gitee.io/tags/</loc>
     <lastmod>2022-01-26T16:30:31+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -95,13 +144,6 @@
   <url>
     <loc>https://al4fun.gitee.io/post/20220122webgl1/</loc>
     <lastmod>2022-01-22T19:20:28+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://al4fun.gitee.io/categories/web/</loc>
-    <lastmod>2021-11-26T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

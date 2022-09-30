@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>多线程 on al4fun&#39;s notes</title>
+    <link>https://al4fun.gitee.io/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</link>
+    <description>Recent content in 多线程 on al4fun&#39;s notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 29 Sep 2022 11:02:00 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Web Workers库Comlink源码解析</title>
+      <link>https://al4fun.gitee.io/post/20220930comlink/</link>
+      <pubDate>Thu, 29 Sep 2022 11:02:00 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20220930comlink/</guid>
+      <description>Comlink是Google Chrome Labs出品的，旨在帮助开发者简化Web Workers使用的一个工具包，项目地址: https://github.com/GoogleChromeLabs/comlink 。 源码解读 以下源码来自Co</description>
+    </item>
+    
+    <item>
+      <title>MessageChannel MDN文档</title>
+      <link>https://al4fun.gitee.io/post/20220920messagechannel/</link>
+      <pubDate>Tue, 20 Sep 2022 17:30:56 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20220920messagechannel/</guid>
+      <description>本文内容摘自MDN文档： Channel Messaging API Using channel messaging 简介 Channel Messaging API 允许 同一文档的不同浏览上下文(比如，两个IFrame、主文档和一个IFrame、使用一个Sha</description>
+    </item>
+    
+  </channel>
+</rss>

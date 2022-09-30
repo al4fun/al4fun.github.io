@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>WebWorkers on al4fun&#39;s notes</title>
+    <link>https://al4fun.gitee.io/tags/webworkers/</link>
+    <description>Recent content in WebWorkers on al4fun&#39;s notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 29 Sep 2022 11:02:00 +0000</lastBuildDate><atom:link href="https://al4fun.gitee.io/tags/webworkers/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>WebWorkers库Comlink源码解析</title>
+      <link>https://al4fun.gitee.io/post/20220930comlink/</link>
+      <pubDate>Thu, 29 Sep 2022 11:02:00 +0000</pubDate>
+      
+      <guid>https://al4fun.gitee.io/post/20220930comlink/</guid>
+      <description>源码解读 Comlink是Google Chrome Labs出品的，旨在帮助开发者简化Web Workers使用的一个工具包，项目地址: https://github.com/GoogleChromeLabs/comlink 。 以下源码来自Co</description>
+    </item>
+    
+  </channel>
+</rss>
